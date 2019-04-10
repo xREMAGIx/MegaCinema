@@ -14,17 +14,17 @@ import java.sql.DriverManager;
  */
 public class Database {
     
-    private Connection con;
-    private String url;
-    private String username;
-    private String password;
     
-    public Database()
-    {
-        url="jdbc:mysql://localhost:3306/megacinema";
-        username="root";
-        password="remagi";
-    }
+    private static String url;
+    private static String username;
+    private static String password;
+//    
+//    public Database()
+//    {
+//        url="jdbc:mysql://localhost:3306/megacinema";
+//        username="root";
+//        password="remagi";
+//    }
     
     protected static void loadJDBCDriver() throws Exception
     {
@@ -39,7 +39,7 @@ public class Database {
     }
     
     
-    public Connection getConnection()
+    public static Connection getConnection() throws Exception
     {
         //loading driver
 //        try
@@ -51,14 +51,46 @@ public class Database {
 //            System.out.println(e.getMessage());
 //        }
 //                
+//        try
+//        {
+//            con = DriverManager.getConnection(url,username,password);
+//        }
+//        catch(Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//        }        
+//        return con;
+        Connection connect = null;
+        
+        url="jdbc:mysql://localhost:3306/megacinema?autoReconnect=true&useSSL=false";
+        username="root";
+        password="remagi";
+        
+        if(connect==null)
+        {
+            loadJDBCDriver();
+            try
+            {
+                connect = DriverManager.getConnection(url,username,password);
+            }
+            catch (java.sql.SQLException e)
+            {
+                throw new Exception("Cant access to database server..."+url+e.getMessage());
+            }
+        }
+        
+        return connect;
+    }
+    
+    public void closeConnection() throws Exception
+    {
         try
         {
-            con = DriverManager.getConnection(url,username,password);
+            getConnection().close();
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-            System.out.println(e.getMessage());
-        }        
-        return con;
+            System.out.println("Failed in closeConnection..."+e);
+        }
     }
-
+}
