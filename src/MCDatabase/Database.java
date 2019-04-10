@@ -26,18 +26,31 @@ public class Database {
         password="remagi";
     }
     
+    protected static void loadJDBCDriver() throws Exception
+    {
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (java.lang.ClassNotFoundException e)
+        {
+            throw new Exception("SQL JDBC Driver not found...");
+        }
+    }
+    
+    
     public Connection getConnection()
     {
         //loading driver
-        try
-        {
-            Class.forName("com.mysql.jdbc");
-        }
-        catch(Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-                
+//        try
+//        {
+//            Class.forName("com.mysql.jdbc");
+//        }
+//        catch(Exception e)
+//        {
+//            System.out.println(e.getMessage());
+//        }
+//                
         try
         {
             con = DriverManager.getConnection(url,username,password);
@@ -48,5 +61,4 @@ public class Database {
         }        
         return con;
     }
-    
-}
+
