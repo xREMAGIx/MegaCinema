@@ -137,7 +137,7 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void btOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOKActionPerformed
         // TODO add your handling code here:
-        int res = mc.updateMovie(1, txtName.getText(), txtDur.getText());
+        int res = mc.updateMovie((int) tbMovie.getValueAt(tbMovie.getSelectedRow(), 0), txtName.getText(), txtDur.getText());
          if(res>0)
         {
             JOptionPane.showMessageDialog(null, "Saved");
