@@ -19,12 +19,12 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author USER
  */
-public class NewJFrame extends javax.swing.JFrame {
+public class MovieMCView extends javax.swing.JFrame {
  MovieController mc = new MovieController();
     /**
      * Creates new form NewJFrame
      */
-    public NewJFrame() {
+    public MovieMCView() {
         initComponents();
         
     }
@@ -141,7 +141,7 @@ public class NewJFrame extends javax.swing.JFrame {
          if(res>0)
         {
             JOptionPane.showMessageDialog(null, "Saved");
-            new NewJFrame().setVisible(true);
+            new MovieMCView().setVisible(true);
             this.dispose();
         }
         else
@@ -167,20 +167,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MovieMCView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MovieMCView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MovieMCView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MovieMCView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+                new MovieMCView().setVisible(true);
                 
             }
         });
