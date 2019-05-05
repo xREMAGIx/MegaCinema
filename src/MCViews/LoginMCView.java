@@ -164,7 +164,7 @@ public class LoginMCView extends javax.swing.JFrame {
         if(res)
         {
             JOptionPane.showMessageDialog(null, "Login successful");
-            new NewJFrame().setVisible(true);
+            new MovieMCView().setVisible(true);
             this.dispose();
             
         }
