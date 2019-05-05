@@ -33,12 +33,11 @@ public class UserController extends User{
 
         db= new Database();
         try {
-
             con = db.getConnection();
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    };
+    }
     
   
     public int createAccount(String a, String b, String c)
