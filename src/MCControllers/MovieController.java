@@ -6,53 +6,47 @@
 package MCControllers;
 
 import MCDatabase.Database;
-import MCModels.User;
+import MCModels.Movie;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
 /**
  *
- * @author DELL
+ * @author USER
  */
-public class UserController extends User{
-    
+public class MovieController extends Movie{
     Database db;
     Connection con;
     PreparedStatement pst;
     
-    public UserController()
+    public MovieController()
     {
         super();
-
-       
-
-        db= new Database();
         try {
+            db= new Database();
             con = db.getConnection();
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-  
-    public int createAccount(String a, String b, String c)
+    public int updateMovie(int id, String a, String b)
     {
         int res=0;
         String sql="";
         
         try
         {
-            sql="INSERT INTO user(`id`,`name`,`email`, `password`) VALUES(NULL,?,?,?)";
+            sql="UPDATE movie SET Name = ?, Duration = ? WHERE idmovie = ?";
             pst=con.prepareStatement(sql);
             
             pst.setString(1, a);
             pst.setString(2, b);
-            pst.setString(3, c);
+            pst.setInt(3, id);
             
             res = pst.executeUpdate();
         }
@@ -63,40 +57,39 @@ public class UserController extends User{
         
         return res;
     }
-            
-    public boolean checkLogin(String a, String b)
-    {
+    
+    public ArrayList <Movie> loadMovies(){
         String sql=" ";
         ResultSet rs = null;
         
-        
+        ArrayList <Movie> temp= new ArrayList <> (); 
         try
         {
-            sql = "SELECT * FROM user WHERE email=? and password=?";
+            sql = "SELECT * FROM movie";
             pst = con.prepareStatement(sql);
             
-            pst.setString(1, a);
-            pst.setString(2, b);
             
             
             
             rs = pst.executeQuery();
+         
+         while (rs.next()) {
             
-            if(rs.next())
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            int movieID = rs.getInt("idmovie");
+            String name = rs.getString("Name");
+            String dur = rs.getString("Duration");
+            
+            Movie t = new Movie (movieID, name, dur);
+            temp.add(t);
+            
+        }
                 
         }
         catch(SQLException e)
         {
             System.out.println(e.getMessage());
         }
-        
-        return false;
+        Movie[] array = temp.toArray(new Movie[temp.size()]);
+        return temp;
     }
 }
