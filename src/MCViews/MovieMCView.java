@@ -43,6 +43,7 @@ public class MovieMCView extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         txtDur = new javax.swing.JTextField();
         btOK = new javax.swing.JButton();
+        txtGenre = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -56,13 +57,13 @@ public class MovieMCView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Duration"
+                "ID", "Name", "Duration", "Genre"
             }
         ));
         tbMovie.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tbMovie);
         if (tbMovie.getColumnModel().getColumnCount() > 0) {
-            tbMovie.getColumnModel().getColumn(2).setResizable(false);
+            tbMovie.getColumnModel().getColumn(0).setResizable(false);
         }
 
         txtName.setText("name");
@@ -75,6 +76,8 @@ public class MovieMCView extends javax.swing.JFrame {
                 btOKActionPerformed(evt);
             }
         });
+
+        txtGenre.setText("genre");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -92,6 +95,7 @@ public class MovieMCView extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtGenre, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDur, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -103,9 +107,11 @@ public class MovieMCView extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(46, 46, 46)
                 .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtDur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtGenre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
                 .addComponent(btOK)
                 .addContainerGap(25, Short.MAX_VALUE))
         );
@@ -123,6 +129,7 @@ public class MovieMCView extends javax.swing.JFrame {
             rowData[0] = movieList.get(i).getId();
             rowData[1] = movieList.get(i).getName();
             rowData[2] = movieList.get(i).getDuration();
+            rowData[2] = movieList.get(i).getGenre();
             model.addRow(rowData);
         }
         tbMovie.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -131,13 +138,14 @@ public class MovieMCView extends javax.swing.JFrame {
             // print first column value from selected row
             txtName.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 1).toString());
             txtDur.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 2).toString());
+            txtGenre.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 3).toString());
         }
     });
     }//GEN-LAST:event_formComponentShown
 
     private void btOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOKActionPerformed
         // TODO add your handling code here:
-        int res = mc.updateMovie((int) tbMovie.getValueAt(tbMovie.getSelectedRow(), 0), txtName.getText(), txtDur.getText());
+        int res = mc.updateMovie((int) tbMovie.getValueAt(tbMovie.getSelectedRow(), 0), txtName.getText(), txtDur.getText(), txtGenre.getText());
          if(res>0)
         {
             JOptionPane.showMessageDialog(null, "Saved");
@@ -192,6 +200,7 @@ public class MovieMCView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tbMovie;
     private javax.swing.JTextField txtDur;
+    private javax.swing.JTextField txtGenre;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
 }
