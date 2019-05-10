@@ -6,7 +6,7 @@
 package MCControllers;
 
 import MCDatabase.Database;
-import MCModels.Movie;
+import MCModels.Theater;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -14,16 +14,17 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author USER
  */
-public class MovieController extends Movie{
+public class TheaterController extends Theater{
     Database db;
     Connection con;
     PreparedStatement pst;
     
-    public MovieController()
+    public TheaterController()
     {
         super();
         try {
@@ -34,39 +35,14 @@ public class MovieController extends Movie{
         }
     }
     
-    public int updateMovie(int id, String a, String b, String c)
-    {
-        int res=0;
-        String sql="";
-        
-        try
-        {
-            sql="UPDATE movie SET Name = ?, Duration = ? , Genre = ? WHERE idmovie = ?";
-            pst=con.prepareStatement(sql);
-            
-            pst.setString(1, a);
-            pst.setString(2, b);
-            pst.setString(3, c);
-            pst.setInt(4, id);
-            
-            res = pst.executeUpdate();
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-        return res;
-    }
-    
-    public ArrayList <Movie> loadMovies(){
+    public ArrayList <Theater> loadTheaters(){
         String sql=" ";
         ResultSet rs = null;
         
-        ArrayList <Movie> temp= new ArrayList <> (); 
+        ArrayList <Theater> temp= new ArrayList <> (); 
         try
         {
-            sql = "SELECT * FROM movie";
+            sql = "SELECT * FROM theater";
             pst = con.prepareStatement(sql);
             
             
@@ -76,12 +52,12 @@ public class MovieController extends Movie{
          
          while (rs.next()) {
             
+            int id = rs.getInt("id");
             int movieID = rs.getInt("idmovie");
-            String name = rs.getString("Name");
-            String dur = rs.getString("Duration");
+            int manaID = rs.getInt("idmana");
             String gen = rs.getString("Genre");
             
-            Movie t = new Movie (movieID, name, dur, gen);
+            Theater t = new Theater (id, movieID, manaID, gen);
             temp.add(t);
             
         }
@@ -91,7 +67,7 @@ public class MovieController extends Movie{
         {
             System.out.println(e.getMessage());
         }
-        Movie[] array = temp.toArray(new Movie[temp.size()]);
+        Theater[] array = temp.toArray(new Theater[temp.size()]);
         return temp;
     }
 }

@@ -13,11 +13,22 @@ public class Movie {
     private int id;
     private String name;
     private String duration;
+    private String genre;
 
-    public Movie(int id, String name, String duration) {
+    public Movie(int id, String name, String duration, String genre) {
         this.id = id;
         this.name = name;
         this.duration = duration;
+        this.genre = genre;
+        
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public Movie() {
