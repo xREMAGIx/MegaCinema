@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -27,7 +29,11 @@ public class UserController extends User{
     {
         super();
         db= new Database();
-        con = db.getConnection();
+        try {
+            con = db.getConnection();
+        } catch (Exception ex) {
+            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public int createAccount(User u)
@@ -88,5 +94,13 @@ public class UserController extends User{
         }
         
         return false;
+    }
+
+    public boolean checkLogin(String email, String pass) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public int createAccount(String name, String email, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
