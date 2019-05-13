@@ -5,12 +5,23 @@
  */
 package MCViews;
 
+import MCControllers.MovieController;
+import MCControllers.TheaterController;
+import MCModels.Movie;
+import MCModels.Theater;
+import java.util.ArrayList;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author USER
  */
 public class TheaterMCView extends javax.swing.JFrame {
 
+    TheaterController tc = new TheaterController();
+     MovieController mc = new MovieController();
     /**
      * Creates new form TheaterMCView
      */
@@ -28,7 +39,7 @@ public class TheaterMCView extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbTheater = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -37,7 +48,7 @@ public class TheaterMCView extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbTheater.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -48,7 +59,7 @@ public class TheaterMCView extends javax.swing.JFrame {
                 "ID", "curMovie", "curManager", "Status"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tbTheater);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -72,6 +83,26 @@ public class TheaterMCView extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tbTheater.getModel();
+        ArrayList <Theater> theaterList = tc.loadTheaters();
+        Object rowData[] = new Object[3];
+        
+        for (int i=0; i<theaterList.size(); i++){
+            rowData[0] = theaterList.get(i).getId();    
+            rowData[1] = mc.IDtoName(theaterList.get(i).getMovieID());
+            rowData[2] = theaterList.get(i).getManagerID();
+            rowData[2] = theaterList.get(i).getStatus();
+            model.addRow(rowData);
+        }
+        tbTheater.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+        public void valueChanged(ListSelectionEvent event) {
+            // do some actions here, for example
+            // print first column value from selected row
+//            txtName.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 1).toString());
+//            txtDur.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 2).toString());
+//            txtGenre.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 3).toString());
+        }
+    });
     }//GEN-LAST:event_formComponentShown
 
     /**
@@ -111,6 +142,6 @@ public class TheaterMCView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbTheater;
     // End of variables declaration//GEN-END:variables
 }

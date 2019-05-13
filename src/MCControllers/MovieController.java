@@ -69,7 +69,9 @@ public class MovieController extends Movie{
             sql = "SELECT * FROM movie";
             pst = con.prepareStatement(sql);
             
+         
             
+           
             
             
             rs = pst.executeQuery();
@@ -94,4 +96,30 @@ public class MovieController extends Movie{
         Movie[] array = temp.toArray(new Movie[temp.size()]);
         return temp;
     }
+    
+    public String IDtoName(int ID){
+        String sql=" ";
+        ResultSet rs = null;
+        try
+        {
+            sql = "SELECT Name FROM movie WHERE idmovie = ?";
+            pst = con.prepareStatement(sql);
+            
+             pst.setInt(1, ID);
+            
+            
+            rs = pst.executeQuery();
+         
+         while (rs.next()) {
+            return rs.getString("Name");
+        }
+        
+                
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return "null";
+}
 }
