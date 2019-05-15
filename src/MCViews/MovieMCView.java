@@ -123,13 +123,13 @@ public class MovieMCView extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel) tbMovie.getModel();
         ArrayList <Movie> movieList = mc.loadMovies();
-        Object rowData[] = new Object[3];
+        Object rowData[] = new Object[4];
         
         for (int i=0; i<movieList.size(); i++){
             rowData[0] = movieList.get(i).getId();
             rowData[1] = movieList.get(i).getName();
             rowData[2] = movieList.get(i).getDuration();
-            rowData[2] = movieList.get(i).getGenre();
+            rowData[3] = movieList.get(i).getGenre();
             model.addRow(rowData);
         }
         tbMovie.getSelectionModel().addListSelectionListener(new ListSelectionListener(){

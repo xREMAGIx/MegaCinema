@@ -80,7 +80,7 @@ public class MovieController extends Movie{
             
             int movieID = rs.getInt("idmovie");
             String name = rs.getString("Name");
-            String dur = rs.getString("Duration");
+            int dur = rs.getInt("Duration");
             String gen = rs.getString("Genre");
             
             Movie t = new Movie (movieID, name, dur, gen);

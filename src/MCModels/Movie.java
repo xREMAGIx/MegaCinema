@@ -12,10 +12,10 @@ package MCModels;
 public class Movie {
     private int id;
     private String name;
-    private String duration;
+    private int duration;
     private String genre;
 
-    public Movie(int id, String name, String duration, String genre) {
+    public Movie(int id, String name, int duration, String genre) {
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -43,7 +43,7 @@ public class Movie {
         return name;
     }
 
-    public String getDuration() {
+    public int getDuration() {
         return duration;
     }
 
@@ -55,7 +55,7 @@ public class Movie {
         this.name = name;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
     }
     

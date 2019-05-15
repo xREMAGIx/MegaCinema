@@ -64,7 +64,7 @@ public class Database {
         
         url="jdbc:mysql://localhost:3306/megacinema?autoReconnect=true&useSSL=false";
         username="root";
-        password="remagi";
+        password="powerqwer";
         
         if(connect==null)
         {

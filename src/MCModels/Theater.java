@@ -11,13 +11,13 @@ package MCModels;
  */
 public class Theater {
     private int id;
-    private int movieID;
+    private int cinemaID;
     private int managerID;
-    private String status;
+    private int status;
 
-    public Theater(int id, int movieID, int managerID, String status) {
+    public Theater(int id, int cinemaID, int managerID, int status) {
         this.id = id;
-        this.movieID = movieID;
+        this.cinemaID = cinemaID;
         this.managerID = managerID;
         this.status = status;
     }
@@ -29,15 +29,15 @@ public class Theater {
         return id;
     }
 
-    public int getMovieID() {
-        return movieID;
+    public int getCinemaID() {
+        return cinemaID;
     }
 
     public int getManagerID() {
         return managerID;
     }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
@@ -45,15 +45,15 @@ public class Theater {
         this.id = id;
     }
 
-    public void setMovieID(int movieID) {
-        this.movieID = movieID;
+    public void setCinemaID(int cinemaID) {
+        this.cinemaID = cinemaID;
     }
 
     public void setManagerID(int managerID) {
         this.managerID = managerID;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
     
