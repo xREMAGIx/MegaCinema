@@ -33,7 +33,30 @@ public class MovieController extends Movie{
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    public int insertMovie(int id, String name, int dur, String genre)
+    {
+        int res=0;
+        String sql="";
+        
+        try
+        {
+            sql="INSERT INTO movie(`idmovie`,`Name`,`Duration`, `Genre`) VALUES(?,?,?,?)";
+            pst=con.prepareStatement(sql);
+            
+            pst.setInt(1, id);
+            pst.setString(2, name);
+            pst.setInt(3, dur);
+            pst.setString(4, genre);
+            
+            res = pst.executeUpdate();
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+        return res;
+    }
     public int updateMovie(int id, String a, String b, String c)
     {
         int res=0;
@@ -121,5 +144,30 @@ public class MovieController extends Movie{
             System.out.println(e.getMessage());
         }
         return "null";
-}
+    }
+    
+    public int getNextID(){
+        String sql=" ";
+        ResultSet rs = null;
+        try
+        {
+            sql = "SELECT idmovie FROM movie ORDER BY idmovie DESC LIMIT 1";
+            pst = con.prepareStatement(sql);
+       
+      
+            rs = pst.executeQuery();
+         
+         while (rs.next()) {
+            return rs.getInt("idmovie");
+        }
+        
+                
+        }
+        catch(SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+   
 }
