@@ -176,7 +176,7 @@ public class LoginMCView extends javax.swing.JFrame {
 
     private void kSignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kSignUpBtnActionPerformed
         // TODO add your handling code here:
-        new SignUpMCView().setVisible(true);
+        //new SignUpMCView().setVisible(true); // SẼ FIX LỖI NÀY SAU !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         this.dispose();
     }//GEN-LAST:event_kSignUpBtnActionPerformed
 
@@ -231,7 +231,7 @@ public class LoginMCView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new SignUpMCView().setVisible(true);
+                //new SignUpMCView().setVisible(true); // SẼ FIX LỖI NÀY SAU !!!!!!!!!!!!!!!!!!!!!!!!!!!
             }
         });
     }
