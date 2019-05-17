@@ -37,6 +37,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import  MCModels.Employee;
+import MCControllers.EmployeeController;
 //import me.lancer.cms.service.EmployeeSrv;
 
 class EmployeeTableMouseListener extends MouseAdapter {
@@ -93,8 +94,8 @@ class EmployeeTable {
 			}
 			table = new JTable(data, columnNames);
 			table.setRowHeight(24);
-			table.getTableHeader().setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
-			table.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 14));
+			table.getTableHeader().setFont(new Font("NewellsHand", Font.PLAIN, 16)); // "NewellsHand"
+			table.setFont(new Font("NewellsHand", Font.PLAIN, 14));
 			DefaultTableCellRenderer r = new DefaultTableCellRenderer();
 			r.setHorizontalAlignment(JLabel.CENTER);
 			table.setDefaultRenderer(Object.class, r);
@@ -129,26 +130,26 @@ public class EmployeeMCView extends JPanel {
 	protected void initContent() {
 		btnList = new JPanel();
 
-		btnAdd = new JButton("Ìí¼Ó");
-		btnAdd.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		btnAdd = new JButton("Add");
+		btnAdd.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (new EmployeeSrv().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {
+				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {
 					EmployeeDialog playDialog = new EmployeeDialog(1);
 					playDialog.toFront();
 					playDialog.setModal(true);
 					playDialog.setVisible(true);
 					showTable();
 				} else {
-					JOptionPane.showMessageDialog(null, "Ã»ÓÐÈ¨ÏÞ!");
+					JOptionPane.showMessageDialog(null, "Not Available!");
 				}
 			}
 		});
 		btnList.add(btnAdd);
 
-		btnQuery = new JButton("²éÕÒ");
-		btnQuery.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		btnQuery = new JButton("Query");
+		btnQuery.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 		btnQuery.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -161,37 +162,37 @@ public class EmployeeMCView extends JPanel {
 		});
 		btnList.add(btnQuery);
 
-		btnEdit = new JButton("ÐÞ¸Ä");
-		btnEdit.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		btnEdit = new JButton("Edit");
+		btnEdit.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 		btnEdit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (new EmployeeSrv().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {
+				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {
 					EmployeeDialog playDialog = new EmployeeDialog(3);
 					playDialog.toFront();
 					playDialog.setModal(true);
 					playDialog.setVisible(true);
 					showTable();
 				} else {
-					JOptionPane.showMessageDialog(null, "Ã»ÓÐÈ¨ÏÞ!");
+					JOptionPane.showMessageDialog(null, "Not Available!");
 				}
 			}
 		});
 		btnList.add(btnEdit);
 
-		btnDel = new JButton("É¾³ý");
-		btnDel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+		btnDel = new JButton("Delete");
+		btnDel.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 		btnDel.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (new EmployeeSrv().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {
+				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {
 					EmployeeDialog playDialog = new EmployeeDialog(4);
 					playDialog.toFront();
 					playDialog.setModal(true);
 					playDialog.setVisible(true);
 					showTable();
 				} else {
-					JOptionPane.showMessageDialog(null, "Ã»ÓÐÈ¨ÏÞ!");
+					JOptionPane.showMessageDialog(null, "Not Available!");
 				}
 			}
 		});
@@ -206,8 +207,8 @@ public class EmployeeMCView extends JPanel {
 
 	public void showTable() {
 		EmployeeTable empTable = new EmployeeTable(emp);
-		Object[] in = { "È¨ÏÞ", "ID", "¹¤ºÅ", "Ãû×Ö", "µØÖ·", "µç»°", "E-mail" };
-		List<Employee> empList = new EmployeeSrv().FetchAll();
+		Object[] in = { "Permission", "ID", "Job number", "Name", "Address", "Tel", "E-mail" };
+		List<Employee> empList = new EmployeeController().FetchAll();
 		if (rst.size() > 0) {
 			empList = rst;
 		}
@@ -217,7 +218,7 @@ public class EmployeeMCView extends JPanel {
 	}
 
 	public static void showPanel() {
-		JFrame frame = new JFrame("Ô±¹¤¹ÜÀí");
+		JFrame frame = new JFrame("Employee Management");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(new EmployeeMCView(1));
 		frame.pack();
@@ -230,7 +231,7 @@ public class EmployeeMCView extends JPanel {
 		final int flag;
 		private int width = 400;
 		private int height = 400;
-		String accessList[] = { "Ô±¹¤", "¾­Àí", "¹ÜÀíÔ±" };
+		String accessList[] = { "Employee", "Manage", "Admin" }; // Nhân viên - Quản lí - Quản trị viên
 		private JPanel pan = new JPanel();
 		private JComboBox<String> cbxAccess;
 		private JLabel lblAccess, lblName, lblNo, lblPassWord, lblAddr, lblTel, lblEmail;
@@ -239,7 +240,7 @@ public class EmployeeMCView extends JPanel {
 
 		EmployeeDialog(final int flag) {
 			this.flag = flag;
-			this.setTitle("Ô±¹¤²Ù×÷");
+			this.setTitle("Employee Operation"); // Hoạt động của nhân viên
 			this.setSize(width, height);
 			this.setLocationRelativeTo(null);
 			this.setResizable(false);
@@ -250,56 +251,56 @@ public class EmployeeMCView extends JPanel {
 				}
 			});
 
-			lblAccess = new JLabel("È¨ÏÞ : ");
-			lblAccess.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			lblAccess = new JLabel("Permission : ");
+			lblAccess.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblAccess.setBounds(80, 30, 60, 30);
 			pan.add(lblAccess);
 			cbxAccess = new JComboBox<String>(accessList);
 			cbxAccess.setBounds(140, 30, 120, 30);
 			pan.add(cbxAccess);
 
-			lblNo = new JLabel("¹¤ºÅ : ");
-			lblNo.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			lblNo = new JLabel("Job number : ");
+			lblNo.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblNo.setBounds(80, 65, 60, 30);
 			pan.add(lblNo);
 			txtNo = new JTextField();
 			txtNo.setBounds(140, 65, 120, 30);
 			pan.add(txtNo);
 
-			lblName = new JLabel("Ãû×Ö : ");
-			lblName.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			lblName = new JLabel("Name : ");
+			lblName.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblName.setBounds(80, 100, 60, 30);
 			pan.add(lblName);
 			txtName = new JTextField();
 			txtName.setBounds(140, 100, 120, 30);
 			pan.add(txtName);
 
-			lblPassWord = new JLabel("ÃÜÂë : ");
-			lblPassWord.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			lblPassWord = new JLabel("Password : ");
+			lblPassWord.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblPassWord.setBounds(80, 135, 60, 30);
 			pan.add(lblPassWord);
 			txtPassWord = new JTextField();
 			txtPassWord.setBounds(140, 135, 120, 30);
 			pan.add(txtPassWord);
 
-			lblAddr = new JLabel("µØÖ· : ");
-			lblAddr.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			lblAddr = new JLabel("Address· : ");
+			lblAddr.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblAddr.setBounds(80, 170, 60, 30);
 			pan.add(lblAddr);
 			txtAddr = new JTextField();
 			txtAddr.setBounds(140, 170, 120, 30);
 			pan.add(txtAddr);
 
-			lblTel = new JLabel("µç»° : ");
-			lblTel.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			lblTel = new JLabel("Tell : ");
+			lblTel.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblTel.setBounds(80, 205, 60, 30);
 			pan.add(lblTel);
 			txtTel = new JTextField();
 			txtTel.setBounds(140, 205, 120, 30);
 			pan.add(txtTel);
 
-			lblEmail = new JLabel("ÓÊÏä : ");
-			lblEmail.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			lblEmail = new JLabel("Email : ");
+			lblEmail.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblEmail.setBounds(80, 240, 60, 30);
 			pan.add(lblEmail);
 			txtEmail = new JTextField();
@@ -315,8 +316,8 @@ public class EmployeeMCView extends JPanel {
 				txtEmail.setText(emp.getEmail());
 			}
 
-			btnYes = new JButton("È·ÈÏ");
-			btnYes.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			btnYes = new JButton("Confirm");
+			btnYes.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			btnYes.setBounds(40, height - 80, 66, 30);
 			btnYes.addActionListener(new ActionListener() {
 				@Override
@@ -336,8 +337,8 @@ public class EmployeeMCView extends JPanel {
 			});
 			pan.add(btnYes);
 
-			btnNot = new JButton("È¡Ïû");
-			btnNot.setFont(new Font("Î¢ÈíÑÅºÚ", Font.PLAIN, 16));
+			btnNot = new JButton("Cancel");
+			btnNot.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			btnNot.setBounds(width - 106, height - 80, 66, 30);
 			btnNot.addActionListener(new ActionListener() {
 				@Override
@@ -365,9 +366,9 @@ public class EmployeeMCView extends JPanel {
 				emp.setAddr(txtAddr.getText());
 				emp.setTel(txtTel.getText());
 				emp.setEmail(txtEmail.getText());
-				new EmployeeSrv().add(emp);
+				new EmployeeController().add(emp);
 			} else {
-				JOptionPane.showMessageDialog(null, "Êý¾Ý²»ÍêÕû");
+				JOptionPane.showMessageDialog(null, "Incomplete Data");
 			}
 		}
 
@@ -398,7 +399,7 @@ public class EmployeeMCView extends JPanel {
 				emp.setEmail(txtEmail.getText());
 				sql += " and emp_email='" + txtEmail.getText() + "'";
 			}
-			rst = new EmployeeSrv().Fetch(sql);
+			rst = new EmployeeController().Fetch(sql);
 		}
 
 		private void btnModClicked() {
@@ -409,13 +410,13 @@ public class EmployeeMCView extends JPanel {
 			emp.setAddr(txtAddr.getText());
 			emp.setTel(txtTel.getText());
 			emp.setEmail(txtEmail.getText());
-			new EmployeeSrv().modify(emp);
+			new EmployeeController().modify(emp);
 		}
 
 		private void btnDelClicked() {
-			int confirm = JOptionPane.showConfirmDialog(null, "È·ÈÏÉ¾³ýËùÑ¡£¿", "É¾³ý", JOptionPane.YES_NO_OPTION);
+			int confirm = JOptionPane.showConfirmDialog(null, " Delete Selected Confirmation ", "Delete", JOptionPane.YES_NO_OPTION);
 			if (confirm == JOptionPane.YES_OPTION) {
-				EmployeeSrv stuSrv = new EmployeeSrv();
+				EmployeeController stuSrv = new EmployeeController();
 				stuSrv.delete(emp.getId());
 				showTable();
 			}
