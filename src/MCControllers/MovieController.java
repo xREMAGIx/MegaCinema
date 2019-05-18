@@ -13,6 +13,7 @@ import java.util.List;
  *
  * @author USER
  */
+
 public class MovieController {
    
    private final Movie movieM = new Movie();
@@ -48,4 +49,5 @@ public class MovieController {
    {
        return movieM.SelectScheduledMovie("");
    }
+
 }

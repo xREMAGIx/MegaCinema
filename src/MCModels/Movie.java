@@ -19,15 +19,27 @@ public class Movie {
     private int genreId;
     //private int langId;
     private String name;
+
     //private String duration;
     private int duration;
     private byte[] image;
     private int status;
 
     public Movie(int id, String name, int duration) {
+
         this.id = id;
         this.name = name;
         this.duration = duration;
+        this.genre = genre;
+        
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public Movie() {
