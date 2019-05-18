@@ -28,8 +28,15 @@ public class MovieController {
        return movieM.Insert(movie);
    }
    
-   public int Modify(Movie movie)
+   public int Modify(int id, String name, int dur, int status)
    {
+       Movie movie = new Movie();
+       
+       movie.setId(id);
+       movie.setName(name);
+       movie.setDuration(dur);
+       movie.setStatus(status);
+              
        return movieM.Update(movie);     
    }
    
@@ -38,10 +45,26 @@ public class MovieController {
        return movieM.Delete(id);
    }
    
-   public List<Movie> SelectAll()
+   public Object[][] SelectAll()
    {
+       List <Movie> movieList = movieM.Select("");
+
+       int length=movieList.size()+1;
        
-       return movieM.Select("");
+       System.out.println("length: "+length);
+       
+       Object[][] data = new Object[length][4];
+       data[0][0]=length;
+          
+       for (int i=1; i<length; i++){
+            data[i][0] = movieList.get(i-1).getId();
+            data[i][1] = movieList.get(i-1).getName();
+            data[i][2] = movieList.get(i-1).getDuration();
+            data[i][3] = movieList.get(i-1).getStatus();       
+            System.out.println(data[i][0]);
+        }
+        
+       return data;
    }
    
    public List<Movie> SelectScheduledMovie(String condt)

@@ -81,20 +81,21 @@ public class Movie {
             String sqlstr = "insert into movie(movieName, movieDuration, movieStatus) values( '"
                     + movie.getName() + "', " + movie.getDuration() + ", " + movie.getStatus()	
                     + " )";		
-
+            //sqlstr+=" ALTER TABLE `movie` AUTO_INCREMENT = 1;";
 
             Database db = new Database();
 	
             db.openConnection();	
         
             ResultSet rst = db.getInsertObjectIDs(sqlstr);
-	
+
             if (rst != null && rst.first()) {	
                 movie.setId(rst.getInt(1));		
             }	
             
             
-            db.close(rst);	
+            db.close(rst);
+            db.close();
             //db.closeConnection();	
             return 1;
           	
@@ -117,8 +118,10 @@ public class Movie {
 //                    + ", play_length = " + movie.getLength() + ", play_ticket_price = " + movie.getPrice()		
 //                    + ", play_status = " + movie.getStatus();
 
+            System.out.println("movie: "+movie.getName());
+
             String sqlstr = "update movie set " + "movieId = " + movie.getId() +  ", movieName = '" + movie.getName()		                   
-                    + ", movieLength = " + movie.getDuration() + ", movieStatus = " + movie.getStatus();            
+                    + "', movieDuration = " + movie.getDuration() + ", movieStatus = " + movie.getStatus();            
 
 
             //String sqlstr =" ";
@@ -131,6 +134,7 @@ public class Movie {
 	
             rtn = db.execCommand(sqlstr);
 	
+            System.out.println("Update: "+sqlstr);    
             //db.closeConnection();	
 
         } catch (Exception e) {	
@@ -155,6 +159,7 @@ public class Movie {
 	
             rtn = db.execCommand(sqlstr);
 	
+            db.close();
             //db.closeConnection();
 	
         } catch (Exception e) {	
@@ -220,6 +225,7 @@ public class Movie {
             }
 	
             db.close(rst);
+            db.close();
             //db.closeConnection();
 	
         } catch (Exception e) {           
@@ -272,8 +278,9 @@ public class Movie {
 		
             }
 	
-            db.close(rst);	
-            db.closeConnection();
+            db.close(rst);
+            db.close();
+            //db.closeConnection();
 	
         } catch (Exception e) {	
             //e.printStackTrace();
