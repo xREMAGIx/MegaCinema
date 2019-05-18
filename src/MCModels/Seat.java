@@ -9,14 +9,14 @@ package MCModels;
  *
  * @author DELL
  */
-public class Studio {
- 
-    private int id = 0;
-    private String name = "";
-    private int rowCount = 0;
-    private int colCount = 0;
-    private String intro = "";
-    private int studioFlag;
+public class Seat {
+    
+    private int id;
+    private int studioId;
+    private int row;
+    private int column;
+    private int seatStatus;
+    
     
     
 }
