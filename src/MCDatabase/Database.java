@@ -7,6 +7,11 @@ package MCDatabase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 
 /**
  *
@@ -14,7 +19,7 @@ import java.sql.DriverManager;
  */
 public class Database {
     
-    
+    private static Connection connect = null;
     private static String url;
     private static String username;
     private static String password;
@@ -39,7 +44,7 @@ public class Database {
     }
     
     
-    public static Connection getConnection() throws Exception
+    public Connection openConnection() throws Exception
     {
         //loading driver
 //        try
@@ -60,7 +65,7 @@ public class Database {
 //            System.out.println(e.getMessage());
 //        }        
 //        return con;
-        Connection connect = null;
+        //Connection connect = null;
         
         url="jdbc:mysql://localhost:3306/megacinema?autoReconnect=true&useSSL=false";
         username="root";
@@ -73,7 +78,7 @@ public class Database {
             {
                 connect = DriverManager.getConnection(url,username,password);
             }
-            catch (java.sql.SQLException e)
+            catch (SQLException e)
             {
                 throw new Exception("Cant access to database server..."+url+e.getMessage());
             }
@@ -86,11 +91,94 @@ public class Database {
     {
         try
         {
-            getConnection().close();
+            if(connect!=null)
+          connect.close();
         }
-        catch (Exception e)
+        catch (SQLException e)
         {
             System.out.println("Failed in closeConnection..."+e);
         }
+    }
+    
+    public ResultSet getInsertObjectIDs(String insertSql) throws Exception{
+	ResultSet rst = null;
+	try 
+        {
+	
+            if(connect==null)
+            {
+                throw new Exception("Database not connected!");
+            }
+            
+            Statement stmt = connect.createStatement();			
+            stmt.executeUpdate(insertSql, Statement.RETURN_GENERATED_KEYS);
+            rst = stmt.getGeneratedKeys();
+                
+	} 
+        catch (SQLException e) 
+        {
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+	}
+	return rst;
+        
+    }
+    
+    public int execCommand(String sql) throws Exception{
+	int flag = 0;
+	try {
+            if(connect==null)
+            {
+                throw new Exception("Database not connected!");
+            }
+            
+
+            Statement stmt = connect.createStatement();
+        
+            flag = stmt.executeUpdate(sql);
+				
+            //stmt.close();			
+	} 
+        catch (SQLException e) {
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        
+	return flag;
+    }
+    
+    public ResultSet execQuery(String sql) throws Exception {
+		
+        ResultSet rstSet = null;
+	
+        try {
+            
+            if (connect==null)
+            {
+                throw new Exception("Database not connected!");
+            }
+		
+            Statement stmt = connect.createStatement();
+	
+            rstSet = stmt.executeQuery(sql);
+	
+        } catch (SQLException e) {	
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+        }	
+        return rstSet;	
+    }
+       
+    public void close(ResultSet rst) throws Exception {
+       try {
+	
+            Statement stmt = rst.getStatement();	
+            rst.close();	
+            stmt.close();
+            
+        } catch (SQLException e) {	
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+        }	
     }
 }

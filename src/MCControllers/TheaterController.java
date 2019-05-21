@@ -20,125 +20,36 @@ import java.util.logging.Logger;
  * @author USER
  */
 public class TheaterController extends Theater{
-    Database db;
-    Connection con;
-    PreparedStatement pst;
+    private final Theater theaterM = new Theater();
     
-    public TheaterController()
-    {
-        super();
-        try {
-            db= new Database();
-            con = db.getConnection();
-        } catch (Exception ex) {
-            Logger.getLogger(TheaterController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+  
     
     public int insertTheater(int id, int idcinema, int idmanager, int status)
     {
-        int res=0;
-        String sql="";
+        Theater theater = new Theater();
+        theater.setCinemaID(idcinema);
+        theater.setManagerID(idmanager);
+        theater.setStatus(status);
         
-        try
-        {
-            sql="INSERT INTO theater(`id`,`idcimema`,`idmanager`, `status`) VALUES(?,?,?,?)";
-            pst=con.prepareStatement(sql);
-            
-            pst.setInt(1, id);
-            pst.setInt(2, idcinema);
-            pst.setInt(3, idmanager);
-            pst.setInt(4, status);
-            
-            res = pst.executeUpdate();
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-        return res;
+        return theaterM.Insert(theater);
     }
     
     public int updateTheater(int id, int idcinema, int idmanager, int status)
     {
-        int res=0;
-        String sql="";
-        
-        try
-        {
-            sql="UPDATE theater SET idcinema = ?, idmanager = ? , status = ? WHERE id = ?";
-            pst=con.prepareStatement(sql);
-            
-            pst.setInt(1, idcinema);
-            pst.setInt(2, idmanager);
-            pst.setInt(3, status);
-            pst.setInt(4, id);
-            
-            res = pst.executeUpdate();
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-        return res;
+        Theater theater = new Theater();
+        theater.setId(id);
+        theater.setCinemaID(idcinema);
+        theater.setManagerID(idmanager);
+        theater.setStatus(status);
+        return theaterM.Update(theater); 
     }
     
-    public int deleteMovie (int id){
-        int res=0;
-        String sql="";
+    public int deleteTheater (int id){
+        return theaterM.Delete(id);
         
-        try
-        {
-            sql="DELETE FROM theater WHERE id = ?";
-            pst=con.prepareStatement(sql);
-           
-            pst.setInt(1, id);
-            
-            res = pst.executeUpdate();
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-        return res;
     }
     
     public ArrayList <Theater> loadTheaters(){
-        String sql=" ";
-        ResultSet rs = null;
-        
-        ArrayList <Theater> temp= new ArrayList <> (); 
-        try
-        {
-            sql = "SELECT * FROM theater";
-            pst = con.prepareStatement(sql);
-            
-            
-            
-            
-            rs = pst.executeQuery();
-         
-         while (rs.next()) {
-            
-            int id = rs.getInt("id");
-            int cinemaID = rs.getInt("idcenema");
-            int manaID = rs.getInt("idmana");
-            int gen = rs.getInt("status");
-            
-            Theater t = new Theater (id, cinemaID, manaID, gen);
-            temp.add(t);
-            
-        }
-                
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        Theater[] array = temp.toArray(new Theater[temp.size()]);
-        return temp;
+        return theaterM.loadTheaters();
     }
 }

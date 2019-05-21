@@ -33,7 +33,7 @@ public class UserController extends User{
 
         db= new Database();
         try {
-            con = db.getConnection();
+            con = db.openConnection();
         } catch (Exception ex) {
             Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
         }

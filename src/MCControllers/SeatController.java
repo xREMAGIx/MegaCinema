@@ -29,7 +29,7 @@ public class SeatController extends Seat{
         super();
         try {
             db= new Database();
-            con = db.getConnection();
+            con = db.openConnection();
         } catch (Exception ex) {
             Logger.getLogger(SeatController.class.getName()).log(Level.SEVERE, null, ex);
         }
