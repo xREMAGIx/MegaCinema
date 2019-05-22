@@ -19,7 +19,7 @@ import java.util.List;
 public class Schedule {
  
     private int id;
-    private int studioId;
+    private int theaterId;
     private int movieId;
     private Date time;
     private double price;
@@ -33,12 +33,12 @@ public class Schedule {
         this.id = id;
     }
 
-    public int getStudioId() {
-        return studioId;
+    public int getTheaterId() {
+        return theaterId;
     }
 
-    public void setStudioId(int studioId) {
-        this.studioId = studioId;
+    public void setTheaterId(int theaterId) {
+        this.theaterId = theaterId;
     }
 
     public int getMovieId() {
@@ -88,7 +88,7 @@ public class Schedule {
     {
         try {
 		String sqlstr = "insert into schedule( studioId, movieId, schedTime, schedTicketPrice) values( "
-				+ schedule.getStudioId() + ", " + schedule.getMovieId() + ", '" + schedule.getTime() + "', "
+				+ schedule.getTheaterId() + ", " + schedule.getMovieId() + ", '" + schedule.getTime() + "', "
 				+ schedule.getPrice() + " )";
 		Database db = new Database();
 		db.openConnection();
@@ -112,7 +112,7 @@ public class Schedule {
     public int Update(Schedule sched) {
 	int rtn = 0;
 	try {
-		String sqlstr = "update schedule set studioId ='" + sched.getStudioId() + "', movieId = "
+		String sqlstr = "update schedule set studioId ='" + sched.getTheaterId() + "', movieId = "
                         + sched.getMovieId() + ", schedTime = " + sched.getTime() + ", schedTicketPrice = '"
 			+ sched.getPrice() + "' ";
                 sqlstr += " where schedId = " + sched.getId();
@@ -174,7 +174,7 @@ public class Schedule {
                     Schedule stu = new Schedule();	
                     
                     stu.setId(rst.getInt("schedId"));		
-                    stu.setStudioId(rst.getInt("studioId"));
+                    stu.setTheaterId(rst.getInt("theaterId"));
                     stu.setMovieId(rst.getInt("movieId"));		
                     stu.setTime(rst.getTimestamp("schedTime"));		
                     stu.setPrice(rst.getDouble("schedTicketPrice"));
