@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -70,14 +71,6 @@ public class Movie {
     public int Insert(Movie movie) {
 
         try {	
-             //String sqlstr =" ";
-            
-//            String sqlstr = "insert into play( play_type_id, play_lang_id, play_name, play_introduction, play_image, play_length, play_ticket_price, play_status ) values( "
-//	
-//                    + movie.getTypeId() + ", " + movie.getLangId() + ", '" + movie.getName() + "', '" + movie.getIntroduction()                 
-//                    + "', " + movie.getImage() + ", " + movie.getLength() + ", " + movie.getPrice() + ", " + movie.getStatus()	
-//                    + " )";
-
             String sqlstr = "insert into movie(movieName, movieDuration, movieStatus) values( '"
                     + movie.getName() + "', " + movie.getDuration() + ", " + movie.getStatus()	
                     + " )";		
@@ -112,11 +105,6 @@ public class Movie {
         int rtn = 0;
 		
         try {		
-//            String sqlstr = "update play set " + "play_id = " + movie.getId() + ", play_type_id = " + movie.getTypeId()	
-//                    + ", play_lang_id = " + movie.getLangId() + ", play_name = '" + movie.getName()		
-//                    + "', play_introduction = '" + movie.getIntroduction() + "', play_image = " + movie.getImage()		
-//                    + ", play_length = " + movie.getLength() + ", play_ticket_price = " + movie.getPrice()		
-//                    + ", play_status = " + movie.getStatus();
 
             System.out.println("movie: "+movie.getName());
 

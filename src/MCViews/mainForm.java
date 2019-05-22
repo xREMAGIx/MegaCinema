@@ -80,10 +80,10 @@ public class mainForm extends javax.swing.JFrame {
 
     private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movieBtnActionPerformed
         // TODO add your handling code here:
-        
-        new MovieView().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_movieBtnActionPerformed
+
+        new CinemaMCView().setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     /**
      * @param args the command line arguments
