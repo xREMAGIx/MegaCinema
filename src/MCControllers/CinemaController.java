@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author USER
  */
-public class CinemaController {
+public class CinemaController extends Cinema{
     private final Cinema cinemaM = new Cinema();
     
   

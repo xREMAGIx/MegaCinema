@@ -5,7 +5,9 @@
  */
 package MCViews;
 
+import MCControllers.StatusController;
 import MCModels.ArrayListComboBoxModel;
+import MCModels.Status;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,13 +27,21 @@ public class CinemaMCView extends javax.swing.JFrame {
     public CinemaMCView() {
         initComponents();
         loadStatus();
-         modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
+        modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
 	cbStatus.setModel(modelStatus);
     }
     
     public void loadStatus(){
-    statusList.add("avaiable");
-    statusList.add("unavaiable");
+      StatusController statusC = new StatusController();
+      List<Status> temp = null;
+      temp = statusC.loadStatus();
+      
+      for (int i=0; i<temp.size();i++)
+      {
+          statusList.add(temp.get(i).getName());
+      }
+//    statusList.add("avaiable");
+//    statusList.add("unavaiable");
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,6 +58,7 @@ public class CinemaMCView extends javax.swing.JFrame {
         txtName = new javax.swing.JTextField();
         txtLocation = new javax.swing.JTextField();
         cbStatus = new javax.swing.JComboBox();
+        btAdd = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,6 +97,13 @@ public class CinemaMCView extends javax.swing.JFrame {
             }
         });
 
+        btAdd.setText("ADD");
+        btAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAddActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,7 +118,10 @@ public class CinemaMCView extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(102, 102, 102)
+                                .addComponent(btAdd))
                             .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
@@ -114,8 +135,13 @@ public class CinemaMCView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btAdd)
+                        .addGap(2, 2, 2)))
                 .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
         );
@@ -127,6 +153,10 @@ public class CinemaMCView extends javax.swing.JFrame {
         // TODO add your handling code here:
        
     }//GEN-LAST:event_cbStatusComponentShown
+
+    private void btAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btAddActionPerformed
 
     /**
      * @param args the command line arguments
@@ -164,6 +194,7 @@ public class CinemaMCView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAdd;
     private javax.swing.JComboBox cbStatus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

@@ -201,4 +201,40 @@ public class Cinema {
         return temp;	
     }
     
+    public String IDtoName(int ID) {
+	
+        String rtn = "";
+	
+        try {	
+            String sqlstr = "select name from cinema ";
+	
+            sqlstr += " where cinemaId = " + ID;
+	
+            Database db = new Database();
+	
+            db.openConnection();
+	
+            
+            
+            ResultSet rst = db.execQuery(sqlstr);
+	
+            if (rst != null) {
+	
+                while (rst.next()) {
+		
+                rtn =  rst.getString("movieName");
+		
+                }
+		
+            }
+	
+            //db.closeConnection();
+	
+        } catch (Exception e) {	
+            //e.printStackTrace();
+            System.out.println(e.getMessage());		
+        }	
+        return rtn;	
+    }
+    
 }
