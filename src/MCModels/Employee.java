@@ -123,7 +123,7 @@ public class Employee {
             ResultSet rst = db.getInsertObjectIDs(sqlstr);
 	
             if (rst != null && rst.first()) {	
-                movie.setId(rst.getInt(1));		
+                emp.setId(rst.getInt(1));		
             }	
             
             
@@ -136,7 +136,8 @@ public class Employee {
             System.out.println(e.getMessage());	
 	
         }	
-        return 0;	
+        return 0;
+    }
 
 	
 	public int update(Employee emp) {
@@ -185,7 +186,7 @@ public class Employee {
 		if (!condt.isEmpty())
                     sqlstr += " where " + condt;
 		Database db = new Database();
-		if (!db.openConnection()) {
+		if (db.openConnection() == null) {
                     return null;
 			}
 		ResultSet rst = db.execQuery(sqlstr);
