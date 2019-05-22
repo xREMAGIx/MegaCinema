@@ -20,54 +20,36 @@ import java.util.logging.Logger;
  * @author USER
  */
 public class TheaterController extends Theater{
-    Database db;
-    Connection con;
-    PreparedStatement pst;
+    private final Theater theaterM = new Theater();
     
-    public TheaterController()
+  
+    
+    public int insertTheater(int id, int idcinema, int idmanager, int status)
     {
-        super();
-        try {
-            db= new Database();
-            con = db.getConnection();
-        } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Theater theater = new Theater();
+        theater.setCinemaID(idcinema);
+        theater.setManagerID(idmanager);
+        theater.setStatus(status);
+        
+        return theaterM.Insert(theater);
+    }
+    
+    public int updateTheater(int id, int idcinema, int idmanager, int status)
+    {
+        Theater theater = new Theater();
+        theater.setId(id);
+        theater.setCinemaID(idcinema);
+        theater.setManagerID(idmanager);
+        theater.setStatus(status);
+        return theaterM.Update(theater); 
+    }
+    
+    public int deleteTheater (int id){
+        return theaterM.Delete(id);
+        
     }
     
     public ArrayList <Theater> loadTheaters(){
-        String sql=" ";
-        ResultSet rs = null;
-        
-        ArrayList <Theater> temp= new ArrayList <> (); 
-        try
-        {
-            sql = "SELECT * FROM theater";
-            pst = con.prepareStatement(sql);
-            
-            
-            
-            
-            rs = pst.executeQuery();
-         
-         while (rs.next()) {
-            
-            int id = rs.getInt("id");
-            int movieID = rs.getInt("idmovie");
-            int manaID = rs.getInt("idmana");
-            String gen = rs.getString("Genre");
-            
-            Theater t = new Theater (id, movieID, manaID, gen);
-            temp.add(t);
-            
-        }
-                
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        Theater[] array = temp.toArray(new Theater[temp.size()]);
-        return temp;
+        return theaterM.loadTheaters();
     }
 }
