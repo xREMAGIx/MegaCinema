@@ -7,6 +7,7 @@ package MCModels;
 
 /**
  *
+
  * @author USER
  */
 public class Seat {
@@ -68,6 +69,7 @@ public class Seat {
     public void setStatus(int status) {
         this.status = status;
     }
+
     
     
 }

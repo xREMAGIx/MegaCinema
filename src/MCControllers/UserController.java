@@ -66,7 +66,7 @@ public class UserController extends User{
             
     public boolean checkLogin(String a, String b)
     {
-        String sql=" ";
+        String sql="";
         ResultSet rs = null;
         
         
