@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import static java.sql.Types.NULL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,15 +20,19 @@ import java.util.logging.Logger;
  * @author USER
  */
 public class Theater {
-    private int id;
+    private int id;    
     private int cinemaID;
     private int managerID;
+    private String name;
+
+
     private int status;
 
-    public Theater(int id, int cinemaID, int managerID, int status) {
+    public Theater(int id, int cinemaID, int managerID, String name, int status) {
         this.id = id;
         this.cinemaID = cinemaID;
         this.managerID = managerID;
+        this.name = name;
         this.status = status;
     }
 
@@ -46,6 +51,10 @@ public class Theater {
         return managerID;
     }
 
+    public String getName() {
+        return name;
+    }
+    
     public int getStatus() {
         return status;
     }
@@ -60,6 +69,10 @@ public class Theater {
 
     public void setManagerID(int managerID) {
         this.managerID = managerID;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setStatus(int status) {
@@ -173,12 +186,14 @@ public class Theater {
          
          while (rs.next()) {
             
-            int id = rs.getInt("id");
-            int cinemaID = rs.getInt("idcenema");
-            int manaID = rs.getInt("idmana");
-            int gen = rs.getInt("status");
+            int id = rs.getInt("theaterId");
+            //int cinemaID = rs.getInt("idcenema");
+            //int manaID = rs.getInt("idmana");
+            String name = rs.getString("theaterName");
+            //int gen = rs.getInt("status");
             
-            Theater t = new Theater (id, cinemaID, manaID, gen);
+            Theater t = new Theater (id, NULL, NULL, name, NULL);
+            //Theater t = new Theater (id, cinemaID, manaID, name, gen);
             temp.add(t);
             
         }

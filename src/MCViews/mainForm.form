@@ -28,6 +28,7 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="scheduleBtn" max="32767" attributes="0"/>
                   <Component id="movieBtn" max="32767" attributes="0"/>
+                  <Component id="cinemaBtn" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="286" max="32767" attributes="0"/>
           </Group>
@@ -40,7 +41,9 @@
               <Component id="scheduleBtn" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="movieBtn" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="167" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="cinemaBtn" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="126" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -60,6 +63,14 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="movieBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="cinemaBtn">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cinema"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cinemaBtnActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

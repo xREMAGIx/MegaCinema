@@ -29,6 +29,7 @@ public class mainForm extends javax.swing.JFrame {
 
         scheduleBtn = new javax.swing.JButton();
         movieBtn = new javax.swing.JButton();
+        cinemaBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,6 +47,13 @@ public class mainForm extends javax.swing.JFrame {
             }
         });
 
+        cinemaBtn.setText("Cinema");
+        cinemaBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cinemaBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -54,7 +62,8 @@ public class mainForm extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(scheduleBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(movieBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(movieBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cinemaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(286, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -64,7 +73,9 @@ public class mainForm extends javax.swing.JFrame {
                 .addComponent(scheduleBtn)
                 .addGap(18, 18, 18)
                 .addComponent(movieBtn)
-                .addContainerGap(167, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(cinemaBtn)
+                .addContainerGap(126, Short.MAX_VALUE))
         );
 
         pack();
@@ -78,11 +89,15 @@ public class mainForm extends javax.swing.JFrame {
         
     }//GEN-LAST:event_scheduleBtnActionPerformed
 
-    private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movieBtnActionPerformed
+    private void cinemaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cinemaBtnActionPerformed
         // TODO add your handling code here:
-
         new CinemaMCView().setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_cinemaBtnActionPerformed
+
+    private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        // TODO add your handling code here:    
+        new MovieView().setVisible(true);
+    }                                        
 
 
     /**
@@ -121,6 +136,7 @@ public class mainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cinemaBtn;
     private javax.swing.JButton movieBtn;
     private javax.swing.JButton scheduleBtn;
     // End of variables declaration//GEN-END:variables

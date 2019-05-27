@@ -6,6 +6,8 @@
 package MCViews;
 
 import MCControllers.MovieController;
+import MCModels.Movie;
+import java.util.List;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -313,7 +315,13 @@ public class MovieView extends javax.swing.JFrame {
                 status=2;
             }
             
-            int res = movieC.Modify(id,name,dur,status);
+            Movie movie = new Movie();
+            movie.setId(id);
+            movie.setName(name);
+            movie.setDuration(dur);
+            movie.setStatus(status);
+            
+            int res = movieC.Modify(movie);
             if(res>0)
             {
                 JOptionPane.showMessageDialog(null, "Saved info changed");         
@@ -333,9 +341,9 @@ public class MovieView extends javax.swing.JFrame {
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
         
-        Object rowData[] = new Object[4];
-        Object[][] movieData = movieC.SelectAll();
-        int length = (int) movieData[0][0];
+//        Object rowData[] = new Object[4];
+//        Object[][] movieData = movieC.SelectAll();
+//        int length = (int) movieData[0][0];
         
         DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
         
@@ -345,13 +353,15 @@ public class MovieView extends javax.swing.JFrame {
 //        Object rowData[] = new Object[4];
 //        Object[][] movieData = movieC.SelectAll();
 //        int length = (int) movieData[0][0];
+
+        List<Movie> movieList = movieC.SelectAll();
+        Object rowData[] = new Object[4];
         
-        
-        for (int i=0; i<length-1; i++){
-            rowData[0] = movieData[i+1][0];   //id
-            rowData[1] = movieData[i+1][1];   //name
-            rowData[2] = movieData[i+1][2];   //dur
-            rowData[3] = movieData[i+1][3];   //status
+        for (int i=0; i<movieList.size(); i++){
+            rowData[0] = movieList.get(i).getId();    
+            rowData[1] = movieList.get(i).getName();
+            rowData[2] = movieList.get(i).getDuration();
+            rowData[3] = movieList.get(i).getStatus();
             model.addRow(rowData);
         }
 
@@ -363,12 +373,7 @@ public class MovieView extends javax.swing.JFrame {
             //System.out.println(movieTable.getValueAt(table.getSelectedRow(), 0).toString());
          
             
-//            movieNameTextField.setEditable(false);
-//            movieDurTextField.setEditable(false);
-//        
-            //movieNameTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 1).toString());
-            //movieDurTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 2).toString());
-            //movieStatusText.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 2).toString());
+   
 
 //            if((int)movieTable.getValueAt(movieTable.getSelectedRow(),3)==1)
 //            {
@@ -407,20 +412,30 @@ public class MovieView extends javax.swing.JFrame {
 //            }
 //        }
         
-        //List <Movie> movieList = movieC.SelectAll();        
+//        List <Movie> movieList = movieC.SelectAll();        
+//        Object rowData[] = new Object[4];
+//        Object[][] movieData = movieC.SelectAll();
+//        int length = (int) movieData[0][0];
+//        
+//        
+//        for (int i=0; i<length-1; i++){
+//            rowData[0] = movieData[i+1][0];   //id
+//            rowData[1] = movieData[i+1][1];   //name
+//            rowData[2] = movieData[i+1][2];   //dur
+//            rowData[3] = movieData[i+1][3];   //status
+//            model.addRow(rowData);
+//        }
+        
+        List<Movie> movieList = movieC.SelectAll();
         Object rowData[] = new Object[4];
-        Object[][] movieData = movieC.SelectAll();
-        int length = (int) movieData[0][0];
         
-        
-        for (int i=0; i<length-1; i++){
-            rowData[0] = movieData[i+1][0];   //id
-            rowData[1] = movieData[i+1][1];   //name
-            rowData[2] = movieData[i+1][2];   //dur
-            rowData[3] = movieData[i+1][3];   //status
+        for (int i=0; i<movieList.size(); i++){
+            rowData[0] = movieList.get(i).getId();    
+            rowData[1] = movieList.get(i).getName();
+            rowData[2] = movieList.get(i).getDuration();
+            rowData[3] = movieList.get(i).getStatus();
             model.addRow(rowData);
         }
-        
 
         movieTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
         @Override
