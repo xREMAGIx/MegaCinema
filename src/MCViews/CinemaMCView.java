@@ -36,12 +36,12 @@ public class CinemaMCView extends javax.swing.JFrame {
       List<Status> temp = null;
       temp = statusC.loadStatus();
       
-      for (int i=0; i<temp.size();i++)
-      {
-          statusList.add(temp.get(i).getName());
-      }
-//    statusList.add("avaiable");
-//    statusList.add("unavaiable");
+//      for (int i=0; i<temp.size();i++)
+//      {
+//          statusList.add(temp.get(i).getName());
+//      }
+    statusList.add("avaiable");
+    statusList.add("unavaiable");
     }
     /**
      * This method is called from within the constructor to initialize the form.

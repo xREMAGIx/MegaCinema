@@ -7,10 +7,8 @@ package MCViews;
 
 import MCControllers.MovieController;
 import MCModels.Movie;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -24,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 public class MovieView extends javax.swing.JFrame {
 
     MovieController movieC = new MovieController();
+    int act=0;
     
     /**
      * Creates new form MovieView
@@ -47,6 +46,7 @@ public class MovieView extends javax.swing.JFrame {
         addBtn = new javax.swing.JButton();
         modifyBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
+        refreshBtn = new javax.swing.JButton();
         javax.swing.JPanel addPanel = new javax.swing.JPanel();
         movieNameTextField = new javax.swing.JTextField();
         nameText = new javax.swing.JLabel();
@@ -57,7 +57,6 @@ public class MovieView extends javax.swing.JFrame {
         statusText = new javax.swing.JLabel();
         saveAddBtn = new javax.swing.JButton();
         cancelAddBtn = new javax.swing.JButton();
-        refreshBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -73,14 +72,17 @@ public class MovieView extends javax.swing.JFrame {
             new String [] {
                 "ID", "Name", "Duration", "Status"
             }
-        ));
-        movieTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        movieTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        movieTable.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                movieTableComponentShown(evt);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        movieTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        movieTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(movieTable);
 
         addBtn.setText("Add");
@@ -105,6 +107,13 @@ public class MovieView extends javax.swing.JFrame {
             }
         });
 
+        refreshBtn.setText("Refresh");
+        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshBtnActionPerformed(evt);
+            }
+        });
+
         nameText.setText("Name");
 
         durationText.setText("Duration");
@@ -113,7 +122,6 @@ public class MovieView extends javax.swing.JFrame {
         availableRB.setText("Available");
 
         addRBGroup.add(notAvailableRB);
-        notAvailableRB.setSelected(true);
         notAvailableRB.setText("Not Available");
 
         statusText.setText("Status");
@@ -144,18 +152,16 @@ public class MovieView extends javax.swing.JFrame {
                             .addComponent(statusText))
                         .addGap(32, 32, 32)
                         .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(movieDurTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(addPanelLayout.createSequentialGroup()
-                                .addComponent(availableRB)
+                                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(saveAddBtn)
+                                    .addComponent(availableRB))
                                 .addGap(43, 43, 43)
-                                .addComponent(notAvailableRB))
-                            .addComponent(movieDurTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(34, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saveAddBtn)
-                .addGap(38, 38, 38)
-                .addComponent(cancelAddBtn)
-                .addGap(47, 47, 47))
+                                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(notAvailableRB)
+                                    .addComponent(cancelAddBtn))))))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         addPanelLayout.setVerticalGroup(
             addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,41 +179,31 @@ public class MovieView extends javax.swing.JFrame {
                     .addComponent(availableRB)
                     .addComponent(notAvailableRB)
                     .addComponent(statusText))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(saveAddBtn)
                     .addComponent(cancelAddBtn))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
-
-        refreshBtn.setText("Refresh");
-        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshBtnActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(addBtn)
+                        .addGap(47, 47, 47)
+                        .addComponent(modifyBtn)
+                        .addGap(129, 129, 129)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(addBtn)
-                                .addGap(62, 62, 62)
-                                .addComponent(modifyBtn)
-                                .addGap(71, 71, 71)
-                                .addComponent(deleteBtn))
-                            .addComponent(addPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(refreshBtn)
-                        .addGap(18, 18, 18)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE))
+                            .addComponent(refreshBtn)
+                            .addComponent(deleteBtn)))
+                    .addComponent(addPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,16 +211,16 @@ public class MovieView extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(2, 2, 2)
+                .addContainerGap()
                 .addComponent(refreshBtn)
-                .addGap(18, 18, 18)
+                .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addBtn)
                     .addComponent(modifyBtn)
                     .addComponent(deleteBtn))
                 .addGap(18, 18, 18)
-                .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(addPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -234,105 +230,140 @@ public class MovieView extends javax.swing.JFrame {
     
     private void modifyBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyBtnActionPerformed
         // TODO add your handling code here:
+        movieNameTextField.setEditable(true);
+        movieDurTextField.setEditable(true);
+        
+        movieNameTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 1).toString());
+        movieDurTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 2).toString());
+        
+        act=2;  //tell save button to save info modify
     }//GEN-LAST:event_modifyBtnActionPerformed
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
+        int id = (int) movieTable.getValueAt(movieTable.getSelectedRow(),0);
+        int res = movieC.Delete(id);
+        int check = JOptionPane.showConfirmDialog(jScrollPane1,"Are you sure delete this movie?","Delete",JOptionPane.YES_NO_OPTION);
+        if (check == JOptionPane.YES_OPTION)           
+        {
+             if(res>0)
+             {
+                 JOptionPane.showMessageDialog(null, "Deleted successfully");         
+             }
+             else if (res==0)
+             {
+                 JOptionPane.showMessageDialog(null,"Unable to delete");
+             }
+
+             refreshBtnActionPerformed(evt);
+             act=0;       
+        }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
-        //addPanel.setVisible(false); 
+        //JLayeredPane layeredP = (JLayeredPane) LayeredPane.getLayer();
+        movieNameTextField.setEditable(true);
+        movieDurTextField.setEditable(true);
+        movieNameTextField.setText("");
+        movieDurTextField.setText("");
         
+        act=1;  //tell save button to act add
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void saveAddBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAddBtnActionPerformed
         // TODO add your handling code here:
-        int status;
-        if(availableRB.isSelected() == true)
-        {
-            status=1;
-        }
-        else
-        {
-            status=2;
-        }
-                
-        int res = movieC.Add(movieNameTextField.getText(), Integer.parseInt(movieDurTextField.getText()),status);
-         if(res>0)
-        {
-            JOptionPane.showMessageDialog(null, "Saved");
-            //new NewJFrame().setVisible(true);
-            //this.dispose();
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null,"Unable to save");
-        }
-        
-        refreshBtnActionPerformed(evt);
-    }//GEN-LAST:event_saveAddBtnActionPerformed
+        if(act == 1)    //save add info
+        {  
+            int status;
+            if(availableRB.isSelected() == true)
+            {
+                status=1;
+            }
+            else
+            {
+                status=2;
+            }
 
-    private void movieTableComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_movieTableComponentShown
-        // TODO add your handling code here:
-        //DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
-//        Object[] colNames =  {"ID","Name","Duration","Status"};
-//        List<Movie> movieList = movieC.SelectAll();
-//        Object data[][] = new Object[movieList.size()][colNames.length];
-//        Iterator<Movie> itr = movieList.iterator();
-//        int i=0;
-//        while(itr.hasNext())
-//        {
-//            Movie iMovie = itr.next();
-//            data[i][0]=Integer.toString(iMovie.getId());
-//            data[i][1]=iMovie.getName();
-//            System.out.println(iMovie.getName());
-//            data[i][2]=Integer.toString(iMovie.getDuration());
-//            data[i][3]=Integer.toString(iMovie.getStatus());
-//            i++;      
-//            //model.addRow(data);
-//        }
-//        
-//        //model = DefaultTableModel(colNames,data);
-//        DefaultTableModel model = new DefaultTableModel(data,colNames);
-//        movieTable.setModel(model);
-//        movieTable.getModel();
-//           // TODO add your handling code here:
-//        DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
-//        List <Movie> movieList = movieC.SelectAll();
-//        Object rowData[] = new Object[4];
-//        
-//        for (int i=0; i<movieList.size(); i++){
-//            rowData[0] = movieList.get(i).getId();
-//            rowData[1] = movieList.get(i).getName();
-//            rowData[2] = movieList.get(i).getDuration();
-//            //rowData[3] = movieList.get(i).getGenre();
-//            model.addRow(rowData);
-//        }
-//        
-//        movieTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-//        public void valueChanged(ListSelectionEvent event) {
-//            // do some actions here, for example
-//            // print first column value from selected row
-//            nameTextField.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 1).toString());
-//            txtDur.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 2).toString());
-//            txtGenre.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 3).toString());
-    }//GEN-LAST:event_movieTableComponentShown
+            int res = movieC.Add(movieNameTextField.getText(), Integer.parseInt(movieDurTextField.getText()),status);
+             if(res>0)
+            {
+                JOptionPane.showMessageDialog(null, "Saved - add new info");
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Unable to save");
+            }         
+            refreshBtnActionPerformed(evt);
+            act=0;
+            movieNameTextField.setEditable(false);
+            movieDurTextField.setEditable(false);
+        }
+        else if (act == 2)  //save modify info
+        {
+            int id = (int) movieTable.getValueAt(movieTable.getSelectedRow(),0);
+            System.out.println("id: "+id);
+            String name = movieNameTextField.getText(); 
+            int dur = Integer.parseInt(movieDurTextField.getText());
+            int status;
+            if(availableRB.isSelected() == true)
+            {
+                status=1;
+            }
+            else
+            {
+                status=2;
+            }
+            
+            Movie movie = new Movie();
+            movie.setId(id);
+            movie.setName(name);
+            movie.setDuration(dur);
+            movie.setStatus(status);
+            
+            int res = movieC.Modify(movie);
+            if(res>0)
+            {
+                JOptionPane.showMessageDialog(null, "Saved info changed");         
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"Unable to save");
+            }
+
+            refreshBtnActionPerformed(evt);
+            act=0;
+            movieNameTextField.setEditable(false);
+            movieDurTextField.setEditable(false);
+            }
+    }//GEN-LAST:event_saveAddBtnActionPerformed
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
+        
+//        Object rowData[] = new Object[4];
+//        Object[][] movieData = movieC.SelectAll();
+//        int length = (int) movieData[0][0];
+        
         DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
-        List <Movie> movieList = movieC.SelectAll();
+        
+        movieNameTextField.setEditable(false);
+        movieDurTextField.setEditable(false);
+
+//        Object rowData[] = new Object[4];
+//        Object[][] movieData = movieC.SelectAll();
+//        int length = (int) movieData[0][0];
+
+        List<Movie> movieList = movieC.SelectAll();
         Object rowData[] = new Object[4];
         
         for (int i=0; i<movieList.size(); i++){
-            rowData[0] = movieList.get(i).getId();
+            rowData[0] = movieList.get(i).getId();    
             rowData[1] = movieList.get(i).getName();
             rowData[2] = movieList.get(i).getDuration();
             rowData[3] = movieList.get(i).getStatus();
             model.addRow(rowData);
         }
-//        
 
         movieTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
         @Override
@@ -340,37 +371,71 @@ public class MovieView extends javax.swing.JFrame {
             // do some actions here, for example
             // print first column value from selected row
             //System.out.println(movieTable.getValueAt(table.getSelectedRow(), 0).toString());
-        
-            movieNameTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 1).toString());
-            movieDurTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 2).toString());
-            //movieStatusText.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 2).toString());
+         
+            
+   
 
+//            if((int)movieTable.getValueAt(movieTable.getSelectedRow(),3)==1)
+//            {
+//                availableRB.setSelected(true);
+//                notAvailableRB.setSelected(false);
+//            }
+//            else
+//            {
+//                availableRB.setSelected(false);
+//                notAvailableRB.setSelected(true);
+//            }
+                
+//               if (!event.getValueIsAdjusting()){
+//                movieTable.getSelectionModel().clearSelection();}
         }    
        });
+        
+ 
     }//GEN-LAST:event_formComponentShown
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
         // TODO add your handling code here:
         
+//       if (!event.getValueIsAdjusting()){
+//                movieTable.getSelectionModel().clearSelection();
+
+        movieTable.clearSelection();
+
         DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
         
-        if (model.getRowCount() > 0) {   
-            for (int i = model.getRowCount() - 1; i > -1; i--) {        
-                model.removeRow(i);   
-            }
-        }
+        model.setRowCount(0);   //clear data table
+
+//        if (model.getRowCount() > 0) {   
+//            for (int i = model.getRowCount() - 1; i > -1; i--) {        
+//                model.removeRow(i);   
+//            }
+//        }
         
-        List <Movie> movieList = movieC.SelectAll();
+//        List <Movie> movieList = movieC.SelectAll();        
+//        Object rowData[] = new Object[4];
+//        Object[][] movieData = movieC.SelectAll();
+//        int length = (int) movieData[0][0];
+//        
+//        
+//        for (int i=0; i<length-1; i++){
+//            rowData[0] = movieData[i+1][0];   //id
+//            rowData[1] = movieData[i+1][1];   //name
+//            rowData[2] = movieData[i+1][2];   //dur
+//            rowData[3] = movieData[i+1][3];   //status
+//            model.addRow(rowData);
+//        }
+        
+        List<Movie> movieList = movieC.SelectAll();
         Object rowData[] = new Object[4];
         
         for (int i=0; i<movieList.size(); i++){
-            rowData[0] = movieList.get(i).getId();
+            rowData[0] = movieList.get(i).getId();    
             rowData[1] = movieList.get(i).getName();
             rowData[2] = movieList.get(i).getDuration();
             rowData[3] = movieList.get(i).getStatus();
             model.addRow(rowData);
         }
-//        
 
         movieTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
         @Override
@@ -379,10 +444,23 @@ public class MovieView extends javax.swing.JFrame {
             // print first column value from selected row
             //System.out.println(movieTable.getValueAt(table.getSelectedRow(), 0).toString());
         
-            movieNameTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 1).toString());
-            movieDurTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 2).toString());
+//            movieNameTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 1).toString());
+//            movieDurTextField.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 2).toString());
             //movieStatusText.setText(movieTable.getValueAt(movieTable.getSelectedRow(), 2).toString());
-
+            
+            movieNameTextField.setEditable(false);
+            movieDurTextField.setEditable(false);
+            
+//            if((int)movieTable.getValueAt(movieTable.getSelectedRow(),3)==1)
+//            {
+//                availableRB.setSelected(true);
+//                notAvailableRB.setSelected(false);
+//            }
+//            else
+//            {
+//                availableRB.setSelected(false);
+//                notAvailableRB.setSelected(true);
+//            }
         }    
        });
     }//GEN-LAST:event_refreshBtnActionPerformed

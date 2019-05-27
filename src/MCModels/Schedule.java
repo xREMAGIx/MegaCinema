@@ -8,6 +8,7 @@ package MCModels;
 import MCDatabase.Database;
 import java.sql.ResultSet;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 public class Schedule {
  
     private int id;
-    private int studioId;
+    private int theaterId;
     private int movieId;
     private Date time;
     private double price;
@@ -33,12 +34,12 @@ public class Schedule {
         this.id = id;
     }
 
-    public int getStudioId() {
-        return studioId;
+    public int getTheaterId() {
+        return theaterId;
     }
 
-    public void setStudioId(int studioId) {
-        this.studioId = studioId;
+    public void setTheaterId(int theaterId) {
+        this.theaterId = theaterId;
     }
 
     public int getMovieId() {
@@ -73,22 +74,23 @@ public class Schedule {
         this.type = type;
     }
     
+    SimpleDateFormat pFormatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
     
-    @Override
-    public String toString()
-    {
-        if(getTime()==null)
-            return "0:00:00";
-        else
-            return DateFormat.getTimeInstance().format(getTime());
-    }
+//    @Override
+//    public String toString()
+//    {
+//        if(getTime()==null)
+//            return "0:00:00";
+//        else
+//            return DateFormat.getTimeInstance().format(getTime());
+//    }
     
     //insert new schedule of a movie
     public int Insert(Schedule schedule)
     {
         try {
-		String sqlstr = "insert into schedule( studioId, movieId, schedTime, schedTicketPrice) values( "
-				+ schedule.getStudioId() + ", " + schedule.getMovieId() + ", '" + schedule.getTime() + "', "
+		String sqlstr = "insert into schedule( theaterId, movieId, schedTime, schedTicketPrice) values( "
+				+ schedule.getTheaterId() + ", " + schedule.getMovieId() + ", '" + pFormatter.format(schedule.getTime()) + "', "
 				+ schedule.getPrice() + " )";
 		Database db = new Database();
 		db.openConnection();
@@ -97,8 +99,8 @@ public class Schedule {
                 {
 			schedule.setId(rst.getInt(1));
                 }
-		//db.close(rst);
-                db.closeConnection();
+		db.close(rst);
+                db.close();
 	return 1;
 	} 
         catch (Exception e) {
@@ -112,14 +114,15 @@ public class Schedule {
     public int Update(Schedule sched) {
 	int rtn = 0;
 	try {
-		String sqlstr = "update schedule set studioId ='" + sched.getStudioId() + "', movieId = "
+		String sqlstr = "update schedule set theaterId ='" + sched.getTheaterId() + "', movieId = "
                         + sched.getMovieId() + ", schedTime = " + sched.getTime() + ", schedTicketPrice = '"
 			+ sched.getPrice() + "' ";
                 sqlstr += " where schedId = " + sched.getId();
 		Database db = new Database();
 		db.openConnection();
                 rtn = db.execCommand(sqlstr);
-		db.closeConnection();
+                db.close();
+		//db.closeConnection();
 	} 
         catch (Exception e) {
             //e.printStackTrace();
@@ -152,7 +155,7 @@ public class Schedule {
 	List<Schedule> stuList = null;
 	stuList = new LinkedList<Schedule>();
         try {
-            String sqlstr = "select schedId, studioId, playId, schedTime, schedTicketPrice from schedule ";	
+            String sqlstr = "select schedId, theaterId, movieId, schedTime, schedTicketPrice from schedule ";	
             condt.trim();
           
             if (!condt.isEmpty())
@@ -174,7 +177,7 @@ public class Schedule {
                     Schedule stu = new Schedule();	
                     
                     stu.setId(rst.getInt("schedId"));		
-                    stu.setStudioId(rst.getInt("studioId"));
+                    stu.setTheaterId(rst.getInt("theaterId"));
                     stu.setMovieId(rst.getInt("movieId"));		
                     stu.setTime(rst.getTimestamp("schedTime"));		
                     stu.setPrice(rst.getDouble("schedTicketPrice"));
@@ -183,9 +186,9 @@ public class Schedule {
                 }		
             }
 		
-            //db.close(rst);
+            db.close(rst);
 	
-            db.closeConnection();
+            db.close();
 		
         } catch (Exception e) {	
             //e.printStackTrace();

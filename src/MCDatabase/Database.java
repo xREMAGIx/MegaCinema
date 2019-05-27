@@ -69,7 +69,7 @@ public class Database {
         
         url="jdbc:mysql://localhost:3306/megacinema?autoReconnect=true&useSSL=false";
         username="root";
-        password="powerqwer";
+        password="remagi";
         
         if(connect==null)
         {
@@ -113,7 +113,7 @@ public class Database {
             Statement stmt = connect.createStatement();			
             stmt.executeUpdate(insertSql, Statement.RETURN_GENERATED_KEYS);
             rst = stmt.getGeneratedKeys();
-                
+            
 	} 
         catch (SQLException e) 
         {
@@ -137,7 +137,7 @@ public class Database {
         
             flag = stmt.executeUpdate(sql);
 				
-            //stmt.close();			
+            stmt.close();			
 	} 
         catch (SQLException e) {
             //e.printStackTrace();
@@ -180,5 +180,17 @@ public class Database {
             //e.printStackTrace();
             System.out.println(e.getMessage());
         }	
+    }
+    
+    public void close() throws SQLException, Exception{
+		
+        if(connect!=null){
+	
+            connect.close();
+	
+            connect=null;
+	
+        }
+	
     }
 }
