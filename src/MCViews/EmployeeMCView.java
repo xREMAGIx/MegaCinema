@@ -38,7 +38,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import  MCModels.Employee;
 import MCControllers.EmployeeController;
-//import me.lancer.cms.service.EmployeeSrv;
+
 
 class EmployeeTableMouseListener extends MouseAdapter {
 
@@ -135,7 +135,7 @@ public class EmployeeMCView extends JPanel {
 		btnAdd.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {
+				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {     //access != 1
 					EmployeeDialog playDialog = new EmployeeDialog(1);
 					playDialog.toFront();
 					playDialog.setModal(true);
@@ -167,7 +167,7 @@ public class EmployeeMCView extends JPanel {
 		btnEdit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {
+				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {        //access != 1
 					EmployeeDialog playDialog = new EmployeeDialog(3);
 					playDialog.toFront();
 					playDialog.setModal(true);
@@ -229,7 +229,7 @@ public class EmployeeMCView extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 		final int flag;
-		private int width = 400;
+		private int width = 600;
 		private int height = 400;
 		String accessList[] = { "Employee", "Manage", "Admin" }; // Nhân viên - Quản lí - Quản trị viên
 		private JPanel pan = new JPanel();
@@ -253,58 +253,58 @@ public class EmployeeMCView extends JPanel {
 
 			lblAccess = new JLabel("Permission : ");
 			lblAccess.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			lblAccess.setBounds(80, 30, 60, 30);
+			lblAccess.setBounds(80, 30, 100, 30);
 			pan.add(lblAccess);
 			cbxAccess = new JComboBox<String>(accessList);
-			cbxAccess.setBounds(140, 30, 120, 30);
+			cbxAccess.setBounds(200, 30, 250, 30);
 			pan.add(cbxAccess);
 
 			lblNo = new JLabel("Job number : ");
 			lblNo.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			lblNo.setBounds(80, 65, 60, 30);
+			lblNo.setBounds(80, 65, 100, 30);
 			pan.add(lblNo);
 			txtNo = new JTextField();
-			txtNo.setBounds(140, 65, 120, 30);
+			txtNo.setBounds(200, 65, 250, 30);
 			pan.add(txtNo);
 
 			lblName = new JLabel("Name : ");
 			lblName.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			lblName.setBounds(80, 100, 60, 30);
+			lblName.setBounds(80, 100, 100, 30);
 			pan.add(lblName);
 			txtName = new JTextField();
-			txtName.setBounds(140, 100, 120, 30);
+			txtName.setBounds(200, 100, 250, 30);
 			pan.add(txtName);
 
 			lblPassWord = new JLabel("Password : ");
 			lblPassWord.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			lblPassWord.setBounds(80, 135, 60, 30);
+			lblPassWord.setBounds(80, 135, 100, 30);
 			pan.add(lblPassWord);
 			txtPassWord = new JTextField();
-			txtPassWord.setBounds(140, 135, 120, 30);
+			txtPassWord.setBounds(200, 135, 250, 30);
 			pan.add(txtPassWord);
 
 			lblAddr = new JLabel("Address· : ");
 			lblAddr.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			lblAddr.setBounds(80, 170, 60, 30);
+			lblAddr.setBounds(80, 170, 100, 30);
 			pan.add(lblAddr);
 			txtAddr = new JTextField();
-			txtAddr.setBounds(140, 170, 120, 30);
+			txtAddr.setBounds(200, 170, 250, 30);
 			pan.add(txtAddr);
 
 			lblTel = new JLabel("Tell : ");
 			lblTel.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			lblTel.setBounds(80, 205, 60, 30);
+			lblTel.setBounds(80, 205, 100, 30);
 			pan.add(lblTel);
 			txtTel = new JTextField();
-			txtTel.setBounds(140, 205, 120, 30);
+			txtTel.setBounds(200, 205, 250, 30);
 			pan.add(txtTel);
 
 			lblEmail = new JLabel("Email : ");
 			lblEmail.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			lblEmail.setBounds(80, 240, 60, 30);
+			lblEmail.setBounds(80, 240, 100, 30);
 			pan.add(lblEmail);
 			txtEmail = new JTextField();
-			txtEmail.setBounds(140, 240, 120, 30);
+			txtEmail.setBounds(200, 240, 250, 30);
 			pan.add(txtEmail);
 
 			if (flag == 3 || flag == 4) {
@@ -318,7 +318,7 @@ public class EmployeeMCView extends JPanel {
 
 			btnYes = new JButton("Confirm");
 			btnYes.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			btnYes.setBounds(40, height - 80, 66, 30);
+			btnYes.setBounds(40, height - 80, 120, 30);
 			btnYes.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -339,7 +339,7 @@ public class EmployeeMCView extends JPanel {
 
 			btnNot = new JButton("Cancel");
 			btnNot.setFont(new Font("NewellsHand", Font.PLAIN, 16));
-			btnNot.setBounds(width - 106, height - 80, 66, 30);
+			btnNot.setBounds(width - 200, height - 80, 120, 30);
 			btnNot.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
@@ -368,7 +368,7 @@ public class EmployeeMCView extends JPanel {
 				emp.setEmail(txtEmail.getText());
 				new EmployeeController().add(emp);
 			} else {
-				JOptionPane.showMessageDialog(null, "Incomplete Data");
+				JOptionPane.showMessageDialog(null, "Incomplete Data !");
 			}
 		}
 
