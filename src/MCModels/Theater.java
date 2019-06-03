@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static java.sql.Types.NULL;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,19 +19,15 @@ import java.util.logging.Logger;
  * @author USER
  */
 public class Theater {
-    private int id;    
+    private int id;
     private int cinemaID;
-    private int managerID;
-    private String name;
-
-
+    private int Number;
     private int status;
 
-    public Theater(int id, int cinemaID, int managerID, String name, int status) {
+    public Theater(int id, int cinemaID, int Number, int status) {
         this.id = id;
         this.cinemaID = cinemaID;
-        this.managerID = managerID;
-        this.name = name;
+        this.Number = Number;
         this.status = status;
     }
 
@@ -47,14 +42,10 @@ public class Theater {
         return cinemaID;
     }
 
-    public int getManagerID() {
-        return managerID;
+    public int getNumber() {
+        return Number;
     }
 
-    public String getName() {
-        return name;
-    }
-    
     public int getStatus() {
         return status;
     }
@@ -67,12 +58,8 @@ public class Theater {
         this.cinemaID = cinemaID;
     }
 
-    public void setManagerID(int managerID) {
-        this.managerID = managerID;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
+    public void setNumber(int Number) {
+        this.Number = Number;
     }
 
     public void setStatus(int status) {
@@ -83,8 +70,8 @@ public class Theater {
 
         try {	
          
-            String sqlstr = "insert into theater(theaterCinema, theaterManagerID, theaterStatus) values( "
-                    + theater.getCinemaID() + ", " + theater.getManagerID() + ", " + theater.getStatus()	
+            String sqlstr = "insert into theater(theaterCinema, theaterNumber, theaterStatus) values( "
+                    + theater.getCinemaID() + ", " + theater.getNumber() + ", " + theater.getStatus()	
                     + " )";		
 
 
@@ -117,7 +104,7 @@ public class Theater {
 		
         try {		
             String sqlstr = "update theater set " + " theaterCinemaID = " + theater.getCinemaID()
-                    + ", theaterManager = " + theater.getManagerID() + ", theaterStatus = " + theater.getStatus();            
+                    + ", theaterManager = " + theater.getNumber() + ", theaterStatus = " + theater.getStatus();            
 
 
             //String sqlstr =" ";
@@ -186,14 +173,12 @@ public class Theater {
          
          while (rs.next()) {
             
-            int id = rs.getInt("theaterId");
-            //int cinemaID = rs.getInt("idcenema");
-            //int manaID = rs.getInt("idmana");
-            String name = rs.getString("theaterName");
-            //int gen = rs.getInt("status");
+            int id = rs.getInt("id");
+            int cinemaID = rs.getInt("idcenema");
+            int manaID = rs.getInt("idmana");
+            int gen = rs.getInt("status");
             
-            Theater t = new Theater (id, NULL, NULL, name, NULL);
-            //Theater t = new Theater (id, cinemaID, manaID, name, gen);
+            Theater t = new Theater (id, cinemaID, manaID, gen);
             temp.add(t);
             
         }

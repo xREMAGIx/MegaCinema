@@ -71,7 +71,7 @@ public class Cinema {
     public int Insert(Cinema cinema) {
 
         try {	
-            String sqlstr = "insert into cinema(cinemaName, cinemaLocation, cinemaStatus) values( '"
+            String sqlstr = "insert into cinema(cinemaId, cinemaName, cinemaLocation, status) values(" + cinema.getId() + ", '"
                     + cinema.getName() + "', '" + cinema.getLocation() + "', " + cinema.getStatus()	
                     + " )";		
 
@@ -82,9 +82,9 @@ public class Cinema {
         
             ResultSet rst = db.getInsertObjectIDs(sqlstr);
 	
-            if (rst != null && rst.first()) {	
-                cinema.setId(rst.getInt(1));		
-            }	
+//            if (rst != null && rst.first()) {	
+//                cinema.setId(rst.getInt(1));		
+//            }	
             
             
             db.close(rst);	
@@ -106,7 +106,7 @@ public class Cinema {
         try {		
 
             String sqlstr = "update cinema set " + " cinemaName = '" + cinema.getName()		                   
-                    + ", cinemaLocation = '" + cinema.getLocation() + "', cinemaStatus = " + cinema.getStatus();            
+                    + "', cinemaLocation = '" + cinema.getLocation() + "', status = " + cinema.getStatus();            
 
 
             //String sqlstr =" ";
@@ -159,7 +159,7 @@ public class Cinema {
         ResultSet rs = null;
         
         Database db = new Database();
-        ArrayList <Cinema> temp= new ArrayList <> (); 
+        List <Cinema> temp= new ArrayList <> (); 
 	
         try {
             Connection con = db.openConnection();
@@ -169,20 +169,16 @@ public class Cinema {
         {
             sql = "SELECT * FROM cinema";
             pst = con.prepareStatement(sql);
-            
-            
-            
-            
             rs = pst.executeQuery();
          
          while (rs.next()) {
             
-            int id = rs.getInt("id");
-            String cinemaID = rs.getString("cinemaName");
+            int id = rs.getInt("cinemaId");
+            String cinemaName = rs.getString("cinemaName");
             String cinemaLocation = rs.getString("cinemaLocation");
             int gen = rs.getInt("status");
             
-            Cinema t = new Cinema (id, cinemaID, cinemaLocation, gen);
+            Cinema t = new Cinema (id, cinemaName, cinemaLocation, gen);
             temp.add(t);
             
         }
@@ -192,7 +188,7 @@ public class Cinema {
         {
             System.out.println(e.getMessage());
         }
-        Theater[] array = temp.toArray(new Theater[temp.size()]);
+//        Theater[] array = temp.toArray(new Theater[temp.size()]);
         
         } catch (Exception ex) {
             Logger.getLogger(Theater.class.getName()).log(Level.SEVERE, null, ex);
@@ -235,6 +231,39 @@ public class Cinema {
             System.out.println(e.getMessage());		
         }	
         return rtn;	
+    }
+    
+    public int getNextID(){
+        int rtn = 0;
+	
+        try {	
+            String sqlstr = "SELECT cinemaId FROM cinema ORDER BY cinemaId DESC LIMIT 1";
+	
+//            sqlstr += " where cinemaId = " + ID;
+	
+            Database db = new Database();
+	
+            db.openConnection();
+	
+            rtn = db.execCommand(sqlstr);
+            
+            ResultSet rst = db.execQuery(sqlstr);
+	
+            if (rst != null) {
+	
+                while (rst.next()) {
+                return  rst.getInt("cinemaId")+1;
+				
+                }		
+            }
+	
+            //db.closeConnection();
+	
+        } catch (Exception e) {	
+            //e.printStackTrace();
+            System.out.println(e.getMessage());		
+        }	
+        return -1;
     }
     
 }
