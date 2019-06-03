@@ -57,7 +57,7 @@ public class ScheduleView extends javax.swing.JFrame {
       temp = theaterC.loadTheaters();
       for (int i=0; i<temp.size();i++)
       {
-          theaterList.add(temp.get(i).getName());
+          theaterList.add(Integer.toString(temp.get(i).getNumber()));
           //theaterIdList.add(temp.get(i).getId());
       }
       modelTheater = new ArrayListComboBoxModel((ArrayList<String>) theaterList);
