@@ -123,7 +123,7 @@ public class Employee {
             
             
             db.close(rst);	
-            //db.closeConnection();	
+            db.close();	
             return 1;
           	
         } catch (Exception e) {	
@@ -146,7 +146,7 @@ public class Employee {
 		Database  db = new Database ();
 		db.openConnection();
 		rtn = db.execCommand(sqlstr);
-		//db.closeConnection();
+		db.close();
             } catch (Exception e) {
 		e.printStackTrace();
                 System.out.println(e.getMessage());
@@ -163,7 +163,7 @@ public class Employee {
 		Database  db = new Database ();
 		db.openConnection();
 		rtn = db.execCommand(sqlstr);
-		//db.closeConnection();
+		db.close();
             } catch (Exception e) {
 		e.printStackTrace();
                 System.out.println(e.getMessage());	
@@ -200,7 +200,7 @@ public class Employee {
 				}
 			}
 			db.close(rst);
-			//db.closeConnection();
+			db.close();
 		} catch (Exception e) {
 			e.printStackTrace();
                         System.out.println(e.getMessage());
