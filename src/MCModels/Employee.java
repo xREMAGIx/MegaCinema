@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package MCModels;
 
 import MCDatabase.Database;
@@ -12,7 +7,7 @@ import java.util.List;
 
 /**
  *
- * @author Huynh Ha Vy
+ * @author JuliaHaVy
  */
 public class Employee {
 
@@ -106,7 +101,7 @@ public class Employee {
     }
       
     public void showValue() {
-		System.out.println("ID：" + id + "\t Name：" + name);
+		System.out.println("ID :" + id + "\t Name :" + name);
 	}
     
     
@@ -132,7 +127,7 @@ public class Employee {
             return 1;
           	
         } catch (Exception e) {	
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println(e.getMessage());	
 	
         }	
@@ -153,7 +148,7 @@ public class Employee {
 		rtn = db.execCommand(sqlstr);
 		//db.closeConnection();
             } catch (Exception e) {
-		//e.printStackTrace();
+		e.printStackTrace();
                 System.out.println(e.getMessage());
             }
             return rtn;
@@ -170,7 +165,7 @@ public class Employee {
 		rtn = db.execCommand(sqlstr);
 		//db.closeConnection();
             } catch (Exception e) {
-		//e.printStackTrace();
+		e.printStackTrace();
                 System.out.println(e.getMessage());	
 	}
             return rtn;
@@ -207,7 +202,7 @@ public class Employee {
 			db.close(rst);
 			//db.closeConnection();
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
                         System.out.println(e.getMessage());
 		} finally {
 
