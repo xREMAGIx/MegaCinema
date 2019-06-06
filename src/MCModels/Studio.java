@@ -10,5 +10,13 @@ package MCModels;
  * @author DELL
  */
 public class Studio {
+ 
+    private int id = 0;
+    private String name = "";
+    private int rowCount = 0;
+    private int colCount = 0;
+    private String intro = "";
+    private int studioFlag;
+    
     
 }

@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,93 +6,103 @@
  */
 package MCControllers;
 
-import MCDatabase.Database;
 import MCModels.Movie;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import java.util.List;
+
 /**
  *
  * @author USER
  */
-public class MovieController extends Movie{
-    Database db;
-    Connection con;
-    PreparedStatement pst;
-    
-    public MovieController()
-    {
-        super();
-        try {
-            db= new Database();
-            con = db.getConnection();
-        } catch (Exception ex) {
-            Logger.getLogger(UserController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public int updateMovie(int id, String a, String b, String c)
-    {
-        int res=0;
-        String sql="";
-        
-        try
-        {
-            sql="UPDATE movie SET Name = ?, Duration = ? , Genre = ? WHERE idmovie = ?";
-            pst=con.prepareStatement(sql);
-            
-            pst.setString(1, a);
-            pst.setString(2, b);
-            pst.setString(3, c);
-            pst.setInt(4, id);
-            
-            res = pst.executeUpdate();
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-        return res;
-    }
-    
-    public ArrayList <Movie> loadMovies(){
-        String sql=" ";
-        ResultSet rs = null;
-        
-        ArrayList <Movie> temp= new ArrayList <> (); 
-        try
-        {
-            sql = "SELECT * FROM movie";
-            pst = con.prepareStatement(sql);
-            
-            
-            
-            
-            rs = pst.executeQuery();
-         
-         while (rs.next()) {
-            
-            int movieID = rs.getInt("idmovie");
-            String name = rs.getString("Name");
-            String dur = rs.getString("Duration");
-            String gen = rs.getString("Genre");
-            
-            Movie t = new Movie (movieID, name, dur, gen);
-            temp.add(t);
-            
-        }
-                
-        }
-        catch(SQLException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        Movie[] array = temp.toArray(new Movie[temp.size()]);
-        return temp;
-    }
+public class MovieController {
+   
+   private final Movie movieM = new Movie();
+   
+//   public int Add(String name, int dur, int status)
+//   {
+//       Movie movie = new Movie();
+//       
+//       movie.setName(name);
+//       movie.setDuration(dur);
+//       movie.setStatus(status);
+//       
+//       return movieM.Insert(movie);
+//   }
+//   
+//   public int Modify(int id, String name, int dur, int status)
+//   {
+//       Movie movie = new Movie();
+//       
+//       movie.setId(id);
+//       movie.setName(name);
+//       movie.setDuration(dur);
+//       movie.setStatus(status);
+//              
+//       return movieM.Update(movie);     
+//   }
+//   
+//   public int Delete (int id)
+//   {
+//       return movieM.Delete(id);
+//   }
+//   
+//   public Object[][] SelectAll()
+//   {
+//       List <Movie> movieList = movieM.Select("");
+//
+//       int length=movieList.size()+1;
+//       
+//       System.out.println("length: "+length);
+//       
+//       Object[][] data = new Object[length][4];
+//       data[0][0]=length;
+//          
+//       for (int i=1; i<length; i++){
+//            data[i][0] = movieList.get(i-1).getId();
+//            data[i][1] = movieList.get(i-1).getName();
+//            data[i][2] = movieList.get(i-1).getDuration();
+//            data[i][3] = movieList.get(i-1).getStatus();       
+//            System.out.println(data[i][0]);
+//        }
+//        
+//       return data;
+//   }
+//   
+//   public List<Movie> SelectScheduledMovie(String condt)
+//   {
+//       return movieM.SelectScheduledMovie("");
+//   }
+//   
+    public int Add(String name, int dur, int status)
+   {
+       Movie movie = new Movie();
+       
+       movie.setName(name);
+       movie.setDuration(dur);
+       movie.setStatus(status);
+       
+       return movieM.Insert(movie);
+   }
+   
+   public int Modify(Movie movie)
+   {
+       return movieM.Update(movie);     
+   }
+   
+   public int Delete (int id)
+   {
+       return movieM.Delete(id);
+   }
+   
+   public List<Movie> SelectAll()
+   {
+       
+       return movieM.Select("");
+   }
+   
+   public List<Movie> SelectScheduledMovie(String condt)
+   {
+       return movieM.SelectScheduledMovie("");
+   }
+   
 }
