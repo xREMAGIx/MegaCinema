@@ -164,7 +164,9 @@ public class LoginMCView extends javax.swing.JFrame {
         if(res)
         {
             JOptionPane.showMessageDialog(null, "Login successful");
-            new MovieMCView().setVisible(true);
+
+            new mainForm().setVisible(true);
+
             this.dispose();
             
         }
@@ -176,7 +178,7 @@ public class LoginMCView extends javax.swing.JFrame {
 
     private void kSignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kSignUpBtnActionPerformed
         // TODO add your handling code here:
-        //new SignUpMCView().setVisible(true); // SẼ FIX LỖI NÀY SAU !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        new SignUpMCView().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_kSignUpBtnActionPerformed
 
@@ -231,7 +233,7 @@ public class LoginMCView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                //new SignUpMCView().setVisible(true); // SẼ FIX LỖI NÀY SAU !!!!!!!!!!!!!!!!!!!!!!!!!!!
+                new SignUpMCView().setVisible(true);
             }
         });
     }
