@@ -18,4 +18,8 @@ public class UnitController {
      public List <Unit> loadUnit(){
         return unitM.Select("");
     }
+     
+     public String IDtoName( int id){
+        return unitM.IDtoName(id);
+    }
 }

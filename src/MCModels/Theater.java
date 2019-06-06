@@ -23,12 +23,16 @@ public class Theater {
     private int cinemaID;
     private int Number;
     private int status;
+    private int Row;
+    private int Collum;
 
-    public Theater(int id, int cinemaID, int Number, int status) {
+    public Theater(int id, int cinemaID, int Number, int status, int row, int collum) {
         this.id = id;
         this.cinemaID = cinemaID;
         this.Number = Number;
         this.status = status;
+        this.Row = row;
+        this.Collum = collum;
     }
 
     public Theater() {
@@ -50,6 +54,15 @@ public class Theater {
         return status;
     }
 
+    public int getRow() {
+        return Row;
+    }
+
+    public int getCollum() {
+        return Collum;
+    }
+    
+
     public void setId(int id) {
         this.id = id;
     }
@@ -65,12 +78,22 @@ public class Theater {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public void setRow(int Row) {
+        this.Row = Row;
+    }
+
+    public void setCollum(int Collum) {
+        this.Collum = Collum;
+    }
+    
+    
     
     public int Insert(Theater theater) {
 
         try {	
          
-            String sqlstr = "insert into theater(theaterCinema, theaterNumber, theaterStatus) values( "
+            String sqlstr = "insert into theater(cinemaId, Number, Status) values( "
                     + theater.getCinemaID() + ", " + theater.getNumber() + ", " + theater.getStatus()	
                     + " )";		
 
@@ -103,8 +126,8 @@ public class Theater {
         int rtn = 0;
 		
         try {		
-            String sqlstr = "update theater set " + " theaterCinemaID = " + theater.getCinemaID()
-                    + ", theaterManager = " + theater.getNumber() + ", theaterStatus = " + theater.getStatus();            
+            String sqlstr = "update theater set " + " cinemaId = " + theater.getCinemaID()
+                    + ", Number = " + theater.getNumber() + ", Status = " + theater.getStatus();            
 
 
             //String sqlstr =" ";
@@ -174,11 +197,13 @@ public class Theater {
          while (rs.next()) {
             
             int id = rs.getInt("id");
-            int cinemaID = rs.getInt("idcenema");
-            int manaID = rs.getInt("idmana");
-            int gen = rs.getInt("status");
+            int cinemaID = rs.getInt("cinemaId");
+            int num = rs.getInt("Number");
+            int gen = rs.getInt("Status");
+            int row = rs.getInt("Row");
+            int col = rs.getInt("Collum");
             
-            Theater t = new Theater (id, cinemaID, manaID, gen);
+            Theater t = new Theater (id, cinemaID, num, gen, row, col);
             temp.add(t);
             
         }

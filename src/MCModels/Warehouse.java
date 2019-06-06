@@ -173,4 +173,37 @@ public class Warehouse {
         }	
         return rtn;	
     }
+    
+    public int getNextID(){
+        int rtn = 0;
+	
+        try {	
+            String sqlstr = "SELECT Id FROM warehouse ORDER BY Id DESC LIMIT 1";
+	
+//            sqlstr += " where cinemaId = " + ID;
+	
+            Database db = new Database();
+	
+            db.openConnection();
+	
+            rtn = db.execCommand(sqlstr);
+            
+            ResultSet rst = db.execQuery(sqlstr);
+	
+            if (rst != null) {
+	
+                while (rst.next()) {
+                return  rst.getInt("Id")+1;
+				
+                }		
+            }
+	
+            //db.closeConnection();
+	
+        } catch (Exception e) {	
+            //e.printStackTrace();
+            System.out.println(e.getMessage());		
+        }	
+        return -1;
+    }
 }

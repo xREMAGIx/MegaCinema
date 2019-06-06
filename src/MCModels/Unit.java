@@ -93,4 +93,40 @@ public class Unit {
         return temp;	
     }
     
+    public String IDtoName(int ID) {
+	
+        String rtn = "";
+	
+        try {	
+            String sqlstr = "select Name from unit ";
+	
+            sqlstr += " where id = " + ID;
+	
+            Database db = new Database();
+	
+            db.openConnection();
+	
+            
+            
+            ResultSet rst = db.execQuery(sqlstr);
+	
+            if (rst != null) {
+	
+                while (rst.next()) {
+		
+                rtn =  rst.getString("Name");
+		
+                }
+		
+            }
+	
+            //db.closeConnection();
+	
+        } catch (Exception e) {	
+            //e.printStackTrace();
+            System.out.println(e.getMessage());		
+        }	
+        return rtn;	
+    }
+    
 }

@@ -11,7 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,60 +20,69 @@ import java.util.logging.Logger;
  *
  * @author USER
  */
-public class Cinema {
+public class FoodDetail {
     private int id;
-    private String Name;
-    private String Location;
-    private int Status;
+    private int billId;
+    private int productId;
+    private int Price;
+    private int Quantity;
 
-    public Cinema(int id, String Name, String Location, int Status) {
-        this.id = id;
-        this.Name = Name;
-        this.Location = Location;
-        this.Status = Status;
+    public FoodDetail() {
     }
 
-    public Cinema() {
+    public FoodDetail(int id, int billId, int productId, int Price, int Quantity) {
+        this.id = id;
+        this.billId = billId;
+        this.productId = productId;
+        this.Price = Price;
+        this.Quantity = Quantity;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getName() {
-        return Name;
+    public int getBillId() {
+        return billId;
     }
 
-    public String getLocation() {
-        return Location;
+    public int getProductId() {
+        return productId;
     }
 
-    public int getStatus() {
-        return Status;
+    public int getPrice() {
+        return Price;
+    }
+
+    public int getQuantity() {
+        return Quantity;
     }
 
     public void setId(int id) {
         this.id = id;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
+    public void setBillId(int billId) {
+        this.billId = billId;
     }
 
-    public void setLocation(String Location) {
-        this.Location = Location;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
-    public void setStatus(int Status) {
-        this.Status = Status;
+    public void setPrice(int Price) {
+        this.Price = Price;
+    }
+
+    public void setQuantity(int Quantity) {
+        this.Quantity = Quantity;
     }
     
-    public int Insert(Cinema cinema) {
+    public int Insert(FoodDetail fooddetail) {
 
         try {	
-            String sqlstr = "insert into cinema(cinemaId, cinemaName, cinemaLocation, status) values(" + cinema.getId() + ", '"
-                    + cinema.getName() + "', '" + cinema.getLocation() + "', " + cinema.getStatus()	
-                    + " )";		
+            String sqlstr = "insert into fooddetail (Id, billId, productId, Price, Quantity) values(" + fooddetail.getId() + ", "
+                    + fooddetail.getBillId() + ", " + fooddetail.getProductId() + ", " + fooddetail.getPrice() + ", " + fooddetail.getQuantity() + " )";		
 
 
             Database db = new Database();
@@ -83,7 +92,7 @@ public class Cinema {
             ResultSet rst = db.getInsertObjectIDs(sqlstr);
 	
 //            if (rst != null && rst.first()) {	
-//                cinema.setId(rst.getInt(1));		
+//                fooddetail.setId(rst.getInt(1));		
 //            }	
             
             
@@ -99,19 +108,19 @@ public class Cinema {
         return 0;	
     }
     
-    public int Update(Cinema cinema) {
+    public int Update(FoodDetail fooddetail) {
 		
         int rtn = 0;
 		
         try {		
 
-            String sqlstr = "update cinema set " + " cinemaName = '" + cinema.getName()		                   
-                    + "', cinemaLocation = '" + cinema.getLocation() + "', status = " + cinema.getStatus();            
+            String sqlstr = "update fooddetail set Id = " + fooddetail.getId() + ", billId = " + fooddetail.getBillId()
+                    + ", productId = " + fooddetail.getProductId() + ", Price = " + fooddetail.getPrice() + ", Quantity = " + fooddetail.getQuantity();            
 
 
             //String sqlstr =" ";
             
-            sqlstr += " where cinemaId = " + cinema.getId();
+            sqlstr += " where Id = " + fooddetail.getId();
 	
             Database db = new Database();
 	
@@ -133,9 +142,9 @@ public class Cinema {
         int rtn = 0;
 	
         try {	
-            String sqlstr = "delete from cinema ";
+            String sqlstr = "delete from fooddetail ";
 	
-            sqlstr += " where cinemaId = " + ID;
+            sqlstr += " where billId = " + ID;
 	
             Database db = new Database();
 	
@@ -153,13 +162,13 @@ public class Cinema {
     }
     
     
-    public List<Cinema> Select(String condt) {
+    public List<FoodDetail> Select(String condt) {
 
         String sql=" ";
         ResultSet rs = null;
         
         Database db = new Database();
-        List <Cinema> temp= new ArrayList <> (); 
+        List <FoodDetail> temp= new ArrayList <> (); 
 	
         try {
             Connection con = db.openConnection();
@@ -167,18 +176,19 @@ public class Cinema {
         
         try
         {
-            sql = "SELECT * FROM cinema";
+            sql = "SELECT * FROM fooddetail";
             pst = con.prepareStatement(sql);
             rs = pst.executeQuery();
          
          while (rs.next()) {
             
-            int id = rs.getInt("cinemaId");
-            String cinemaName = rs.getString("cinemaName");
-            String cinemaLocation = rs.getString("cinemaLocation");
-            int gen = rs.getInt("status");
+            int id = rs.getInt("Id");
+            int billid = rs.getInt("billId");
+            int productid = rs.getInt("productId");
+            int price = rs.getInt("Price");
+            int quan = rs.getInt("Quantity");
             
-            Cinema t = new Cinema (id, cinemaName, cinemaLocation, gen);
+            FoodDetail t = new FoodDetail (id, billid, productid, price, quan); 
             temp.add(t);
             
         }
@@ -197,47 +207,11 @@ public class Cinema {
         return temp;	
     }
     
-    public String IDtoName(int ID) {
-	
-        String rtn = "";
-	
-        try {	
-            String sqlstr = "select CinemaName from cinema ";
-	
-            sqlstr += " where cinemaId = " + ID;
-	
-            Database db = new Database();
-	
-            db.openConnection();
-	
-            
-            
-            ResultSet rst = db.execQuery(sqlstr);
-	
-            if (rst != null) {
-	
-                while (rst.next()) {
-		
-                rtn =  rst.getString("cinemaName");
-		
-                }
-		
-            }
-	
-            //db.closeConnection();
-	
-        } catch (Exception e) {	
-            //e.printStackTrace();
-            System.out.println(e.getMessage());		
-        }	
-        return rtn;	
-    }
-    
-    public int getNextID(){
+     public int getNextID(){
         int rtn = 0;
 	
         try {	
-            String sqlstr = "SELECT cinemaId FROM cinema ORDER BY cinemaId DESC LIMIT 1";
+            String sqlstr = "SELECT Id FROM fooddetail ORDER BY Id DESC LIMIT 1";
 	
 //            sqlstr += " where cinemaId = " + ID;
 	
@@ -252,7 +226,7 @@ public class Cinema {
             if (rst != null) {
 	
                 while (rst.next()) {
-                return  rst.getInt("cinemaId")+1;
+                return  rst.getInt("Id")+1;
 				
                 }		
             }
@@ -265,5 +239,4 @@ public class Cinema {
         }	
         return -1;
     }
-    
 }

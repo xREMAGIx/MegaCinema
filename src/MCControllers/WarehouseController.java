@@ -44,4 +44,8 @@ public class WarehouseController {
     public List <Warehouse> loadWarehouses(){
         return warehouseM.Select("");
     }
+    
+    public int getNextID(){
+        return warehouseM.getNextID();
+    }
 }
