@@ -7,6 +7,7 @@ package MCViews;
 
 import MCControllers.BillFoodController;
 import MCControllers.CinemaController;
+import MCControllers.SellReportController;
 import MCControllers.StorageController;
 import MCControllers.UnitController;
 import MCControllers.WarehouseController;
@@ -14,6 +15,7 @@ import MCModels.ArrayListComboBoxModel;
 import MCModels.BillFood;
 import MCModels.Cinema;
 import MCModels.FoodDetail;
+import MCModels.SellReport;
 import MCModels.Storage;
 import MCModels.Warehouse;
 import java.awt.event.ActionEvent;
@@ -33,16 +35,19 @@ import javax.swing.table.DefaultTableModel;
 public class SellProductMCView extends javax.swing.JFrame {
 
     FoodDetail fc = new FoodDetail();
+    private BillFood bill = new BillFood();
+    
     StorageController sc = new StorageController();
     CinemaController cinemaC = new CinemaController();
     UnitController uc = new UnitController();
     BillFoodController bc = new BillFoodController();
+    SellReportController rc = new SellReportController();
     
     private List<String> cinemaList = new ArrayList<>();
     private List<String> productList = new ArrayList<>();
     private List<String> warehouseList = new ArrayList<>();
     private List<FoodDetail> purchaseList = new ArrayList<>();
-    private BillFood bill = new BillFood();
+    
     
     private ArrayListComboBoxModel modelCinema;
     private ArrayListComboBoxModel modelProduct;
@@ -277,16 +282,30 @@ public class SellProductMCView extends javax.swing.JFrame {
 
     private void btCheckoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCheckoutActionPerformed
         // TODO add your handling code here:
-        
+        SellReport report = new SellReport();
+        report.setId(rc.getNextID());
+        report.setCinemaId(cbCinema.getSelectedIndex() + 1);
+        report.setProductTotal(Integer.parseInt(txtTotal.getText()));
+              
         for (int i=0; i<purchaseList.size();i++)
       {
+          sc.AddQuantity(cbProduct.getSelectedIndex() + 1, cbCinema.getSelectedIndex() +1,  - purchaseList.get(i).getQuantity());
           fc.Insert(purchaseList.get(i));
+          
       }
         SimpleDateFormat pFormatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+        SimpleDateFormat pFormatter2=new SimpleDateFormat("yyyy-MM-dd");
         
         String datetime ="";
         datetime+=dtTime.datePicker.getDateStringOrEmptyString()+" ";
-       datetime+=dtTime.timePicker.getTimeStringOrEmptyString()+":00";
+        
+        try {
+            report.setReportDay(pFormatter2.parse(datetime));
+        } catch (ParseException ex) {
+            Logger.getLogger(SellProductMCView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        datetime+=dtTime.timePicker.getTimeStringOrEmptyString()+":00";
         
         try {
             bill.setTime(pFormatter.parse(datetime));
@@ -294,6 +313,13 @@ public class SellProductMCView extends javax.swing.JFrame {
             Logger.getLogger(SellProductMCView.class.getName()).log(Level.SEVERE, null, ex);
         }
         bc.insertBillFood(bill.getId(), cbCinema.getSelectedIndex() + 1 , bill.getTime(), Integer.parseInt(txtTotal.getText()));
+        
+        if (rc.getCurDayID(report.getReportDay()) != -1){
+            rc.updateSellReport(rc.getCurDayID(report.getReportDay()), report.getProductTotal(), 0);
+        } else {
+            rc.insertSellReport(report.getId(), report.getCinemaId(), report.getReportDay(), report.getProductTotal(), 0);
+        }
+        
     }//GEN-LAST:event_btCheckoutActionPerformed
 
     /**
