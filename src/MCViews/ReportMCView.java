@@ -7,6 +7,8 @@ package MCViews;
 
 import MCControllers.SellReportController;
 import MCModels.SellReport;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -22,6 +24,7 @@ import javax.swing.JOptionPane;
 import org.jfree.ui.ApplicationFrame;
 
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import jxl.Workbook;
 import jxl.write.Label;
@@ -45,6 +48,14 @@ import org.jfree.ui.RefineryUtilities;
 class PieChart_AWT extends ApplicationFrame{
     public PieChart_AWT( String title, int product, int ticket ) {
       super( title ); 
+      setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+//      addWindowListener(new WindowAdapter(){
+//          @Override
+//            public void windowClosing(WindowEvent e) {
+//                setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+//                
+//            }
+//      } );
       setContentPane(createDemoPanel(product,ticket));
    }
    
@@ -69,7 +80,8 @@ class PieChart_AWT extends ApplicationFrame{
    }
    
    public static JPanel createDemoPanel( int product, int ticket ) {
-      JFreeChart chart = createChart(createDataset(product, ticket) );  
+      JFreeChart chart = createChart(createDataset(product, ticket) );
+      
       return new ChartPanel( chart ); 
    }
 
@@ -115,7 +127,7 @@ public class ReportMCView extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtTotal = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         btOK.setText("OK");
         btOK.addActionListener(new java.awt.event.ActionListener() {
@@ -214,12 +226,13 @@ public class ReportMCView extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)))
+                        .addComponent(jLabel3))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,9 +277,11 @@ public class ReportMCView extends javax.swing.JFrame {
         }
         txtTotal.setText(Integer.toString(Integer.parseInt(txtProduct.getText())+ Integer.parseInt(txtTicket.getText())));
         
-      PieChart_AWT demo = new PieChart_AWT( "Total Sales", Integer.parseInt(txtProduct.getText()), Integer.parseInt(txtTicket.getText()));  
-      demo.setSize( 560 , 367 );    
-      RefineryUtilities.centerFrameOnScreen( demo );    
+      PieChart_AWT demo = new PieChart_AWT( "Total Sales", Integer.parseInt(txtProduct.getText()), Integer.parseInt(txtTicket.getText())); 
+   
+      demo.setSize( 560 , 367 );   
+      demo.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+      RefineryUtilities.centerFrameOnScreen( demo );  
       demo.setVisible( true );
     }//GEN-LAST:event_btOKActionPerformed
 
