@@ -66,9 +66,15 @@ import MCControllers.SaleItemController;
 import MCControllers.SaleController;
 import MCControllers.ScheduleController;
 import MCControllers.SeatController;
+import MCControllers.SellReportController;
 import MCControllers.SellTicketController;
 import MCControllers.TheaterController;
 import MCControllers.TicketController;
+import MCModels.SellReport;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class PlayTreeCellRenderer extends DefaultTreeCellRenderer {
 
@@ -348,7 +354,7 @@ public class SeatView extends JPanel {
             }
 
             if (ticketC.Select("schedId = " + sched.getId()).size() != 0) {
-          
+
                 for (Ticket item : ticketC.Select("schedId = " + sched.getId())) {
                     int i = new SeatController().select("seatId=" + item.getSeatId()).get(0).getRow();
                     int j = new SeatController().select("seatId=" + item.getSeatId()).get(0).getColumn();
@@ -478,14 +484,13 @@ public class SeatView extends JPanel {
 //
 //            });
 //            pan.add(btnBye);
-
             btnEdit = new JButton("Edit");
             btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 16));
             btnEdit.setBounds(420, height - 100, 100, 30);
             btnEdit.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (new EmployeeController().select("id=" + empId).get(0).getAccess() != 1) {
+                    if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) {
                         btnEditClicked(seat, cbxFlag.getSelectedIndex() - 1);
                     } else {
                         JOptionPane.showMessageDialog(null, "Permission denied!");
@@ -561,8 +566,35 @@ public class SeatView extends JPanel {
                 sale.setPayment(Float.parseFloat(txtPayment.getText()));
                 System.out.println(sellTicket.getInfo());
                 JOptionPane.showMessageDialog(null, sellTicket.getInfo());
-                sellTicket.doSale(sale);
+                
+                int totalPrice = sellTicket.doSale(sale);
                 rst = 0;
+
+                SellReportController rc = new SellReportController();
+
+                SellReport report = new SellReport();
+                report.setId(rc.getNextID());
+                //report.setCinemaId(cbCinema.getSelectedIndex() + 1);
+                report.setTicketTotal(totalPrice);
+
+                SimpleDateFormat pFormatter2 = new SimpleDateFormat("yyyy-MM-dd");
+
+                //String datetime = "";
+                //datetime += dtTime.datePicker.getDateStringOrEmptyString() + " ";
+                String todayDate = pFormatter2.format(new Date());
+
+                try {
+                    report.setReportDay(pFormatter2.parse(todayDate));
+                } catch (ParseException ex) {
+                    Logger.getLogger(SellProductMCView.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                if (rc.getCurDayID(report.getReportDay()) != -1) {
+                    rc.updateSellReport(rc.getCurDayID(report.getReportDay()), 0, report.getTicketTotal());
+                } else {
+                    rc.insertSellReport(report.getId(), report.getCinemaId(), report.getReportDay(), 0, report.getTicketTotal());
+                }
+
             } else {
                 JOptionPane.showMessageDialog(null, "Please enter your payment first");
                 rst = -1;

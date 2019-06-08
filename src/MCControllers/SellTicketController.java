@@ -102,11 +102,12 @@ public class SellTicketController {
         makeNewSale();
     }
 
-    public boolean doSale(Sale sale) {
+    public int doSale(Sale sale) {
         if (new SaleController().doSale(ticketList, sale)) {
+            int totalPrice = (int) sale.getPayment();
             makeNewSale();
-            return true;
+            return totalPrice;
         }
-        return false;
+        return 0;
     }
 }

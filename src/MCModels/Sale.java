@@ -86,6 +86,16 @@ public class Sale {
     }
 
     float prices = 0;
+
+    public float getPrices() {
+        return prices;
+    }
+
+    public void setPrices(float prices) {
+        this.prices = prices;
+    }
+    
+    
     Connection con;
     Database db;
 

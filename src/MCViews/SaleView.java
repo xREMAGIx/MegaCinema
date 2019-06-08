@@ -58,7 +58,7 @@ class SaleTableMouseListener extends MouseAdapter {
     public void mouseClicked(MouseEvent event) {
         int row = table.getSelectedRow();
         sale.setId(Integer.parseInt(table.getValueAt(row, 0).toString()));
-        sale.setEmpId(new EmployeeController().select("name like '%" +table.getValueAt(row, 1).toString()+ "%'").get(0).getId());
+        sale.setEmpId(new EmployeeController().Fetch("name like '%" +table.getValueAt(row, 1).toString()+ "%'").get(0).getId());
         sale.setTime(Timestamp.valueOf(table.getValueAt(row, 2).toString()));
         sale.setPayment(Float.parseFloat(table.getValueAt(row, 3).toString()));
         sale.setChange(Float.parseFloat(table.getValueAt(row, 4).toString()));
@@ -84,7 +84,7 @@ class SaleTable {
             while (itr.hasNext()) {
                 Sale item = itr.next();
                 data[i][0] = Integer.toString(item.getId());
-                data[i][1] = new EmployeeController().select("id=" + item.getEmpId()).get(0).getName();
+                data[i][1] = new EmployeeController().Fetch("id=" + item.getEmpId()).get(0).getName();
                 data[i][2] = item.getTime();
                 data[i][3] = Float.toString(item.getPayment());
                 data[i][4] = Float.toString(item.getChange());
@@ -267,7 +267,7 @@ public class SaleView extends JPanel {
             pan.add(txtStatus);
 
             if (flag == 2) {
-                txtEmployee.setText(new EmployeeController().select("id=" + sale.getEmpId()).get(0).getName());
+                txtEmployee.setText(new EmployeeController().Fetch("id=" + sale.getEmpId()).get(0).getName());
                 txtTime.setText(sale.getTime().toString());
                 txtPayment.setText(Float.toString(sale.getPayment()));
                 txtChange.setText(Float.toString(sale.getChange()));
@@ -312,13 +312,13 @@ public class SaleView extends JPanel {
         private void btnQueryClicked() {
             String sql = "";
             if (txtEmployee.getText().length() > 0) {
-                sale.setEmpId(new EmployeeController().select("name='" + txtEmployee.getText() + "'").get(0).getId());
+                sale.setEmpId(new EmployeeController().Fetch("name='" + txtEmployee.getText() + "'").get(0).getId());
                 if (sql.equals("")) {
                     sql += " id="
-                            + new EmployeeController().select("name='" + txtEmployee.getText() + "'").get(0).getId();
+                            + new EmployeeController().Fetch("name='" + txtEmployee.getText() + "'").get(0).getId();
                 } else {
                     sql += " and id="
-                            + new EmployeeController().select("name='" + txtEmployee.getText() + "'").get(0).getId();
+                            + new EmployeeController().Fetch("name='" + txtEmployee.getText() + "'").get(0).getId();
                 }
             }
             if (txtTime.getText().length() > 0) {
@@ -371,7 +371,7 @@ public class SaleView extends JPanel {
         }
 
         private void btnDelClicked() {
-            sale.setEmpId(new EmployeeController().select("name=" + txtEmployee.getText()).get(0).getId());
+            sale.setEmpId(new EmployeeController().Fetch("name=" + txtEmployee.getText()).get(0).getId());
             sale.setTime(Timestamp.valueOf(txtTime.getText()));
             sale.setStatus(-1);
             new SaleController().modify(sale);

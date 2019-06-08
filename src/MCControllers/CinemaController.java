@@ -13,37 +13,39 @@ import java.util.List;
  *
  * @author USER
  */
-public class CinemaController extends Cinema{
+public class CinemaController extends Cinema {
+
     private final Cinema cinemaM = new Cinema();
-    
-  
-    
-    public int insertCinema(int id, String name, String location, int status)
-    {
-        Cinema cinema = new Cinema();
-        cinema.setName(name);
-        cinema.setLocation(location);
-        cinema.setStatus(status);
-        
-        return cinemaM.Insert(cinema);
-    }
-    
-    public int updateCinema(int id, String name, String location, int status)
-    {
+
+    public int insertCinema(int id, String name, String location, int status) {
         Cinema cinema = new Cinema();
         cinema.setId(id);
         cinema.setName(name);
         cinema.setLocation(location);
         cinema.setStatus(status);
-        return cinemaM.Update(cinema); 
+
+        return cinemaM.Insert(cinema);
     }
-    
-    public int deleteCinema (int id){
+
+    public int updateCinema(int id, String name, String location, int status) {
+        Cinema cinema = new Cinema();
+        cinema.setId(id);
+        cinema.setName(name);
+        cinema.setLocation(location);
+        cinema.setStatus(status);
+        return cinemaM.Update(cinema);
+    }
+
+    public int deleteCinema(int id) {
         return cinemaM.Delete(id);
-        
+
     }
-    
-    public List <Cinema> loadCinemas(){
+
+    public List<Cinema> loadCinemas() {
         return cinemaM.Select("");
+    }
+
+    public int getNextID() {
+        return cinemaM.getNextID();
     }
 }

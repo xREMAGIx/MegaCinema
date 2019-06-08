@@ -5,35 +5,40 @@
  */
 package MCControllers;
 
+/**
+ *
+ * @author Huynh Ha Vy
+ */
+
+
 import MCModels.Employee;
 import java.util.List;
 
-/**
- *
- * @author DELL
- */
 public class EmployeeController {
- 
-    	private Employee empM = new Employee();
+    
+    private final Employee emp = new Employee();
 
 	public int add(Employee emp) {
-		return empM.insert(emp);
+		return emp.insert(emp);
 	}
 
 	public int modify(Employee emp) {
-		return empM.update(emp);
+		return emp.update(emp);
 	}
 
 	public int delete(int id) {
-		return empM.delete(id);
+		return emp.delete(id);
 	}
 
-	public List<Employee> select(String condt) {
-		return empM.select(condt);
+	public List<Employee> Fetch(String condt) {
+		return emp.select(condt);
 	}
 
-	public List<Employee> selectAll() {
-		return empM.select("");
+	public List<Employee> FetchAll() {
+		return emp.select("");
 	}
-    
 }
+
+
+
+
