@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import java.util.logging.Logger;
  * @author USER
  */
 public class Status {
+
     private int id;
     private String name;
 
@@ -30,7 +32,6 @@ public class Status {
         this.id = id;
         this.name = name;
     }
-    
 
     public int getId() {
         return id;
@@ -47,50 +48,57 @@ public class Status {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public List<Status> Select(String condt) {
 
-        String sql=" ";
-        ResultSet rs = null;
-        
-        Database db = new Database();
-        ArrayList <Status> temp= new ArrayList <> (); 
-	
+        List<Status> statusList = null;
+
+        statusList = new LinkedList<Status>();
+
         try {
-            Connection con = db.openConnection();
-             PreparedStatement pst;
-        
-        try
-        {
-            sql = "SELECT * FROM status";
-            pst = con.prepareStatement(sql);
-            
-            
-            
-            
-            rs = pst.executeQuery();
-         
-         while (rs.next()) {
-            
-            int id = rs.getInt("id");
-            String name = rs.getString("Name");
-            
-            Status t = new Status (id, name);
-            temp.add(t);
-            
-        }
-                
-        }
-        catch(SQLException e)
-        {
+
+            String sqlstr = "select statusId, statusName from status ";
+
+            condt.trim();
+
+            if (!condt.isEmpty()) {
+                sqlstr += " where " + condt;
+            }
+
+            Database db = new Database();
+
+            db.openConnection();
+
+            if (db.openConnection() == null) {
+                return null;
+            }
+//	
+            ResultSet rst = db.execQuery(sqlstr);
+
+            if (rst != null) {
+
+                while (rst.next()) {
+
+                    Status status = new Status();
+
+                    status.setId(rst.getInt("statusId"));
+
+                    status.setName(rst.getString("statusName"));
+
+                    statusList.add(status);
+                }
+            }
+
+            db.close(rst);
+            db.close();
+            //db.closeConnection();
+
+        } catch (Exception e) {
+            //e.printStackTrace();
             System.out.println(e.getMessage());
+
         }
-        Status[] array = temp.toArray(new Status[temp.size()]);
-        
-        } catch (Exception ex) {
-            Logger.getLogger(Theater.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return temp;	
+
+        return statusList;
     }
 }

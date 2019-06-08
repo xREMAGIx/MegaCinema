@@ -30,6 +30,10 @@ public class Database {
 //        username="root";
 //        password="root";
 //    }
+
+    public Connection getConnect() {
+        return connect;
+    }
     
     protected static void loadJDBCDriver() throws Exception
     {
@@ -46,26 +50,6 @@ public class Database {
     
     public Connection openConnection() throws Exception
     {
-        //loading driver
-//        try
-//        {
-//            Class.forName("com.mysql.jdbc");
-//        }
-//        catch(Exception e)
-//        {
-//            System.out.println(e.getMessage());
-//        }
-//                
-//        try
-//        {
-//            con = DriverManager.getConnection(url,username,password);
-//        }
-//        catch(Exception e)
-//        {
-//            System.out.println(e.getMessage());
-//        }        
-//        return con;
-        //Connection connect = null;
         
         url="jdbc:mysql://localhost:3306/megacinema?autoReconnect=true&useSSL=false";
         username="root";

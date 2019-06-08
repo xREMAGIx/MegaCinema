@@ -5,34 +5,35 @@
  */
 package MCControllers;
 
-import MCDatabase.Database;
+
 import MCModels.Seat;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import MCViews.LoginMCView;
+import java.util.List;
+
 /**
  *
  * @author USER
  */
-public class SeatController extends Seat{
-    Database db;
-    Connection con;
-    PreparedStatement pst;
-    
-    public SeatController()
-    {
-        super();
-        try {
-            db= new Database();
-            con = db.openConnection();
-        } catch (Exception ex) {
-            Logger.getLogger(SeatController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
+public class SeatController {
+  	private Seat seatM = new Seat();
+	
+	public int add(Seat seat){
+		return seatM.insert(seat); 		
+	}
+	
+	public int modify(Seat seat){
+		return seatM.update(seat); 		
+	}
+	
+	public int delete(int ID){
+		return seatM.delete(ID); 		
+	}
+	
+	public List<Seat> select(String condt){
+		return seatM.select(condt);		
+	}
+	
+	public List<Seat> selectAll(){
+		return seatM.select("");		
+	}
+	
 }
