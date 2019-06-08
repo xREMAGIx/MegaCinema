@@ -24,20 +24,24 @@ public class TheaterController extends Theater {
 
     private final Theater theaterM = new Theater();
 
+
     public int insertTheater(int id, int idcinema, int idmanager, int status) {
+
         Theater theater = new Theater();
         theater.setCinemaID(idcinema);
-        theater.setManagerID(idmanager);
+        theater.setNumber(number);
         theater.setStatus(status);
 
         return theaterM.Insert(theater);
     }
 
+
     public int updateTheater(int id, int idcinema, int idmanager, int status) {
+
         Theater theater = new Theater();
         theater.setId(id);
         theater.setCinemaID(idcinema);
-        theater.setManagerID(idmanager);
+        theater.setNumber(number);
         theater.setStatus(status);
         return theaterM.Update(theater);
     }

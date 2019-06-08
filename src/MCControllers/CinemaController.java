@@ -46,6 +46,7 @@ public class CinemaController extends Cinema {
     }
 
     public int getNextID() {
+
         return cinemaM.getNextID();
     }
 }

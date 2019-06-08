@@ -5,11 +5,17 @@
  */
 package MCViews;
 
+import MCControllers.CinemaController;
 import MCControllers.MovieController;
+import MCControllers.StatusController;
 import MCControllers.TheaterController;
+import MCModels.ArrayListComboBoxModel;
+import MCModels.Cinema;
 import MCModels.Movie;
+import MCModels.Status;
 import MCModels.Theater;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -17,18 +23,50 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author USER
  */
-public class TheaterMCView extends javax.swing.JFrame {
+public final class TheaterMCView extends javax.swing.JFrame {
 
     /**
      * Creates new form TheaterMCView
      */
     TheaterController tc = new TheaterController();
      MovieController mc = new MovieController();
+    private List<String> statusList = new ArrayList<>();
+    private ArrayListComboBoxModel modelStatus;
+    private List<String> cinemaList = new ArrayList<>();
+    private ArrayListComboBoxModel modelCinema;
      
     public TheaterMCView() {
         initComponents();
+        loadStatus();
+        loadCinema();
+    }
+public void loadStatus(){
+      StatusController statusC = new StatusController();
+      List<Status> temp = null;
+      temp = statusC.loadStatus();
+      
+      for (int i=0; i<temp.size();i++)
+      {
+          statusList.add(temp.get(i).getName());
+      }
+      modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
+//        modelStatus.setSelectedItem(modelStatus.getElementAt(0));
+	cbStatus.setModel(modelStatus);
     }
 
+public void loadCinema(){
+      CinemaController cinemaC = new CinemaController();
+      List<Cinema> temp = null;
+      temp = cinemaC.loadCinemas();
+      
+      for (int i=0; i<temp.size();i++)
+      {
+          cinemaList.add(temp.get(i).getName());
+      }
+      modelCinema = new ArrayListComboBoxModel((ArrayList<String>) cinemaList);
+//        modelStatus.setSelectedItem(modelStatus.getElementAt(0));
+	cbCinema.setModel(modelCinema);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,6 +78,7 @@ public class TheaterMCView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -49,10 +88,12 @@ public class TheaterMCView extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 500, Short.MAX_VALUE)
+
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
 
     /**
      * @param args the command line arguments
@@ -91,5 +132,6 @@ public class TheaterMCView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+
     // End of variables declaration//GEN-END:variables
 }

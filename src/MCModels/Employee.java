@@ -109,6 +109,7 @@ public class Employee {
     public int insert(Employee emp) {
 	try {
 		String sqlstr = "insert into employee(access, no, name, pass, addr, tel, email ) values( "
+
 				+ emp.getAccess() + ", " + emp.getNo() + ", '" + emp.getName() + "', '" + emp.getPassword() + "', '"
 				+ emp.getAddr() + "', '" + emp.getTel() + "', '" + emp.getEmail() + "')";
 		Database db = new Database();
@@ -143,6 +144,7 @@ public class Employee {
 				+ emp.getTel() + "', addr = '" + emp.getAddr() + "', email = '" + emp.getEmail()
 				+ "', no = " + emp.getNo();
 		sqlstr += " where id = " + emp.getId();
+
 		Database  db = new Database ();
 		db.openConnection();
 		rtn = db.execCommand(sqlstr);
@@ -160,6 +162,7 @@ public class Employee {
             try {
 		String sqlstr = "delete from employee ";
 		sqlstr += " where id = " + id;
+
 		Database  db = new Database ();
 		db.openConnection();
 		rtn = db.execCommand(sqlstr);
@@ -177,6 +180,7 @@ public class Employee {
             empList = new LinkedList<Employee>();
             try {
 		String sqlstr = "select id, access, name, pass, tel, addr, email, no from employee ";
+
 		condt.trim();
 		if (!condt.isEmpty())
                     sqlstr += " where " + condt;
@@ -196,6 +200,7 @@ public class Employee {
 					emp.setAddr(rst.getString("addr"));
 					emp.setEmail(rst.getString("email"));
 					emp.setNo(rst.getInt("no"));
+
 					empList.add(emp);
 				}
 			}

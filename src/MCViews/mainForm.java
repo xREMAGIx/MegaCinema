@@ -38,6 +38,7 @@ public class mainForm extends javax.swing.JFrame {
         reportBtn = new javax.swing.JButton();
         employeeBtn = new javax.swing.JButton();
 
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(252, 214, 112));
         setMinimumSize(new java.awt.Dimension(500, 300));
@@ -182,6 +183,7 @@ public class mainForm extends javax.swing.JFrame {
                 .addContainerGap(71, Short.MAX_VALUE))
         );
 
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -191,6 +193,7 @@ public class mainForm extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+
         );
 
         pack();
@@ -240,6 +243,7 @@ public class mainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_employeeBtnActionPerformed
 
     private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {
+
         // TODO add your handling code here:    
         new MovieView().setVisible(true);
     }
@@ -280,6 +284,9 @@ public class mainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btReport;
+    private javax.swing.JButton btSellProduct;
+    private javax.swing.JButton btStorage;
     private javax.swing.JButton cinemaBtn;
     private javax.swing.JButton employeeBtn;
     private keeptoo.KGradientPanel kGradientPanel1;

@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import static java.sql.Types.NULL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,14 +28,18 @@ public class Theater {
     private String name;
     private int rowCount;
     private int colCount;
-    private int status;
 
-    public Theater(int id, int cinemaID, int managerID, String name, int status) {
+    private int status;
+    private int Row;
+    private int Collum;
+
+    public Theater(int id, int cinemaID, int Number, int status, int row, int collum) {
         this.id = id;
         this.cinemaID = cinemaID;
-        this.managerID = managerID;
-        this.name = name;
+        this.Number = Number;
         this.status = status;
+        this.Row = row;
+        this.Collum = collum;
     }
 
     public Theater() {
@@ -50,8 +53,8 @@ public class Theater {
         return cinemaID;
     }
 
-    public int getManagerID() {
-        return managerID;
+    public int getNumber() {
+        return Number;
     }
 
     public String getName() {
@@ -61,6 +64,15 @@ public class Theater {
     public int getStatus() {
         return status;
     }
+
+    public int getRow() {
+        return Row;
+    }
+
+    public int getCollum() {
+        return Collum;
+    }
+    
 
     public void setId(int id) {
         this.id = id;
@@ -76,6 +88,7 @@ public class Theater {
 
     public void setName(String name) {
         this.name = name;
+
     }
 
     public void setStatus(int status) {
@@ -101,6 +114,7 @@ public class Theater {
     public int Insert(Theater theater) {
 
         try {
+
 
             String sqlstr = "insert into theater(theaterCinema, theaterManagerID, theaterStatus) values( "
                     + theater.getCinemaID() + ", " + theater.getManagerID() + ", " + theater.getStatus()
@@ -131,6 +145,7 @@ public class Theater {
     public int Update(Theater theater) {
 
         int rtn = 0;
+
 
         try {
             String sqlstr = "update theater set " + " theaterCinemaID = " + theater.getCinemaID()
@@ -214,6 +229,7 @@ public class Theater {
 
         } catch (Exception ex) {
             Logger.getLogger(Theater.class.getName()).log(Level.SEVERE, null, ex);
+
         }
 
         return temp;

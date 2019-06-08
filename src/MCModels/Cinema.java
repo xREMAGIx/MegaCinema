@@ -86,6 +86,8 @@ public class Cinema {
 //                cinema.setId(rst.getInt(1));		
 //            }	
             db.close(rst);
+
+
             //db.closeConnection();	
             return 1;
 
@@ -193,7 +195,6 @@ public class Cinema {
 
         try {
             String sqlstr = "select CinemaName from cinema ";
-
             sqlstr += " where cinemaId = " + ID;
 
             Database db = new Database();
@@ -238,6 +239,7 @@ public class Cinema {
             if (rst != null) {
 
                 while (rst.next()) {
+
                     return rst.getInt("cinemaId") + 1;
 
                 }
