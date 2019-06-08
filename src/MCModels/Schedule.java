@@ -18,7 +18,7 @@ import java.util.List;
  * @author DELL
  */
 public class Schedule {
- 
+
     private int id;
     private int theaterId;
     private int movieId;
@@ -73,130 +73,122 @@ public class Schedule {
     public void setType(int type) {
         this.type = type;
     }
-    
-    SimpleDateFormat pFormatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
-    
-//    @Override
-//    public String toString()
-//    {
-//        if(getTime()==null)
-//            return "0:00:00";
-//        else
-//            return DateFormat.getTimeInstance().format(getTime());
-//    }
-    
+
+    SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     //insert new schedule of a movie
-    public int Insert(Schedule schedule)
-    {
+    public int Insert(Schedule schedule) {
         try {
-		String sqlstr = "insert into schedule( theaterId, movieId, schedTime, schedTicketPrice) values( "
-				+ schedule.getTheaterId() + ", " + schedule.getMovieId() + ", '" + pFormatter.format(schedule.getTime()) + "', "
-				+ schedule.getPrice() + " )";
-		Database db = new Database();
-		db.openConnection();
-		ResultSet rst = db.getInsertObjectIDs(sqlstr);
-                if (rst != null && rst.first()) 
-                {
-			schedule.setId(rst.getInt(1));
-                }
-		db.close(rst);
-                db.close();
-	return 1;
-	} 
-        catch (Exception e) {
-            //e.printStackTrace();
+            String sqlstr = "insert into schedule( theaterId, movieId, schedTime, schedTicketPrice) values( "
+                    + schedule.getTheaterId() + ", " + schedule.getMovieId() + ", '" + pFormatter.format(schedule.getTime()) + "', "
+                    + schedule.getPrice() + " )";
+            Database db = new Database();
+            db.openConnection();
+            ResultSet rst = db.getInsertObjectIDs(sqlstr);
+            if (rst != null && rst.first()) {
+                schedule.setId(rst.getInt(1));
+            }
+            db.close(rst);
+            db.close();
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
-	}
-	return 0;
+        }
+        return 0;
     }
-    
+
     //update, modify schedule of a movie    
     public int Update(Schedule sched) {
-	int rtn = 0;
-	try {
-		String sqlstr = "update schedule set theaterId ='" + sched.getTheaterId() + "', movieId = "
-                        + sched.getMovieId() + ", schedTime = " + sched.getTime() + ", schedTicketPrice = '"
-			+ sched.getPrice() + "' ";
-                sqlstr += " where schedId = " + sched.getId();
-		Database db = new Database();
-		db.openConnection();
-                rtn = db.execCommand(sqlstr);
-                db.close();
-		//db.closeConnection();
-	} 
-        catch (Exception e) {
-            //e.printStackTrace();
-            System.out.println(e.getMessage());
-	}
-	return rtn;
-	}
-    
-    //delete a schedule time of a movie
-    public int Delete(int id) {
-	int rtn = 0;
-        
-	try {
-            String sqlstr = "delete from schedule ";
-            sqlstr += " where schedId = " + id;
-            
+        int rtn = 0;
+        try {
+            String sqlstr = "update schedule set theaterId =" + sched.getTheaterId() + ", movieId = "
+                    + sched.getMovieId() + ", schedTime = '" +  pFormatter.format(sched.getTime()) + "', schedTicketPrice = "
+                    + sched.getPrice() + " ";
+            sqlstr += " where schedId = " + sched.getId();
             Database db = new Database();
             db.openConnection();
             rtn = db.execCommand(sqlstr);
-            db.closeConnection();
+            db.close();
+            //db.closeConnection();
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println(e.getMessage());
         }
-	return rtn;
+        return rtn;
     }
-    
+
+    //delete a schedule time of a movie
+    public int Delete(int id) {
+        int rtn = 0;
+
+        try {
+            String sqlstr = "delete from schedule ";
+            sqlstr += " where schedId = " + id;
+
+            Database db = new Database();
+            db.openConnection();
+            rtn = db.execCommand(sqlstr);
+            
+            db.close();
+//            db.closeConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return rtn;
+    }
+
     //get shedule time from database
     public List<Schedule> Select(String condt) {
-	List<Schedule> stuList = null;
-	stuList = new LinkedList<Schedule>();
+        List<Schedule> stuList = null;
+        stuList = new LinkedList<Schedule>();
         try {
-            String sqlstr = "select schedId, theaterId, movieId, schedTime, schedTicketPrice from schedule ";	
+            String sqlstr = "select schedId, theaterId, movieId, schedTime, schedTicketPrice from schedule ";
             condt.trim();
-          
-            if (!condt.isEmpty())
-            {
+
+            if (!condt.isEmpty()) {
                 sqlstr += " where " + condt;
             }
-            
+
             Database db = new Database();
-	
-            if (db.openConnection()==null) {
+
+            if (db.openConnection() == null) {
                 return null;
             }
-			
+
             ResultSet rst = db.execQuery(sqlstr);
-	
+
             if (rst != null) {
                 while (rst.next()) {
-				
-                    Schedule stu = new Schedule();	
-                    
-                    stu.setId(rst.getInt("schedId"));		
+
+                    Schedule stu = new Schedule();
+
+                    stu.setId(rst.getInt("schedId"));
                     stu.setTheaterId(rst.getInt("theaterId"));
-                    stu.setMovieId(rst.getInt("movieId"));		
-                    stu.setTime(rst.getTimestamp("schedTime"));		
+                    stu.setMovieId(rst.getInt("movieId"));
+                    stu.setTime(rst.getTimestamp("schedTime"));
                     stu.setPrice(rst.getDouble("schedTicketPrice"));
-		
-                    stuList.add(stu);		
-                }		
+
+                    stuList.add(stu);
+                }
             }
-		
+
             db.close(rst);
-	
-            db.close();
-		
-        } catch (Exception e) {	
-            //e.printStackTrace();
-            System.out.println(e.getMessage());	
-        } 
-        
+
+//            db.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
         return stuList;
-	
+
     }
-    
+
+    @Override
+    public String toString() {
+        return pFormatter.format(this.getTime());
+    }
 }

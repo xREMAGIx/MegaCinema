@@ -27,91 +27,173 @@ public class mainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        kGradientPanel1 = new keeptoo.KGradientPanel();
         scheduleBtn = new javax.swing.JButton();
         movieBtn = new javax.swing.JButton();
         cinemaBtn = new javax.swing.JButton();
-        btStorage = new javax.swing.JButton();
-        btSellProduct = new javax.swing.JButton();
-        btReport = new javax.swing.JButton();
+        saleBtn = new javax.swing.JButton();
+        seatBtn = new javax.swing.JButton();
+        storageBtn = new javax.swing.JButton();
+        sellProductBtn = new javax.swing.JButton();
+        reportBtn = new javax.swing.JButton();
+        employeeBtn = new javax.swing.JButton();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(252, 214, 112));
+        setMinimumSize(new java.awt.Dimension(500, 300));
+        setPreferredSize(new java.awt.Dimension(500, 310));
 
+        kGradientPanel1.setkEndColor(new java.awt.Color(252, 214, 112));
+        kGradientPanel1.setkStartColor(new java.awt.Color(241, 90, 34));
+        kGradientPanel1.setMinimumSize(new java.awt.Dimension(500, 300));
+        kGradientPanel1.setPreferredSize(new java.awt.Dimension(500, 300));
+
+        scheduleBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/scheduleIcon64px.png"))); // NOI18N
         scheduleBtn.setText("Schedule");
+        scheduleBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        scheduleBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         scheduleBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 scheduleBtnActionPerformed(evt);
             }
         });
 
+        movieBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/movieIcon64px.png"))); // NOI18N
         movieBtn.setText("Movie");
+        movieBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        movieBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         movieBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 movieBtnActionPerformed(evt);
             }
         });
 
-        cinemaBtn.setText("Cinema");
+        cinemaBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/theaterIcon64px.png"))); // NOI18N
+        cinemaBtn.setText("Theater");
+        cinemaBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cinemaBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         cinemaBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cinemaBtnActionPerformed(evt);
             }
         });
 
-        btStorage.setText("Storage");
-        btStorage.addActionListener(new java.awt.event.ActionListener() {
+        saleBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/ticketIcon64px.png"))); // NOI18N
+        saleBtn.setText("Ticket Sale");
+        saleBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        saleBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        saleBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btStorageActionPerformed(evt);
+                saleBtnActionPerformed(evt);
             }
         });
 
-        btSellProduct.setText("Sell Product");
-        btSellProduct.addActionListener(new java.awt.event.ActionListener() {
+        seatBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/seatIcon64px.png"))); // NOI18N
+        seatBtn.setText("Seat");
+        seatBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        seatBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        seatBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btSellProductActionPerformed(evt);
+                seatBtnActionPerformed(evt);
             }
         });
 
-        btReport.setText("Report");
-        btReport.addActionListener(new java.awt.event.ActionListener() {
+        storageBtn.setText("Storage");
+        storageBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btReportActionPerformed(evt);
+                storageBtnActionPerformed(evt);
             }
         });
+
+        sellProductBtn.setText("Sell Product");
+        sellProductBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sellProductBtnActionPerformed(evt);
+            }
+        });
+
+        reportBtn.setText("Report");
+        reportBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reportBtnActionPerformed(evt);
+            }
+        });
+
+        employeeBtn.setText("Employee");
+        employeeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                employeeBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
+        kGradientPanel1.setLayout(kGradientPanel1Layout);
+        kGradientPanel1Layout.setHorizontalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(scheduleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cinemaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(movieBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                        .addComponent(seatBtn)
+                        .addGap(46, 46, 46)
+                        .addComponent(employeeBtn)
+                        .addGap(80, 80, 80))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(saleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(storageBtn)
+                            .addComponent(sellProductBtn)
+                            .addComponent(reportBtn))
+                        .addGap(197, 197, 197))))
+        );
+        kGradientPanel1Layout.setVerticalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(movieBtn)
+                            .addComponent(scheduleBtn)
+                            .addComponent(seatBtn)))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(employeeBtn)))
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cinemaBtn)
+                            .addComponent(saleBtn)))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(storageBtn)
+                        .addGap(29, 29, 29)
+                        .addComponent(sellProductBtn)))
+                .addGap(35, 35, 35)
+                .addComponent(reportBtn)
+                .addContainerGap(71, Short.MAX_VALUE))
+        );
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btSellProduct)
-                    .addComponent(btStorage)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(scheduleBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(movieBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cinemaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(55, 55, 55)
-                        .addComponent(btReport)))
-                .addContainerGap(160, Short.MAX_VALUE))
+            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(scheduleBtn)
-                    .addComponent(btReport))
-                .addGap(18, 18, 18)
-                .addComponent(movieBtn)
-                .addGap(18, 18, 18)
-                .addComponent(cinemaBtn)
-                .addGap(18, 18, 18)
-                .addComponent(btStorage)
-                .addGap(18, 18, 18)
-                .addComponent(btSellProduct)
-                .addContainerGap(40, Short.MAX_VALUE))
+            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+
         );
 
         pack();
@@ -119,9 +201,8 @@ public class mainForm extends javax.swing.JFrame {
 
     private void scheduleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleBtnActionPerformed
         // TODO add your handling code here:
-        
-        new ScheduleView().setVisible(true);        
-        this.dispose();
+
+        new ScheduleView().setVisible(true);
         
     }//GEN-LAST:event_scheduleBtnActionPerformed
 
@@ -130,26 +211,42 @@ public class mainForm extends javax.swing.JFrame {
         new CinemaMCView().setVisible(true);
     }//GEN-LAST:event_cinemaBtnActionPerformed
 
-    private void btStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStorageActionPerformed
+    private void saleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleBtnActionPerformed
+        // TODO add your handling code here:
+        SaleView.main(null);
+    }//GEN-LAST:event_saleBtnActionPerformed
+
+    private void seatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatBtnActionPerformed
+        // TODO add your handling code here:
+        SeatView.main(null);
+
+    }//GEN-LAST:event_seatBtnActionPerformed
+
+    private void storageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storageBtnActionPerformed
         // TODO add your handling code here:
         new StorageMCView().setVisible(true);
-    }//GEN-LAST:event_btStorageActionPerformed
+    }//GEN-LAST:event_storageBtnActionPerformed
 
-    private void btSellProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSellProductActionPerformed
+    private void sellProductBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellProductBtnActionPerformed
         // TODO add your handling code here:
         new SellProductMCView().setVisible(true);
-    }//GEN-LAST:event_btSellProductActionPerformed
+    }//GEN-LAST:event_sellProductBtnActionPerformed
 
-    private void btReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportActionPerformed
+    private void reportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportBtnActionPerformed
         // TODO add your handling code here:
         new ReportMCView().setVisible(true);
-    }//GEN-LAST:event_btReportActionPerformed
+    }//GEN-LAST:event_reportBtnActionPerformed
 
-    private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void employeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeBtnActionPerformed
+        // TODO add your handling code here:
+        EmployeeMCView.main(null);
+    }//GEN-LAST:event_employeeBtnActionPerformed
+
+    private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {
+
         // TODO add your handling code here:    
         new MovieView().setVisible(true);
-    }                                        
-
+    }
 
     /**
      * @param args the command line arguments
@@ -191,7 +288,14 @@ public class mainForm extends javax.swing.JFrame {
     private javax.swing.JButton btSellProduct;
     private javax.swing.JButton btStorage;
     private javax.swing.JButton cinemaBtn;
+    private javax.swing.JButton employeeBtn;
+    private keeptoo.KGradientPanel kGradientPanel1;
     private javax.swing.JButton movieBtn;
+    private javax.swing.JButton reportBtn;
+    private javax.swing.JButton saleBtn;
     private javax.swing.JButton scheduleBtn;
+    private javax.swing.JButton seatBtn;
+    private javax.swing.JButton sellProductBtn;
+    private javax.swing.JButton storageBtn;
     // End of variables declaration//GEN-END:variables
 }

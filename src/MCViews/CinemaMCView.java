@@ -41,7 +41,7 @@ public class CinemaMCView extends javax.swing.JFrame {
     public void loadStatus(){
       StatusController statusC = new StatusController();
       List<Status> temp = null;
-      temp = statusC.loadStatus();
+      temp = statusC.select();
       
       for (int i=0; i<temp.size();i++)
       {

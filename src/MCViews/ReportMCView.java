@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
+
 import javax.swing.JOptionPane;
 
 import org.jfree.ui.ApplicationFrame;
@@ -45,10 +47,11 @@ import org.jfree.ui.RefineryUtilities;
  * @author USER
  */
 
-class PieChart_AWT extends ApplicationFrame{
+class PieChart_AWT extends JFrame{
     public PieChart_AWT( String title, int product, int ticket ) {
       super( title ); 
-      setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+      setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
 //      addWindowListener(new WindowAdapter(){
 //          @Override
 //            public void windowClosing(WindowEvent e) {
@@ -280,7 +283,8 @@ public class ReportMCView extends javax.swing.JFrame {
       PieChart_AWT demo = new PieChart_AWT( "Total Sales", Integer.parseInt(txtProduct.getText()), Integer.parseInt(txtTicket.getText())); 
    
       demo.setSize( 560 , 367 );   
-      demo.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+      demo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
       RefineryUtilities.centerFrameOnScreen( demo );  
       demo.setVisible( true );
     }//GEN-LAST:event_btOKActionPerformed

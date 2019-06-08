@@ -189,7 +189,7 @@ public class SellReport {
             //e.printStackTrace();
             System.out.println(e.getMessage());		
         }	
-        return -1;
+        return 0;
     }
     
     public int getcurDayId(Date curdate){

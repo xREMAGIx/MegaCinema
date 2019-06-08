@@ -15,7 +15,7 @@ import java.util.List;
 public class StatusController{
      private final Status statusM = new Status();
      
-     public List <Status> loadStatus(){
+     public List <Status> select(){
         return statusM.Select("");
     }
 }

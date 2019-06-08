@@ -108,7 +108,8 @@ public class Employee {
     	
     public int insert(Employee emp) {
 	try {
-		String sqlstr = "insert into employee(emp_access, emp_no, emp_name, emp_password, emp_addr, emp_tel_num, emp_email ) values( "
+		String sqlstr = "insert into employee(access, no, name, pass, addr, tel, email ) values( "
+
 				+ emp.getAccess() + ", " + emp.getNo() + ", '" + emp.getName() + "', '" + emp.getPassword() + "', '"
 				+ emp.getAddr() + "', '" + emp.getTel() + "', '" + emp.getEmail() + "')";
 		Database db = new Database();
@@ -138,11 +139,12 @@ public class Employee {
 	public int update(Employee emp) {
             int rtn = 0;
             try {
-		String sqlstr = "update employee set emp_id = " + emp.getId() + ", emp_access = " + emp.getAccess()
-				+ ", emp_name = '" + emp.getName() + "', emp_password = '" + emp.getPassword() + "', emp_tel = '"
-				+ emp.getTel() + "', emp_addr = '" + emp.getAddr() + "', emp_email = '" + emp.getEmail()
-				+ "', emp_no = " + emp.getNo();
-		sqlstr += " where emp_id = " + emp.getId();
+		String sqlstr = "update employee set id = " + emp.getId() + ", access = " + emp.getAccess()
+				+ ", name = '" + emp.getName() + "', pass = '" + emp.getPassword() + "', tel = '"
+				+ emp.getTel() + "', addr = '" + emp.getAddr() + "', email = '" + emp.getEmail()
+				+ "', no = " + emp.getNo();
+		sqlstr += " where id = " + emp.getId();
+
 		Database  db = new Database ();
 		db.openConnection();
 		rtn = db.execCommand(sqlstr);
@@ -159,7 +161,8 @@ public class Employee {
             int rtn = 0;
             try {
 		String sqlstr = "delete from employee ";
-		sqlstr += " where emp_id = " + id;
+		sqlstr += " where id = " + id;
+
 		Database  db = new Database ();
 		db.openConnection();
 		rtn = db.execCommand(sqlstr);
@@ -176,7 +179,8 @@ public class Employee {
             List<Employee> empList = null;
             empList = new LinkedList<Employee>();
             try {
-		String sqlstr = "select emp_id, emp_access, emp_name, emp_password, emp_tel, emp_addr, emp_email,emp_no from employee ";
+		String sqlstr = "select id, access, name, pass, tel, addr, email, no from employee ";
+
 		condt.trim();
 		if (!condt.isEmpty())
                     sqlstr += " where " + condt;
@@ -188,14 +192,15 @@ public class Employee {
 			if (rst != null) {
 				while (rst.next()) {
 					Employee emp = new Employee();
-					emp.setId(rst.getInt("emp_id"));
-					emp.setAccess(rst.getInt("emp_access"));
-					emp.setName(rst.getString("emp_name"));
-					emp.setPassword(rst.getString("emp_password"));
-					emp.setTel(rst.getString("emp_tel"));
-					emp.setAddr(rst.getString("emp_addr"));
-					emp.setEmail(rst.getString("emp_email"));
-					emp.setNo(rst.getInt("emp_no"));
+					emp.setId(rst.getInt("id"));
+					emp.setAccess(rst.getInt("access"));
+					emp.setName(rst.getString("name"));
+					emp.setPassword(rst.getString("pass"));
+					emp.setTel(rst.getString("tel"));
+					emp.setAddr(rst.getString("addr"));
+					emp.setEmail(rst.getString("email"));
+					emp.setNo(rst.getInt("no"));
+
 					empList.add(emp);
 				}
 			}

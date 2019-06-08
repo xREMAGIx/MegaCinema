@@ -76,113 +76,24 @@ public void loadCinema(){
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbTheater = new javax.swing.JTable();
-        txtNumber = new javax.swing.JTextField();
-        cbCinema = new javax.swing.JComboBox();
-        btSave = new javax.swing.JButton();
-        cbStatus = new javax.swing.JComboBox();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        tbTheater.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Cinema", "Number", "Status"
-            }
-        ));
-        tbTheater.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentShown(java.awt.event.ComponentEvent evt) {
-                tbTheaterComponentShown(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tbTheater);
-
-        txtNumber.setText("jTextField3");
-
-        cbCinema.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        btSave.setText("jButton1");
-        btSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btSaveActionPerformed(evt);
-            }
-        });
-
-        cbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(75, 75, 75)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbCinema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btSave)
-                            .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(13, Short.MAX_VALUE))
+            .addGap(0, 1051, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(cbCinema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btSave)
-                .addGap(4, 4, 4))
+            .addGap(0, 500, Short.MAX_VALUE)
+
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tbTheaterComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tbTheaterComponentShown
-        // TODO add your handling code here:
-        // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel) tbTheater.getModel();
-        ArrayList <Theater> theaterList = tc.loadTheaters();
-        Object rowData[] = new Object[4];
-        
-        for (int i=0; i<theaterList.size(); i++){
-            rowData[0] = theaterList.get(i).getId();    
-            rowData[1] = theaterList.get(i).getCinemaID();
-            rowData[2] = theaterList.get(i).getNumber();
-            rowData[3] = theaterList.get(i).getStatus();
-            model.addRow(rowData);
-        }
-        tbTheater.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-        public void valueChanged(ListSelectionEvent event) {
-            // do some actions here, for example
-            // print first column value from selected row
-//            txtID.setText(tbCinema.getValueAt(tbCinema.getSelectedRow(), 0).toString());
-//            txtName.setText(tbCinema.getValueAt(tbCinema.getSelectedRow(), 1).toString());
-            txtNumber.setText(tbTheater.getValueAt(tbTheater.getSelectedRow(), 2).toString());
-            modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
-           
-            modelStatus.setSelectedItem(tbTheater.getValueAt(tbTheater.getSelectedRow(), 3).toString());
-            
-            cbStatus.setModel(modelStatus);
-        }
-    });
-    }//GEN-LAST:event_tbTheaterComponentShown
-
-    private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,11 +132,6 @@ public void loadCinema(){
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btSave;
-    private javax.swing.JComboBox cbCinema;
-    private javax.swing.JComboBox cbStatus;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tbTheater;
-    private javax.swing.JTextField txtNumber;
+
     // End of variables declaration//GEN-END:variables
 }

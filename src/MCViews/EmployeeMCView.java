@@ -142,7 +142,9 @@ public class EmployeeMCView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
                             // Phan quyen cho admin va manager
-				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {     //access != 1
+
+				if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) {     //access != 1
+
 					EmployeeDialog playDialog = new EmployeeDialog(1);
 					playDialog.toFront();
 					playDialog.setModal(true);
@@ -163,7 +165,9 @@ public class EmployeeMCView extends JPanel {
                                     @Override
 		public void actionPerformed(ActionEvent e) 
                              {
-                                    if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) 
+
+                                    if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) 
+
                                     {
 			EmployeeDialog playDialog = new EmployeeDialog(2);
 			playDialog.toFront();
@@ -186,7 +190,8 @@ public class EmployeeMCView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
                             // Phan quyen edit nhan vien cho admin va manager
-				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {        //access != 1
+				if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) {        //access != 1
+
 					EmployeeDialog playDialog = new EmployeeDialog(3);
 					playDialog.toFront();
 					playDialog.setModal(true);
@@ -206,7 +211,8 @@ public class EmployeeMCView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
                             // Phan quyen xoa nhan vien cho admin va manager
-				if (new EmployeeController().Fetch("emp_id=" + empId).get(0).getAccess() != 1) {    //access != 1 : nhan vien khong thuc hien dc thao tac nay
+				if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) {    //access != 1 : nhan vien khong thuc hien dc thao tac nay
+
 					EmployeeDialog playDialog = new EmployeeDialog(4);
 					playDialog.toFront();
 					playDialog.setModal(true);
@@ -240,7 +246,9 @@ public class EmployeeMCView extends JPanel {
 
 	public static void showPanel() {
 		JFrame frame = new JFrame("Employee Management");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
 		frame.add(new EmployeeMCView(1));
 		frame.pack();
 		frame.setVisible(true);
@@ -460,27 +468,28 @@ public class EmployeeMCView extends JPanel {
 			String sql = "";
 			if (cbxAccess.getSelectedItem() != null) {
 				emp.setAccess(cbxAccess.getSelectedIndex() + 1);
-				sql += " emp_access=" + (cbxAccess.getSelectedIndex() + 1);
+				sql += " access=" + (cbxAccess.getSelectedIndex() + 1);
 			}
 			if (txtNo.getText().length() > 0) {
 				emp.setNo(Integer.parseInt(txtNo.getText()));
-				sql += " and emp_no=" + txtNo.getText();
+				sql += " and no=" + txtNo.getText();
 			}
 			if (txtName.getText().length() > 0) {
 				emp.setName(txtName.getText());
-				sql += " and emp_name='" + txtName.getText() + "'";
+				sql += " and name='" + txtName.getText() + "'";
 			}
 			if (txtAddr.getText().length() > 0) {
 				emp.setAddr(txtAddr.getText());
-				sql += " and emp_addr='" + txtAddr.getText() + "'";
+				sql += " and addr='" + txtAddr.getText() + "'";
 			}
 			if (txtTel.getText().length() > 0) {
 				emp.setTel(txtTel.getText());
-				sql += " and emp_tel='" + txtTel.getText() + "'";
+				sql += " and tel='" + txtTel.getText() + "'";
 			}
 			if (txtEmail.getText().length() > 0) {
 				emp.setEmail(txtEmail.getText());
-				sql += " and emp_email='" + txtEmail.getText() + "'";
+				sql += " and email='" + txtEmail.getText() + "'";
+
 			}
 			rst = new EmployeeController().Fetch(sql);
 		}
