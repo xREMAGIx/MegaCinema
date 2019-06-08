@@ -5,11 +5,17 @@
  */
 package MCViews;
 
+import MCControllers.CinemaController;
 import MCControllers.MovieController;
+import MCControllers.StatusController;
 import MCControllers.TheaterController;
+import MCModels.ArrayListComboBoxModel;
+import MCModels.Cinema;
 import MCModels.Movie;
+import MCModels.Status;
 import MCModels.Theater;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -17,18 +23,50 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author USER
  */
-public class TheaterMCView extends javax.swing.JFrame {
+public final class TheaterMCView extends javax.swing.JFrame {
 
     /**
      * Creates new form TheaterMCView
      */
     TheaterController tc = new TheaterController();
      MovieController mc = new MovieController();
+    private List<String> statusList = new ArrayList<>();
+    private ArrayListComboBoxModel modelStatus;
+    private List<String> cinemaList = new ArrayList<>();
+    private ArrayListComboBoxModel modelCinema;
      
     public TheaterMCView() {
         initComponents();
+        loadStatus();
+        loadCinema();
+    }
+public void loadStatus(){
+      StatusController statusC = new StatusController();
+      List<Status> temp = null;
+      temp = statusC.loadStatus();
+      
+      for (int i=0; i<temp.size();i++)
+      {
+          statusList.add(temp.get(i).getName());
+      }
+      modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
+//        modelStatus.setSelectedItem(modelStatus.getElementAt(0));
+	cbStatus.setModel(modelStatus);
     }
 
+public void loadCinema(){
+      CinemaController cinemaC = new CinemaController();
+      List<Cinema> temp = null;
+      temp = cinemaC.loadCinemas();
+      
+      for (int i=0; i<temp.size();i++)
+      {
+          cinemaList.add(temp.get(i).getName());
+      }
+      modelCinema = new ArrayListComboBoxModel((ArrayList<String>) cinemaList);
+//        modelStatus.setSelectedItem(modelStatus.getElementAt(0));
+	cbCinema.setModel(modelCinema);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,22 +78,19 @@ public class TheaterMCView extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         tbTheater = new javax.swing.JTable();
-        jTextField3 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox();
-        jComboBox2 = new javax.swing.JComboBox();
-        jButton1 = new javax.swing.JButton();
+        txtNumber = new javax.swing.JTextField();
+        cbCinema = new javax.swing.JComboBox();
+        btSave = new javax.swing.JButton();
+        cbStatus = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tbTheater.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "ID", "Cinema", "Manager", "Status"
+                "ID", "Cinema", "Number", "Status"
             }
         ));
         tbTheater.addComponentListener(new java.awt.event.ComponentAdapter() {
@@ -65,13 +100,18 @@ public class TheaterMCView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbTheater);
 
-        jTextField3.setText("jTextField3");
+        txtNumber.setText("jTextField3");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCinema.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        btSave.setText("jButton1");
+        btSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSaveActionPerformed(evt);
+            }
+        });
 
-        jButton1.setText("jButton1");
+        cbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,10 +125,10 @@ public class TheaterMCView extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(75, 75, 75)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1))))
+                            .addComponent(cbCinema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btSave)
+                            .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -97,13 +137,13 @@ public class TheaterMCView extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cbCinema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btSave)
                 .addGap(4, 4, 4))
         );
 
@@ -120,7 +160,7 @@ public class TheaterMCView extends javax.swing.JFrame {
         for (int i=0; i<theaterList.size(); i++){
             rowData[0] = theaterList.get(i).getId();    
             rowData[1] = theaterList.get(i).getCinemaID();
-            rowData[2] = theaterList.get(i).getManagerID();
+            rowData[2] = theaterList.get(i).getNumber();
             rowData[3] = theaterList.get(i).getStatus();
             model.addRow(rowData);
         }
@@ -128,12 +168,21 @@ public class TheaterMCView extends javax.swing.JFrame {
         public void valueChanged(ListSelectionEvent event) {
             // do some actions here, for example
             // print first column value from selected row
-//            txtName.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 1).toString());
-//            txtDur.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 2).toString());
-//            txtGenre.setText(tbMovie.getValueAt(tbMovie.getSelectedRow(), 3).toString());
+//            txtID.setText(tbCinema.getValueAt(tbCinema.getSelectedRow(), 0).toString());
+//            txtName.setText(tbCinema.getValueAt(tbCinema.getSelectedRow(), 1).toString());
+            txtNumber.setText(tbTheater.getValueAt(tbTheater.getSelectedRow(), 2).toString());
+            modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
+           
+            modelStatus.setSelectedItem(tbTheater.getValueAt(tbTheater.getSelectedRow(), 3).toString());
+            
+            cbStatus.setModel(modelStatus);
         }
     });
     }//GEN-LAST:event_tbTheaterComponentShown
+
+    private void btSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSaveActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btSaveActionPerformed
 
     /**
      * @param args the command line arguments
@@ -172,11 +221,11 @@ public class TheaterMCView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
+    private javax.swing.JButton btSave;
+    private javax.swing.JComboBox cbCinema;
+    private javax.swing.JComboBox cbStatus;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tbTheater;
+    private javax.swing.JTextField txtNumber;
     // End of variables declaration//GEN-END:variables
 }

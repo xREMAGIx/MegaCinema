@@ -21,6 +21,7 @@ public class CinemaController extends Cinema{
     public int insertCinema(int id, String name, String location, int status)
     {
         Cinema cinema = new Cinema();
+        cinema.setId(id);
         cinema.setName(name);
         cinema.setLocation(location);
         cinema.setStatus(status);
@@ -45,5 +46,9 @@ public class CinemaController extends Cinema{
     
     public List <Cinema> loadCinemas(){
         return cinemaM.Select("");
+    }
+    
+    public int getNextID(){
+        return cinemaM.getNextID();
     }
 }

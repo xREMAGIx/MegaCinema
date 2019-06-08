@@ -30,6 +30,9 @@ public class mainForm extends javax.swing.JFrame {
         scheduleBtn = new javax.swing.JButton();
         movieBtn = new javax.swing.JButton();
         cinemaBtn = new javax.swing.JButton();
+        btStorage = new javax.swing.JButton();
+        btSellProduct = new javax.swing.JButton();
+        btReport = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,28 +57,61 @@ public class mainForm extends javax.swing.JFrame {
             }
         });
 
+        btStorage.setText("Storage");
+        btStorage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btStorageActionPerformed(evt);
+            }
+        });
+
+        btSellProduct.setText("Sell Product");
+        btSellProduct.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSellProductActionPerformed(evt);
+            }
+        });
+
+        btReport.setText("Report");
+        btReport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btReportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(scheduleBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(movieBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cinemaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(286, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btSellProduct)
+                    .addComponent(btStorage)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(scheduleBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(movieBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cinemaBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(55, 55, 55)
+                        .addComponent(btReport)))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(69, 69, 69)
-                .addComponent(scheduleBtn)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(scheduleBtn)
+                    .addComponent(btReport))
                 .addGap(18, 18, 18)
                 .addComponent(movieBtn)
                 .addGap(18, 18, 18)
                 .addComponent(cinemaBtn)
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(btStorage)
+                .addGap(18, 18, 18)
+                .addComponent(btSellProduct)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -93,6 +129,21 @@ public class mainForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         new CinemaMCView().setVisible(true);
     }//GEN-LAST:event_cinemaBtnActionPerformed
+
+    private void btStorageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btStorageActionPerformed
+        // TODO add your handling code here:
+        new StorageMCView().setVisible(true);
+    }//GEN-LAST:event_btStorageActionPerformed
+
+    private void btSellProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSellProductActionPerformed
+        // TODO add your handling code here:
+        new SellProductMCView().setVisible(true);
+    }//GEN-LAST:event_btSellProductActionPerformed
+
+    private void btReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btReportActionPerformed
+        // TODO add your handling code here:
+        new ReportMCView().setVisible(true);
+    }//GEN-LAST:event_btReportActionPerformed
 
     private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // TODO add your handling code here:    
@@ -136,6 +187,9 @@ public class mainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btReport;
+    private javax.swing.JButton btSellProduct;
+    private javax.swing.JButton btStorage;
     private javax.swing.JButton cinemaBtn;
     private javax.swing.JButton movieBtn;
     private javax.swing.JButton scheduleBtn;
