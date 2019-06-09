@@ -435,7 +435,7 @@ public class SeatView extends JPanel {
             pan.add(lblPayment1);
             lblPayment2 = new JLabel(prices + "  dollar");
             lblPayment2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-            lblPayment2.setBounds(160, 120, 80, 50);
+            lblPayment2.setBounds(160, 120, 100, 50);
             pan.add(lblPayment2);
 
             lblPayment = new JLabel("Paid: ");
@@ -561,40 +561,44 @@ public class SeatView extends JPanel {
 
         private void btnBuyClicked() {
             if (sched != null && txtPayment.getText().length() > 0) {
-                sale = new Sale();
-                sale.setEmpId(empId);
-                sale.setPayment(Float.parseFloat(txtPayment.getText()));
-                System.out.println(sellTicket.getInfo());
-                JOptionPane.showMessageDialog(null, sellTicket.getInfo());
-                
-                int totalPrice = sellTicket.doSale(sale);
-                rst = 0;
+                if (prices <= Integer.parseInt(txtPayment.getText())) {
+                    sale = new Sale();
+                    sale.setEmpId(empId);
+                    sale.setPayment(Float.parseFloat(txtPayment.getText()));
+                    System.out.println(sellTicket.getInfo());
+                    JOptionPane.showMessageDialog(null, sellTicket.getInfo());
 
-                SellReportController rc = new SellReportController();
+                    int totalPrice = sellTicket.doSale(sale);
+                    rst = 0;
 
-                SellReport report = new SellReport();
-                report.setId(rc.getNextID());
-                //report.setCinemaId(cbCinema.getSelectedIndex() + 1);
-                report.setTicketTotal(totalPrice);
+                    SellReportController rc = new SellReportController();
 
-                SimpleDateFormat pFormatter2 = new SimpleDateFormat("yyyy-MM-dd");
+                    SellReport report = new SellReport();
+                    report.setId(rc.getNextID());
+                    //report.setCinemaId(cbCinema.getSelectedIndex() + 1);
+                    report.setTicketTotal(totalPrice);
 
-                //String datetime = "";
-                //datetime += dtTime.datePicker.getDateStringOrEmptyString() + " ";
-                String todayDate = pFormatter2.format(new Date());
+                    SimpleDateFormat pFormatter2 = new SimpleDateFormat("yyyy-MM-dd");
 
-                try {
-                    report.setReportDay(pFormatter2.parse(todayDate));
-                } catch (ParseException ex) {
-                    Logger.getLogger(SellProductMCView.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    //String datetime = "";
+                    //datetime += dtTime.datePicker.getDateStringOrEmptyString() + " ";
+                    String todayDate = pFormatter2.format(new Date());
 
-                if (rc.getCurDayID(report.getReportDay()) != -1) {
-                    rc.updateSellReport(rc.getCurDayID(report.getReportDay()), 0, report.getTicketTotal());
+                    try {
+                        report.setReportDay(pFormatter2.parse(todayDate));
+                    } catch (ParseException ex) {
+                        Logger.getLogger(SellProductMCView.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                    if (rc.getCurDayID(report.getReportDay()) != -1) {
+                        rc.updateSellReport(rc.getCurDayID(report.getReportDay()), 0, report.getTicketTotal());
+                    } else {
+                        rc.insertSellReport(report.getId(), report.getCinemaId(), report.getReportDay(), 0, report.getTicketTotal());
+                    }
                 } else {
-                    rc.insertSellReport(report.getId(), report.getCinemaId(), report.getReportDay(), 0, report.getTicketTotal());
+                    JOptionPane.showMessageDialog(null, "Not pay enough!!");
+                    rst = -1;
                 }
-
             } else {
                 JOptionPane.showMessageDialog(null, "Please enter your payment first");
                 rst = -1;

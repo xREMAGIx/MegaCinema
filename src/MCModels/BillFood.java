@@ -22,10 +22,20 @@ import java.util.logging.Logger;
  * @author USER
  */
 public class BillFood {
+
     private int Id;
     private Date Time;
     private int Total;
     private int cinemaId;
+    private int empId;
+
+    public int getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
 
     public BillFood() {
     }
@@ -68,167 +78,158 @@ public class BillFood {
     public void setCinemaId(int cinemaId) {
         this.cinemaId = cinemaId;
     }
-    
-    
-    SimpleDateFormat pFormatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); 
+
+    SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     public int Insert(BillFood billfood) {
 
-        try {	
-            String sqlstr = "insert into billFood (billId, cinemaId, Time, Total) values(" + billfood.getId() + ", "
-                    + billfood.getCinemaId() + ", '" + pFormatter.format(billfood.getTime()) + "', " + billfood.getTotal() + " )";		
-
+        try {
+            String sqlstr = "insert into billFood (billId, empId, cinemaId, Time, Total) values(" + billfood.getId() + ", " + billfood.getEmpId() + ", "
+                    + billfood.getCinemaId() + ", '" + pFormatter.format(billfood.getTime()) + "', " + billfood.getTotal() + " )";
 
             Database db = new Database();
-	
-            db.openConnection();	
-        
+
+            db.openConnection();
+
             ResultSet rst = db.getInsertObjectIDs(sqlstr);
-	
+
 //            if (rst != null && rst.first()) {	
 //                billfood.setId(rst.getInt(1));		
 //            }	
-            
-            
-            db.close(rst);	
+            db.close(rst);
             //db.closeConnection();	
             return 1;
-          	
-        } catch (Exception e) {	
+
+        } catch (Exception e) {
             //e.printStackTrace();
-            System.out.println(e.getMessage());	
-	
-        }	
-        return 0;	
+            System.out.println(e.getMessage());
+
+        }
+        return 0;
     }
-    
+
     public int Update(BillFood billfood) {
-		
+
         int rtn = 0;
-		
-        try {		
+
+        try {
 
             String sqlstr = "update billFood set billId = " + billfood.getId() + ", cinemaId = " + billfood.getCinemaId()
-                    + ", Time = " + billfood.getTime() + ", Total = " + billfood.getTotal();            
-
+                    + ", Time = " + billfood.getTime() + ", Total = " + billfood.getTotal();
 
             //String sqlstr =" ";
-            
             sqlstr += " where billId = " + billfood.getId();
-	
+
             Database db = new Database();
-	
+
             db.openConnection();
-	
+
             rtn = db.execCommand(sqlstr);
-	
+
             //db.closeConnection();	
-
-        } catch (Exception e) {	
+        } catch (Exception e) {
             //e.printStackTrace();
-            System.out.println(e.getMessage());	
-        }	
-        return rtn;	
-    }
-        
-    public int Delete(int ID) {
-		
-        int rtn = 0;
-	
-        try {	
-            String sqlstr = "delete from billFood ";
-	
-            sqlstr += " where billId = " + ID;
-	
-            Database db = new Database();
-	
-            db.openConnection();
-	
-            rtn = db.execCommand(sqlstr);
-	
-            //db.closeConnection();
-	
-        } catch (Exception e) {	
-            //e.printStackTrace();
-            System.out.println(e.getMessage());		
-        }	
-        return rtn;	
-    }
-    
-    
-    public List<BillFood> Select(String condt) {
-
-        String sql=" ";
-        ResultSet rs = null;
-        
-        Database db = new Database();
-        List <BillFood> temp= new ArrayList <> (); 
-	
-        try {
-            Connection con = db.openConnection();
-             PreparedStatement pst;
-        
-        try
-        {
-            sql = "SELECT * FROM billFood";
-            pst = con.prepareStatement(sql);
-            rs = pst.executeQuery();
-         
-         while (rs.next()) {
-            
-            int id = rs.getInt("billId");
-            int cinemaid = rs.getInt("cinemaId");
-            Date date = rs.getDate("Date");
-            int total = rs.getInt("Total");
-            
-            BillFood t = new BillFood (id, date, total, cinemaid); 
-            temp.add(t);
-            
-        }
-                
-        }
-        catch(SQLException e)
-        {
             System.out.println(e.getMessage());
         }
+        return rtn;
+    }
+
+    public int Delete(int ID) {
+
+        int rtn = 0;
+
+        try {
+            String sqlstr = "delete from billFood ";
+
+            sqlstr += " where billId = " + ID;
+
+            Database db = new Database();
+
+            db.openConnection();
+
+            rtn = db.execCommand(sqlstr);
+
+            //db.closeConnection();
+        } catch (Exception e) {
+            //e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return rtn;
+    }
+
+    public List<BillFood> Select(String condt) {
+
+        String sql = " ";
+        ResultSet rs = null;
+
+        Database db = new Database();
+        List<BillFood> temp = new ArrayList<>();
+
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement pst;
+
+            try {
+                sql = "SELECT * FROM billfood";
+                condt.trim();
+                if (!condt.isEmpty()) {
+                    sql += " where " + condt;
+                }
+                pst = con.prepareStatement(sql);
+                rs = pst.executeQuery();
+
+                while (rs.next()) {
+
+                    int id = rs.getInt("billId");
+                    int cinemaid = rs.getInt("cinemaId");
+                    Date date = rs.getDate("Time");
+                    int total = rs.getInt("Total");
+
+                    BillFood t = new BillFood(id, date, total, cinemaid);
+                    temp.add(t);
+
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
 //        Theater[] array = temp.toArray(new Theater[temp.size()]);
-        
+
         } catch (Exception ex) {
             Logger.getLogger(Theater.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return temp;	
+
+        return temp;
     }
-    
-    public int getNextID(){
+
+    public int getNextID() {
         int rtn = 0;
-	
-        try {	
+
+        try {
             String sqlstr = "SELECT billId FROM billFood ORDER BY billId DESC LIMIT 1";
-	
+
 //            sqlstr += " where cinemaId = " + ID;
-	
             Database db = new Database();
-	
+
             db.openConnection();
-	
-            rtn = db.execCommand(sqlstr);
-            
+
+           // rtn = db.execCommand(sqlstr);
+
             ResultSet rst = db.execQuery(sqlstr);
-	
+
             if (rst != null) {
-	
+
                 while (rst.next()) {
-                return  rst.getInt("billId")+1;
-				
-                }		
+                    return rst.getInt("billId") + 1;
+
+                }
             }
-	
+
             //db.closeConnection();
-	
-        } catch (Exception e) {	
+        } catch (Exception e) {
             //e.printStackTrace();
-            System.out.println(e.getMessage());		
-        }	
+            System.out.println(e.getMessage());
+        }
         return -1;
     }
 }

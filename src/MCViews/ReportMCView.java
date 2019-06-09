@@ -45,11 +45,11 @@ import org.jfree.ui.RefineryUtilities;
  *
  * @author USER
  */
+class PieChart_AWT extends JFrame {
 
-class PieChart_AWT extends JFrame{
-    public PieChart_AWT( String title, int product, int ticket ) {
-      super( title ); 
-      setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    public PieChart_AWT(String title, int product, int ticket) {
+        super(title);
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 //      addWindowListener(new WindowAdapter(){
 //          @Override
 //            public void windowClosing(WindowEvent e) {
@@ -57,54 +57,51 @@ class PieChart_AWT extends JFrame{
 //                
 //            }
 //      } );
-      setContentPane(createDemoPanel(product,ticket));
-   }
-   
-   private static PieDataset createDataset( int product, int ticket) {
-      DefaultPieDataset dataset = new DefaultPieDataset( );
-      dataset.setValue( "Product" , new Double( product ) );  
-      dataset.setValue( "Ticket" , new Double( ticket ) );   
+        setContentPane(createDemoPanel(product, ticket));
+    }
+
+    private static PieDataset createDataset(int product, int ticket) {
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        dataset.setValue("Product", new Double(product));
+        dataset.setValue("Ticket", new Double(ticket));
 //      dataset.setValue( "MotoG" , new Double( 40 ) );    
 //      dataset.setValue( "Nokia Lumia" , new Double( 10 ) );  
-      return dataset;         
-   }
-   
-   private static JFreeChart createChart( PieDataset dataset ) {
-      JFreeChart chart = ChartFactory.createPieChart(      
-         "Total Sales",   // chart title 
-         dataset,          // data    
-         true,             // include legend   
-         true, 
-         false);
+        return dataset;
+    }
 
-      return chart;
-   }
-   
-   public static JPanel createDemoPanel( int product, int ticket ) {
-      JFreeChart chart = createChart(createDataset(product, ticket) );
-      
-      return new ChartPanel( chart ); 
-   }
+    private static JFreeChart createChart(PieDataset dataset) {
+        JFreeChart chart = ChartFactory.createPieChart(
+                "Total Sales", // chart title 
+                dataset, // data    
+                true, // include legend   
+                true,
+                false);
 
-   public static void main( String[ ] args ) {
-//      PieChart_AWT demo = new PieChart_AWT( "Mobile Sales" );  
-//      demo.setSize( 560 , 367 );    
-//      RefineryUtilities.centerFrameOnScreen( demo );    
-//      demo.setVisible( true ); 
-   }
+        return chart;
+    }
+
+    public static JPanel createDemoPanel(int product, int ticket) {
+        JFreeChart chart = createChart(createDataset(product, ticket));
+
+        return new ChartPanel(chart);
+    }
+
 }
+
 public class ReportMCView extends javax.swing.JFrame {
 
     SellReportController rc = new SellReportController();
-    List <SellReport> temp= new ArrayList <> ();
+    List<SellReport> temp = new ArrayList<>();
+
     /**
      * Creates new form ReportMCView
      */
     public ReportMCView() {
         initComponents();
+        dtBegin.timePicker.setEnabled(false);
+        dtEnd.timePicker.setEnabled(false);
+
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -130,6 +127,7 @@ public class ReportMCView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        btOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/okIcon32px.png"))); // NOI18N
         btOK.setText("OK");
         btOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,13 +137,17 @@ public class ReportMCView extends javax.swing.JFrame {
 
         txtProduct.setEditable(false);
         txtProduct.setText("0");
+        txtProduct.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         txtTicket.setEditable(false);
         txtTicket.setText("0");
+        txtTicket.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jLabel1.setText("Product");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         jLabel2.setText("Ticket");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         tbReport.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -165,7 +167,9 @@ public class ReportMCView extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbReport);
 
-        btExcel.setText("EXCEL");
+        btExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/excelIcon32px.png"))); // NOI18N
+        btExcel.setText("Export EXCEL");
+        btExcel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btExcelActionPerformed(evt);
@@ -173,9 +177,11 @@ public class ReportMCView extends javax.swing.JFrame {
         });
 
         jLabel3.setText("Total");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         txtTotal.setEditable(false);
         txtTotal.setText("0");
+        txtTotal.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -183,34 +189,34 @@ public class ReportMCView extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btOK)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(dtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dtBegin, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(dtEnd, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                            .addComponent(dtBegin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btOK)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
+                        .addComponent(btExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
+                                .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtProduct)
-                                    .addComponent(txtTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(88, 88, 88)
-                                        .addComponent(btExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(40, 40, 40)
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txtTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE))))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(40, 40, 40)
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtTicket, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,24 +228,23 @@ public class ReportMCView extends javax.swing.JFrame {
                         .addGap(26, 26, 26)
                         .addComponent(dtEnd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(42, 42, 42)
-                        .addComponent(btOK))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btOK)
+                            .addComponent(btExcel)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel1)))
-                .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
                     .addComponent(txtTicket, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(btExcel))
-                .addGap(55, 55, 55))
+                    .addComponent(jLabel2))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(46, 46, 46))
         );
 
         pack();
@@ -247,52 +252,55 @@ public class ReportMCView extends javax.swing.JFrame {
 
     private void btOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOKActionPerformed
         // TODO add your handling code here:
-        
+        txtProduct.setText(Integer.toString(0));
+        txtTicket.setText(Integer.toString(0));
+
+        tbReport.clearSelection();
         DefaultTableModel model = (DefaultTableModel) tbReport.getModel();
+        model.setRowCount(0);
         
-        SimpleDateFormat pFormatter=new SimpleDateFormat("yyyy-MM-dd");
-        
-        String datebegin ="";
-        datebegin+=dtBegin.datePicker.getDateStringOrEmptyString()+" ";
-        
-        String dateend ="";
-        dateend+=dtEnd.datePicker.getDateStringOrEmptyString()+" ";
-        
-        
+        SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        String datebegin = "";
+        datebegin += dtBegin.datePicker.getDateStringOrEmptyString() + " ";
+
+        String dateend = "";
+        dateend += dtEnd.datePicker.getDateStringOrEmptyString() + " ";
+
         Object rowData[] = new Object[4];
-        
+
         try {
             temp = rc.loadAPeriod(pFormatter.parse(datebegin), pFormatter.parse(dateend));
         } catch (ParseException ex) {
             Logger.getLogger(ReportMCView.class.getName()).log(Level.SEVERE, null, ex);
         }
-        for (int i=0; i<temp.size(); i++){
-           txtProduct.setText(Integer.toString( Integer.parseInt(txtProduct.getText()) + temp.get(i).getProductTotal() ));
-           txtTicket.setText(Integer.toString( Integer.parseInt(txtTicket.getText()) + temp.get(i).getTicketTotal() ));
-           
-           rowData[0] = temp.get(i).getId();    
+        for (int i = 0; i < temp.size(); i++) {
+            txtProduct.setText(Integer.toString(Integer.parseInt(txtProduct.getText()) + temp.get(i).getProductTotal()));
+            txtTicket.setText(Integer.toString(Integer.parseInt(txtTicket.getText()) + temp.get(i).getTicketTotal()));
+
+            rowData[0] = temp.get(i).getId();
             rowData[1] = temp.get(i).getReportDay();
             rowData[2] = temp.get(i).getProductTotal();
             rowData[3] = temp.get(i).getTicketTotal();
             model.addRow(rowData);
         }
-        txtTotal.setText(Integer.toString(Integer.parseInt(txtProduct.getText())+ Integer.parseInt(txtTicket.getText())));
-        
-      PieChart_AWT demo = new PieChart_AWT( "Total Sales", Integer.parseInt(txtProduct.getText()), Integer.parseInt(txtTicket.getText())); 
-   
-      demo.setSize( 560 , 367 );   
-      demo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-      RefineryUtilities.centerFrameOnScreen( demo );  
-      demo.setVisible( true );
+        txtTotal.setText(Integer.toString(Integer.parseInt(txtProduct.getText()) + Integer.parseInt(txtTicket.getText())));
+
+        PieChart_AWT demo = new PieChart_AWT("Total Sales", Integer.parseInt(txtProduct.getText()), Integer.parseInt(txtTicket.getText()));
+
+        demo.setSize(560, 367);
+        demo.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        RefineryUtilities.centerFrameOnScreen(demo);
+        demo.setVisible(true);
     }//GEN-LAST:event_btOKActionPerformed
 
     private void btExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExcelActionPerformed
         // TODO add your handling code here:
         try {
             WritableWorkbook workbook;
-            
+
             Date date = new Date();
-            String filename = "Report"+date.getTime()+".xls";
+            String filename = "Report" + date.getTime() + ".xls";
             File f = new File(filename);
             f.createNewFile();
             workbook = Workbook.createWorkbook(f);
@@ -300,7 +308,7 @@ public class ReportMCView extends javax.swing.JFrame {
 
             try {
                 sheet1.addCell(new Label(0, 0, "REPORT"));
-                
+
                 sheet1.addCell(new Label(0, 1, "Number of bill"));
                 sheet1.addCell(new Label(1, 1, temp.size() + ""));
                 sheet1.addCell(new Label(0, 2, "Total income"));
@@ -309,16 +317,14 @@ public class ReportMCView extends javax.swing.JFrame {
                 sheet1.addCell(new Label(1, 3, "Date"));
                 sheet1.addCell(new Label(2, 3, "Product Money"));
                 sheet1.addCell(new Label(3, 3, "Ticket Money"));
-                
 
-                SimpleDateFormat pFormatter=new SimpleDateFormat("yyyy-MM-dd");
-                
+                SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd");
+
                 for (int i = 0; i < temp.size(); i++) {
                     String id = Integer.toString(temp.get(i).getId());
                     String time = pFormatter.format(temp.get(i).getReportDay());
                     String product = Integer.toString(temp.get(i).getProductTotal());
                     String ticket = Integer.toString(temp.get(i).getTicketTotal());
-                    
 
                     int row = i + 4;
                     sheet1.addCell(new Label(0, row, id));
@@ -329,7 +335,7 @@ public class ReportMCView extends javax.swing.JFrame {
                 }
                 workbook.write();
                 workbook.close();
-                JOptionPane.showMessageDialog(this, "Đã xuất ra file Excel "+filename);
+                JOptionPane.showMessageDialog(this, "Đã xuất ra file Excel " + filename);
             } catch (WriteException ex) {
                 Logger.getLogger(ReportMCView.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {

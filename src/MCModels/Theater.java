@@ -110,7 +110,7 @@ public class Theater {
 
             db.openConnection();
 
-            ResultSet rst = db.getInsertObjectIDs(sqlstr);  
+            ResultSet rst = db.getInsertObjectIDs(sqlstr);
 
             if (rst != null && rst.first()) {
                 theater.setId(rst.getInt(1));
@@ -223,7 +223,7 @@ public class Theater {
     public int insert(Theater theater) {
         try {
             String sqlstr = "insert into theater( theaterName, theaterRowCount, theaterColCount, theaterStatus ) values( '"
-                    + theater.getName() + "', " + theater.getRowCount() + ", " + theater.getColCount() + "', 1 )";
+                    + theater.getName() + "', " + theater.getRowCount() + ", " + theater.getColCount() + ", 1 )";
             Database db = new Database();
             db.openConnection();
             ResultSet rst = db.getInsertObjectIDs(sqlstr);
@@ -259,15 +259,22 @@ public class Theater {
 
     public int delete(int id) {
         int rtn = 0;
-        try {
-            String sqlstr = "delete from theater ";
-            sqlstr += " where theaterId = " + id;
-            Database db = new Database();
-            db.openConnection();
-            rtn = db.execCommand(sqlstr);
-            db.close();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        Theater theater = new Theater();
+        theater.setId(id);
+        theater.setRowCount(theater.select("theaterId=" + theater.getId()).get(0).getRowCount());
+        theater.setColCount(theater.select("theaterId=" + theater.getId()).get(0).getColCount());
+
+        if (deleteSeats(theater) != 0) {
+            try {
+                String sqlstr = "delete from theater ";
+                sqlstr += " where theaterId = " + id;
+                Database db = new Database();
+                db.openConnection();
+                rtn = db.execCommand(sqlstr);
+                db.close();
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
         }
         return rtn;
     }
@@ -317,6 +324,30 @@ public class Theater {
                     seat.setColumn(j);
                     seat.setStatus(1);
                     tempSeat.insert(seat);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+        return 1;
+    }
+
+    public int deleteSeats(Theater theater) {
+        //Seat seat = new Seat();
+        //Seat tempSeat = new Seat();
+        try {
+            for (int i = 1; i <= theater.getRowCount(); i++) {
+                for (int j = 1; j <= theater.getColCount(); j++) {
+                    Seat seat = new Seat();
+                    Seat tempSeat = new Seat();
+
+                    seat.setTheaterId(theater.getId());
+                    seat.setRow(i);
+                    seat.setColumn(j);
+                    int seatId = (tempSeat.select("theaterId =" + seat.getId() + ", seatRow= " + seat.getRow() + ", seatCol=" + seat.getColumn())).get(0).getId();
+
+                    tempSeat.delete(seatId);
                 }
             }
         } catch (Exception e) {

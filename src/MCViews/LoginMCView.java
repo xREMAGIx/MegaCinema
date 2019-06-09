@@ -5,9 +5,11 @@
  */
 package MCViews;
 
+import MCControllers.EmployeeController;
 import MCControllers.UserController;
 //import MCModels.User;
 import java.awt.Color;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import keeptoo.Drag;
 
@@ -17,7 +19,7 @@ import keeptoo.Drag;
  */
 public class LoginMCView extends javax.swing.JFrame {
 
-    UserController uc = new UserController();
+    public int empId;
     
     /**
      * Creates new form LoginMCView
@@ -159,14 +161,15 @@ public class LoginMCView extends javax.swing.JFrame {
         String email = this.usernameTextField.getText();
         String pass = new String(this.userPasswordField.getPassword());
         
-        boolean res = uc.checkLogin(email,pass);
+        //boolean res = uc.checkLogin(email,pass);
+        boolean res = new EmployeeController().checkLogin(email,pass);
         
         if(res)
         {
             JOptionPane.showMessageDialog(null, "Login successful");
-
-            new mainForm().setVisible(true);
-
+            empId = new EmployeeController().Fetch("name = '"+email+"' and "+"pass= '"+pass+"' ").get(0).getId();
+            JFrame j =  new mainForm(empId);
+            j.setVisible(true);                        
             this.dispose();
             
         }

@@ -104,7 +104,7 @@ public class SellTicketController {
 
     public int doSale(Sale sale) {
         if (new SaleController().doSale(ticketList, sale)) {
-            int totalPrice = (int) sale.getPayment();
+            int totalPrice = (int) sale.getPayment() - (int) sale.getChange();
             makeNewSale();
             return totalPrice;
         }

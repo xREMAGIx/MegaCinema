@@ -231,7 +231,7 @@ public class Cinema {
 
             db.openConnection();
 
-            rtn = db.execCommand(sqlstr);
+            //rtn = db.execCommand(sqlstr);
 
             ResultSet rst = db.execQuery(sqlstr);
 

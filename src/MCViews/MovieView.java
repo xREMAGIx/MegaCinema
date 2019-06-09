@@ -37,6 +37,7 @@ public class MovieView extends javax.swing.JFrame {
     MovieController movieC = new MovieController();
     int act = 0;
     boolean tableRowClicked = false;
+    boolean chooseImageClicked = false;
     String imagePath;
     String fileName = null;
     byte[] imageFile = null;
@@ -327,6 +328,7 @@ public class MovieView extends javax.swing.JFrame {
         movieDurTextField.setEditable(true);
         movieNameTextField.setText("");
         movieDurTextField.setText("");
+        imageLbl.setIcon(null);
 
         act = 1;  //tell save button to act add
     }//GEN-LAST:event_addBtnActionPerformed
@@ -347,7 +349,10 @@ public class MovieView extends javax.swing.JFrame {
             movie.setName(movieNameTextField.getText());
             movie.setDuration(Integer.parseInt(movieDurTextField.getText()));
             movie.setStatus(status);
-            movie.setImage(imageFile);
+
+            if (chooseImageClicked == true) {
+                movie.setImage(imageFile);
+            }
 
             int res = movieC.Add(movie);
             if (res > 0) {
@@ -359,6 +364,7 @@ public class MovieView extends javax.swing.JFrame {
             act = 0;
             movieNameTextField.setEditable(false);
             movieDurTextField.setEditable(false);
+            chooseImageClicked = false;
 
         } else if (act == 2) //save modify info
         {
@@ -379,8 +385,11 @@ public class MovieView extends javax.swing.JFrame {
             movie.setDuration(dur);
             movie.setStatus(status);
 
-
-            movie.setImage(imageFile);
+            if (chooseImageClicked == true) {
+                movie.setImage(imageFile);
+            } else {
+                movie.setImage(movieC.select("movieId=" + movieTable.getValueAt(movieTable.getSelectedRow(), 0)).get(0).getImage());
+            }
 
             int res = movieC.Modify(movie);
             if (res > 0) {
@@ -393,6 +402,7 @@ public class MovieView extends javax.swing.JFrame {
             act = 0;
             movieNameTextField.setEditable(false);
             movieDurTextField.setEditable(false);
+            chooseImageClicked = false;
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
@@ -445,32 +455,13 @@ public class MovieView extends javax.swing.JFrame {
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
         // TODO add your handling code here:
 
-//       if (!event.getValueIsAdjusting()){
-//                movieTable.getSelectionModel().clearSelection();
         movieTable.clearSelection();
 
         DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
 
         model.setRowCount(0);   //clear data table
 
-//        if (model.getRowCount() > 0) {   
-//            for (int i = model.getRowCount() - 1; i > -1; i--) {        
-//                model.removeRow(i);   
-//            }
-//        }
-//        List <Movie> movieList = movieC.SelectAll();        
-//        Object rowData[] = new Object[4];
-//        Object[][] movieData = movieC.SelectAll();
-//        int length = (int) movieData[0][0];
-//        
-//        
-//        for (int i=0; i<length-1; i++){
-//            rowData[0] = movieData[i+1][0];   //id
-//            rowData[1] = movieData[i+1][1];   //name
-//            rowData[2] = movieData[i+1][2];   //dur
-//            rowData[3] = movieData[i+1][3];   //status
-//            model.addRow(rowData);
-//        }
+        //add info to table
         List<Movie> movieList = movieC.SelectAll();
         Object rowData[] = new Object[4];
 
@@ -543,6 +534,7 @@ public class MovieView extends javax.swing.JFrame {
 
     private void chooseImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseImgBtnActionPerformed
         // TODO add your handling code here:
+        chooseImageClicked = true;
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE", "jpg", "gif", "png");
@@ -581,8 +573,6 @@ public class MovieView extends javax.swing.JFrame {
         return image;
     }
 
-
-    
     public ImageIcon ResizeImage(String imgPath) {
         ImageIcon MyImage = new ImageIcon(imgPath);
         Image img = MyImage.getImage();
