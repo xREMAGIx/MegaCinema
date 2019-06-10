@@ -64,6 +64,7 @@ public class TheaterMCView extends javax.swing.JFrame {
         searchBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Theater Management");
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -297,7 +298,7 @@ public class TheaterMCView extends javax.swing.JFrame {
 
         if (tableRowClicked == true) {
             int id = (int) theaterTable.getValueAt(theaterTable.getSelectedRow(), 0);
-            int res = theaterC.Delete(id);
+            int res = theaterC.delete(id);
             int check = JOptionPane.showConfirmDialog(jScrollPane1, "Are you sure delete this theater?", "Delete", JOptionPane.YES_NO_OPTION);
             if (check == JOptionPane.YES_OPTION) {
                 if (res > 0) {

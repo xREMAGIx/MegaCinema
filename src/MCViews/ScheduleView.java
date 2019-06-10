@@ -44,7 +44,7 @@ public class ScheduleView extends javax.swing.JFrame {
 
     private ArrayListComboBoxModel modelTheater;
     private List<String> movieList = new ArrayList<>();
-    private int[] movieIdList = new int[(new MovieController().SelectAll()).size()];
+    private int[] movieIdList = new int[(new MovieController().selectAll()).size()];
     private ArrayListComboBoxModel modelMovie;
 
     int act = 0;
@@ -75,7 +75,7 @@ public class ScheduleView extends javax.swing.JFrame {
     public void loadMovie() {
         MovieController movieC = new MovieController();
         List<Movie> temp = null;
-        temp = movieC.SelectAll();
+        temp = movieC.selectAll();
         for (int i = 0; i < temp.size(); i++) {
             movieList.add(temp.get(i).getName());
             movieIdList[i] = temp.get(i).getId();
@@ -112,6 +112,7 @@ public class ScheduleView extends javax.swing.JFrame {
         searchBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Schedule Management");
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -351,7 +352,7 @@ public class ScheduleView extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (tableClicked == true) {
-            int res = scheduleC.Delete((int) scheduleTable.getValueAt(scheduleTable.getSelectedRow(), 0));
+            int res = scheduleC.delete((int) scheduleTable.getValueAt(scheduleTable.getSelectedRow(), 0));
             int check = JOptionPane.showConfirmDialog(jScrollPane1, "Are you sure delete this movie?", "Delete", JOptionPane.YES_NO_OPTION);
             if (check == JOptionPane.YES_OPTION) {
                 if (res > 0) {
@@ -379,7 +380,7 @@ public class ScheduleView extends javax.swing.JFrame {
 
         SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        List<Schedule> scheduleList = scheduleC.SelectAll();
+        List<Schedule> scheduleList = scheduleC.selectAll();
         Object rowData[] = new Object[5];
 
         for (int i = 0; i < scheduleList.size(); i++) {
@@ -469,7 +470,7 @@ public class ScheduleView extends javax.swing.JFrame {
                     dateTimeCheck = true;
 
                     //get list schedule of choosing theater
-                    List<Schedule> checkSchedList = scheduleC.Select("theaterId=" + sched.getTheaterId());
+                    List<Schedule> checkSchedList = scheduleC.select("theaterId=" + sched.getTheaterId());
 
                     boolean timeCollide = false;
                     int schedCollideId = 0;
@@ -527,7 +528,7 @@ public class ScheduleView extends javax.swing.JFrame {
                     }
                     if (timeCollide == false) {
                         //dateTimeCheck = true;
-                        int res = scheduleC.Add(sched);
+                        int res = scheduleC.add(sched);
                         if (res > 0) {
                             JOptionPane.showMessageDialog(null, "Saved - add new info");
                         } else {
@@ -601,7 +602,7 @@ public class ScheduleView extends javax.swing.JFrame {
                     dateTimeCheck = true;
 
                     //get list schedule of choosing theater
-                    List<Schedule> checkSchedList = scheduleC.Select("theaterId=" + sched.getTheaterId());
+                    List<Schedule> checkSchedList = scheduleC.select("theaterId=" + sched.getTheaterId());
 
                     boolean timeCollide = false;
                     int schedCollideId = 0;
@@ -659,7 +660,7 @@ public class ScheduleView extends javax.swing.JFrame {
                     }
                     if (timeCollide == false) {
                         //dateTimeCheck = true;
-                        int res = scheduleC.Modify(sched);
+                        int res = scheduleC.modify(sched);
                         if (res > 0) {
                             JOptionPane.showMessageDialog(null, "Saved - add new info");
                         } else {
@@ -705,7 +706,7 @@ public class ScheduleView extends javax.swing.JFrame {
         List<Movie> movieList = movieC.select("movieName like '%" + searchTextField.getText() + "%'");
         List<Schedule> scheduleList = new LinkedList<Schedule>();
         for (int i = 0; i < movieList.size(); i++) {
-            scheduleList.addAll(scheduleC.Select("movieId=" + movieList.get(i).getId()));
+            scheduleList.addAll(scheduleC.select("movieId=" + movieList.get(i).getId()));
         }
 
         Object rowData[] = new Object[5];

@@ -268,15 +268,15 @@ public class SeatView extends JPanel {
                                         ((JButton) e.getSource()).setIcon(iconSale);
                                     }
                                 } else if (rst > 0) {
-                                    if (new TicketController().Select("seatId=" + rst + " and " + "schedId=" + sched.getId())
+                                    if (new TicketController().select("seatId=" + rst + " and " + "schedId=" + sched.getId())
                                             .get(0).getStatus() == 0) {
                                         ((JButton) e.getSource()).setIcon(iconSale);
                                     } else if (new TicketController()
-                                            .Select("seatId=" + rst + " and " + "schedId=" + sched.getId()).get(0)
+                                            .select("seatId=" + rst + " and " + "schedId=" + sched.getId()).get(0)
                                             .getStatus() == 1) {
                                         ((JButton) e.getSource()).setIcon(iconSelected);
                                     } else if (new TicketController()
-                                            .Select("seatId=" + rst + " and " + "schedId=" + sched.getId()).get(0)
+                                            .select("seatId=" + rst + " and " + "schedId=" + sched.getId()).get(0)
                                             .getStatus() == 9) {
                                         ((JButton) e.getSource()).setIcon(iconSold);
                                     }
@@ -321,14 +321,14 @@ public class SeatView extends JPanel {
 
     private void addTreeNode(DefaultMutableTreeNode root) {
         MovieController movieC = new MovieController();
-        List<Movie> movieList = movieC.SelectAll();
+        List<Movie> movieList = movieC.selectAll();
         DefaultMutableTreeNode parentNode = null;
 
         for (Movie movieItem : movieList) {
             parentNode = new DefaultMutableTreeNode(movieItem.getName());
             root.add(parentNode);
             ScheduleController schedC = new ScheduleController();
-            List<Schedule> schedList = schedC.SelectAll();
+            List<Schedule> schedList = schedC.selectAll();
             DefaultMutableTreeNode childNode = null;
             for (Schedule schedItem : schedList) {
                 if (schedItem.getMovieId() == movieItem.getId()) {
@@ -353,9 +353,9 @@ public class SeatView extends JPanel {
                 }
             }
 
-            if (ticketC.Select("schedId = " + sched.getId()).size() != 0) {
+            if (ticketC.select("schedId = " + sched.getId()).size() != 0) {
 
-                for (Ticket item : ticketC.Select("schedId = " + sched.getId())) {
+                for (Ticket item : ticketC.select("schedId = " + sched.getId())) {
                     int i = new SeatController().select("seatId=" + item.getSeatId()).get(0).getRow();
                     int j = new SeatController().select("seatId=" + item.getSeatId()).get(0).getColumn();
                     if (item.getSeatId() == Integer.parseInt(btnSeats[i - 1][j - 1].getName())) {
@@ -374,7 +374,7 @@ public class SeatView extends JPanel {
     }
 
     public static void showPanel() {
-        JFrame frame = new JFrame("Seat management");
+        JFrame frame = new JFrame("Ticket Sale");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.add(new SeatView(1));
         frame.pack();
@@ -509,17 +509,17 @@ public class SeatView extends JPanel {
         private void btnChooseClicked(Seat bseat) {
             if (sched != null) {
                 if (bseat.getStatus() == 1) {
-                    if (new TicketController().Select("seatId=" + bseat.getId()).size() == 0
-                            || new TicketController().Select("seatId=" + bseat.getId()).get(0).getStatus() == 0) {
+                    if (new TicketController().select("seatId=" + bseat.getId()).size() == 0
+                            || new TicketController().select("seatId=" + bseat.getId()).get(0).getStatus() == 0) {
                         //select a seat and create a ticket 
                         ticket = sellTicket.makeNewTicket(sched, bseat);
                         sellTicket.addTicket(ticket);
                         prices += ticket.getPrice();
                         rst = bseat.getId();
                         rstList.add(bseat.getId());
-                    } else if (new TicketController().Select("seatId=" + bseat.getId()).size() != 0
-                            && new TicketController().Select("seatId=" + bseat.getId()).get(0).getStatus() == 1) {
-                        ticket = new TicketController().Select("seatId=" + bseat.getId()).get(0);
+                    } else if (new TicketController().select("seatId=" + bseat.getId()).size() != 0
+                            && new TicketController().select("seatId=" + bseat.getId()).get(0).getStatus() == 1) {
+                        ticket = new TicketController().select("seatId=" + bseat.getId()).get(0);
                         //ticket.setStatus(0);
 
                         prices -= ticket.getPrice();
@@ -532,8 +532,8 @@ public class SeatView extends JPanel {
                                 rstList.remove(rstList.get(i));
                             }
                         }
-                    } else if (new TicketController().Select("seatId=" + bseat.getId()).size() != 0
-                            && new TicketController().Select("seatId=" + bseat.getId()).get(0).getStatus() == 9) {
+                    } else if (new TicketController().select("seatId=" + bseat.getId()).size() != 0
+                            && new TicketController().select("seatId=" + bseat.getId()).get(0).getStatus() == 9) {
                         JOptionPane.showMessageDialog(null, "This seat is sold!");
                     }
                 } else {

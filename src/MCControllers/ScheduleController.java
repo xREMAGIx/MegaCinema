@@ -16,28 +16,28 @@ public class ScheduleController {
     
     private final Schedule scheduleM = new Schedule();
     
-    public int Add(Schedule schedule)
+    public int add(Schedule schedule)
     {
-        return scheduleM.Insert(schedule);
+        return scheduleM.insert(schedule);
     }
     
-    public int Modify(Schedule schedule)
+    public int modify(Schedule schedule)
     {
-        return scheduleM.Update(schedule);        
+        return scheduleM.update(schedule);        
     }
     
-    public int Delete(int id)
+    public int delete(int id)
     {
-        return scheduleM.Delete(id);
+        return scheduleM.delete(id);
     }
     
-    public List<Schedule> SelectAll()
+    public List<Schedule> selectAll()
     {
-        return scheduleM.Select("");
+        return scheduleM.select("");
     }
     
-    public List<Schedule> Select(String condt)
+    public List<Schedule> select(String condt)
     {
-        return scheduleM.Select(condt);
+        return scheduleM.select(condt);
     }
 }

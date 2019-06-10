@@ -109,7 +109,7 @@ public class Ticket {
         this.currentLockedTime = currentLockedTime;
     }    
     
-    public int Insert(Ticket ticket) {
+    public int insert(Ticket ticket) {
         try {
             String sqlstr = "insert into ticket( seatId, schedId, price, status ) values("
                     + ticket.getSeatId() + ", " + ticket.getScheduleId() + ", " + ticket.getPrice() + ", "
@@ -131,7 +131,7 @@ public class Ticket {
         return 0;
     }
 
-    public int Update(Ticket ticket) {
+    public int update(Ticket ticket) {
         int rtn = 0;
         try {
             String sqlstr = "update ticket set seatId = " + ticket.getSeatId() + ", schedId = "
@@ -149,7 +149,7 @@ public class Ticket {
         return rtn;
     }
 
-    public int Delete(int id) {
+    public int delete(int id) {
         int rtn = 0;
         try {
             String sqlstr = "delete from ticket ";
@@ -164,7 +164,7 @@ public class Ticket {
         return rtn;
     }
 
-    public List<Ticket> Select(String condt) {
+    public List<Ticket> select(String condt) {
         List<Ticket> ticketList = null;
         ticketList = new LinkedList<Ticket>();
         try {
@@ -201,7 +201,7 @@ public class Ticket {
         return ticketList;
     }
 
-    public int LockTicket(int ID, String time) {
+    public int lockTicket(int ID, String time) {
         int rtn = 0;
         try {
             String sqlstr = "update ticket set status = 1, lockedTime = '" + time + "'";
@@ -217,7 +217,7 @@ public class Ticket {
         return rtn;
     }
 
-    public int UnlockTicket(int ID) {
+    public int unlockTicket(int ID) {
         int rtn = 0;
         try {
             String sqlstr = "update ticket set status = 0";

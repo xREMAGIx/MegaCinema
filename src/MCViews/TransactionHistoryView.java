@@ -74,6 +74,7 @@ public class TransactionHistoryView extends javax.swing.JFrame {
         productDetailTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Transaction History");
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -355,17 +356,17 @@ public class TransactionHistoryView extends javax.swing.JFrame {
 
         List<SaleItem> saleItemList = new SaleItemController().select("saleId=" + ticketIdClicked);
         for (int i = 0; i < saleItemList.size(); i++) {
-            ticketList.add(new TicketController().Select("id=" + saleItemList.get(i).getTicketId()).get(0));
+            ticketList.add(new TicketController().select("id=" + saleItemList.get(i).getTicketId()).get(0));
         }
 
         Object rowData[] = new Object[5];
 
         for (int i = 0; i < ticketList.size(); i++) {
 
-            rowData[0] = new TheaterController().select("theaterId=" + (new ScheduleController().Select(
+            rowData[0] = new TheaterController().select("theaterId=" + (new ScheduleController().select(
                     "schedId=" + ticketList.get(i).getScheduleId()).get(0)).getTheaterId()).get(0).getName();
 
-            rowData[1] = new ScheduleController().Select("schedId=" + ticketList.get(i).getScheduleId()).get(0).getTime();
+            rowData[1] = new ScheduleController().select("schedId=" + ticketList.get(i).getScheduleId()).get(0).getTime();
 
             rowData[2] = new SeatController().select("seatId=" + ticketList.get(i).getSeatId()).get(0).getRow();
             rowData[3] = new SeatController().select("seatId=" + ticketList.get(i).getSeatId()).get(0).getColumn();

@@ -3,6 +3,7 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="Product Sale"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -49,14 +50,12 @@
                                   <Component id="totalLbl" min="-2" max="-2" attributes="0"/>
                                   <Component id="dateTimeLbl" min="-2" max="-2" attributes="0"/>
                                   <Component id="cinemaLbl" min="-2" max="-2" attributes="0"/>
-                                  <Component id="idLbl" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="dtTime" min="-2" pref="307" max="-2" attributes="0"/>
                                   <Component id="txtTotal" alignment="0" min="-2" pref="297" max="-2" attributes="0"/>
                                   <Component id="cbCinema" alignment="0" min="-2" pref="141" max="-2" attributes="0"/>
-                                  <Component id="txtId" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -104,11 +103,6 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="txtId" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="idLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="cbCinema" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cinemaLbl" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -195,12 +189,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtQuantity">
     </Component>
-    <Component class="javax.swing.JTextField" name="txtId">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="ID"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JComboBox" name="cbCinema">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -277,11 +265,6 @@
     <Component class="javax.swing.JLabel" name="cinemaLbl">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cinema:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="idLbl">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="ID:"/>
       </Properties>
     </Component>
   </SubComponents>

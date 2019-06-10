@@ -5,6 +5,8 @@
  */
 package MCViews;
 
+import MCControllers.EmployeeController;
+
 /**
  *
  * @author DELL
@@ -20,13 +22,22 @@ public class mainForm extends javax.swing.JFrame {
     public void setEmpId(int empId) {
         this.empIdM = empId;
     }
-    
+
     /**
      * Creates new form mainForm
      */
     public mainForm(int empId) {
         initComponents();
-        empIdM = empId;
+        empIdM = empId;        
+        if (new EmployeeController().Fetch("id= " + empIdM).get(0).getAccess() == 1) {
+            scheduleBtn.setEnabled(false);
+            theaterBtn.setEnabled(false);
+            saleBtn.setEnabled(false);
+            storageBtn.setEnabled(false);
+            employeeBtn.setEnabled(false);
+            movieBtn.setEnabled(false);
+            reportBtn.setEnabled(false);
+        }
     }
 
     /**
@@ -50,6 +61,7 @@ public class mainForm extends javax.swing.JFrame {
         sellProductBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Mega Cinema");
         setBackground(new java.awt.Color(252, 214, 112));
         setMaximumSize(new java.awt.Dimension(620, 400));
         setMinimumSize(new java.awt.Dimension(620, 400));
@@ -101,7 +113,7 @@ public class mainForm extends javax.swing.JFrame {
         });
 
         seatBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/seatIcon64px.png"))); // NOI18N
-        seatBtn.setText("Seat");
+        seatBtn.setText("Ticket Sale");
         seatBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         seatBtn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         seatBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -229,7 +241,7 @@ public class mainForm extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         new ScheduleView().setVisible(true);
-        
+
     }//GEN-LAST:event_scheduleBtnActionPerformed
 
     private void theaterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_theaterBtnActionPerformed

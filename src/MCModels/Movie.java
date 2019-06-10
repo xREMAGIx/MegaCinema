@@ -95,7 +95,7 @@ public class Movie {
 
     Blob blob = null;
 
-    public int Insert(Movie movie) {
+    public int insert(Movie movie) {
         try {
             blob = new SerialBlob(movie.getImage());
         } catch (SQLException ex) {
@@ -144,7 +144,7 @@ public class Movie {
         return 0;
     }
 
-    public int Update(Movie movie) {
+    public int update(Movie movie) {
 
         int rtn = 0;
 
@@ -182,7 +182,7 @@ public class Movie {
         return rtn;
     }
 
-    public int Delete(int ID) {
+    public int delete(int ID) {
 
         int rtn = 0;
 
@@ -207,7 +207,7 @@ public class Movie {
         return rtn;
     }
 
-    public List<Movie> Select(String condt) {
+    public List<Movie> select(String condt) {
 
         List<Movie> movieList = null;
 
@@ -280,7 +280,7 @@ public class Movie {
         return movieList;
     }
 
-    public List<Movie> SelectScheduledMovie(String condt) {
+    public List<Movie> selectScheduledMovie(String condt) {
 
         List<Movie> stuList = null;
 

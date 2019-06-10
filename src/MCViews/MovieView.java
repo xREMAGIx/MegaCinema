@@ -80,6 +80,7 @@ public class MovieView extends javax.swing.JFrame {
         searchBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Movie Management");
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
@@ -304,7 +305,7 @@ public class MovieView extends javax.swing.JFrame {
 
         if (tableRowClicked == true) {
             int id = (int) movieTable.getValueAt(movieTable.getSelectedRow(), 0);
-            int res = movieC.Delete(id);
+            int res = movieC.delete(id);
             int check = JOptionPane.showConfirmDialog(jScrollPane1, "Are you sure delete this movie?", "Delete", JOptionPane.YES_NO_OPTION);
             if (check == JOptionPane.YES_OPTION) {
                 if (res > 0) {
@@ -354,7 +355,7 @@ public class MovieView extends javax.swing.JFrame {
                 movie.setImage(imageFile);
             }
 
-            int res = movieC.Add(movie);
+            int res = movieC.add(movie);
             if (res > 0) {
                 JOptionPane.showMessageDialog(null, "Saved - add new info");
             } else {
@@ -391,7 +392,7 @@ public class MovieView extends javax.swing.JFrame {
                 movie.setImage(movieC.select("movieId=" + movieTable.getValueAt(movieTable.getSelectedRow(), 0)).get(0).getImage());
             }
 
-            int res = movieC.Modify(movie);
+            int res = movieC.modify(movie);
             if (res > 0) {
                 JOptionPane.showMessageDialog(null, "Saved info changed");
             } else {
@@ -420,7 +421,7 @@ public class MovieView extends javax.swing.JFrame {
 //        Object rowData[] = new Object[4];
 //        Object[][] movieData = movieC.SelectAll();
 //        int length = (int) movieData[0][0];
-        List<Movie> movieList = movieC.SelectAll();
+        List<Movie> movieList = movieC.selectAll();
         Object rowData[] = new Object[4];
 
         for (int i = 0; i < movieList.size(); i++) {
@@ -462,7 +463,7 @@ public class MovieView extends javax.swing.JFrame {
         model.setRowCount(0);   //clear data table
 
         //add info to table
-        List<Movie> movieList = movieC.SelectAll();
+        List<Movie> movieList = movieC.selectAll();
         Object rowData[] = new Object[4];
 
         for (int i = 0; i < movieList.size(); i++) {

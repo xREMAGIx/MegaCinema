@@ -126,6 +126,7 @@ public class ReportMCView extends javax.swing.JFrame {
         txtTotal = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Report");
 
         btOK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/okIcon32px.png"))); // NOI18N
         btOK.setText("OK");

@@ -84,7 +84,7 @@ public class BillFood {
     public int Insert(BillFood billfood) {
 
         try {
-            String sqlstr = "insert into billFood (billId, empId, cinemaId, Time, Total) values(" + billfood.getId() + ", " + billfood.getEmpId() + ", "
+            String sqlstr = "insert into billFood (empId, cinemaId, Time, Total) values(" + billfood.getEmpId() + ", "
                     + billfood.getCinemaId() + ", '" + pFormatter.format(billfood.getTime()) + "', " + billfood.getTotal() + " )";
 
             Database db = new Database();
@@ -93,12 +93,14 @@ public class BillFood {
 
             ResultSet rst = db.getInsertObjectIDs(sqlstr);
 
-//            if (rst != null && rst.first()) {	
-//                billfood.setId(rst.getInt(1));		
-//            }	
+            if (rst != null && rst.first()) {	
+                billfood.setId(rst.getInt(1));		
+            }	
             db.close(rst);
+            db.close();
+            
             //db.closeConnection();	
-            return 1;
+            return billfood.getId();
 
         } catch (Exception e) {
             //e.printStackTrace();

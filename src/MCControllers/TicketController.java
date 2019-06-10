@@ -17,30 +17,30 @@ public class TicketController {
     private final Ticket ticketM = new Ticket();
 
     public int add(Ticket ticket) {
-        return ticketM.Insert(ticket);
+        return ticketM.insert(ticket);
     }
 
     public int modify(Ticket ticket) {
-        return ticketM.Update(ticket);
+        return ticketM.update(ticket);
     }
 
     public int delete(int ID) {
-        return ticketM.Delete(ID);
+        return ticketM.delete(ID);
     }
 
-    public List<Ticket> Select(String condt) {
-        return ticketM.Select(condt);
+    public List<Ticket> select(String condt) {
+        return ticketM.select(condt);
     }
 
-    public List<Ticket> SelectAll() {
-        return ticketM.Select("");
+    public List<Ticket> selectAll() {
+        return ticketM.select("");
     }
 
     public int lockTicket(int ID, String time) {
-        return ticketM.LockTicket(ID, time);
+        return ticketM.lockTicket(ID, time);
     }
 
     public int unlockTicket(int ID) {
-        return ticketM.UnlockTicket(ID);
+        return ticketM.unlockTicket(ID);
     }
 }
