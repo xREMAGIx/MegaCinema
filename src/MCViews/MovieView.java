@@ -7,6 +7,7 @@ package MCViews;
 
 import MCControllers.MovieController;
 import MCModels.Movie;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -21,12 +22,17 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import keeptoo.Drag;
 
 /**
  *
@@ -37,6 +43,7 @@ public class MovieView extends javax.swing.JFrame {
     MovieController movieC = new MovieController();
     int act = 0;
     boolean tableRowClicked = false;
+    boolean chooseImageClicked = false;
     String imagePath;
     String fileName = null;
     byte[] imageFile = null;
@@ -46,6 +53,9 @@ public class MovieView extends javax.swing.JFrame {
      */
     public MovieView() {
         initComponents();
+        this.setDefaultLookAndFeelDecorated(true);
+        this.pack();
+
     }
 
     /**
@@ -58,13 +68,12 @@ public class MovieView extends javax.swing.JFrame {
     private void initComponents() {
 
         addRBGroup = new javax.swing.ButtonGroup();
+        kGradientPanel1 = new keeptoo.KGradientPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         movieTable = new javax.swing.JTable();
         addBtn = new javax.swing.JButton();
         modifyBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
-        refreshBtn = new javax.swing.JButton();
-        javax.swing.JPanel addPanel = new javax.swing.JPanel();
         movieNameTextField = new javax.swing.JTextField();
         nameText = new javax.swing.JLabel();
         durationText = new javax.swing.JLabel();
@@ -77,14 +86,36 @@ public class MovieView extends javax.swing.JFrame {
         chooseImgBtn = new javax.swing.JButton();
         searchTextField = new javax.swing.JTextField();
         searchBtn = new javax.swing.JButton();
+        movieFLbl = new javax.swing.JLabel();
+        exitBtn = new javax.swing.JButton();
+        minuteLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Movie Management");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setUndecorated(true);
+        setResizable(false);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        kGradientPanel1.setkEndColor(new java.awt.Color(210, 77, 87));
+        kGradientPanel1.setkStartColor(new java.awt.Color(34, 49, 63));
+        kGradientPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                kGradientPanel1MouseDragged(evt);
+            }
+        });
+        kGradientPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                kGradientPanel1MousePressed(evt);
+            }
+        });
+
+        movieTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         movieTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -101,185 +132,291 @@ public class MovieView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        movieTable.setFocusable(false);
+        movieTable.setGridColor(new java.awt.Color(255, 255, 255));
+        movieTable.setOpaque(false);
+        movieTable.setSelectionBackground(new java.awt.Color(150, 40, 27));
         movieTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         movieTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(movieTable);
+        if (movieTable.getColumnModel().getColumnCount() > 0) {
+            movieTable.getColumnModel().getColumn(0).setMinWidth(3);
+            movieTable.getColumnModel().getColumn(0).setPreferredWidth(3);
+            movieTable.getColumnModel().getColumn(2).setMinWidth(5);
+            movieTable.getColumnModel().getColumn(2).setPreferredWidth(10);
+            movieTable.getColumnModel().getColumn(3).setMinWidth(5);
+            movieTable.getColumnModel().getColumn(3).setPreferredWidth(10);
+        }
 
+        addBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        addBtn.setForeground(new java.awt.Color(255, 255, 255));
         addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/addIcon32px.png"))); // NOI18N
         addBtn.setText("Add");
+        addBtn.setBorder(null);
+        addBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        addBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        addBtn.setOpaque(false);
+        addBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBtnActionPerformed(evt);
             }
         });
 
+        modifyBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        modifyBtn.setForeground(new java.awt.Color(255, 255, 255));
         modifyBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/modifyIcon32px.png"))); // NOI18N
         modifyBtn.setText("Modify");
         modifyBtn.setToolTipText("");
+        modifyBtn.setBorder(null);
+        modifyBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        modifyBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        modifyBtn.setOpaque(false);
+        modifyBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         modifyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 modifyBtnActionPerformed(evt);
             }
         });
 
+        deleteBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/deleteIcon32px.png"))); // NOI18N
         deleteBtn.setText("Delete");
+        deleteBtn.setBorder(null);
+        deleteBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        deleteBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        deleteBtn.setOpaque(false);
+        deleteBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteBtnActionPerformed(evt);
             }
         });
 
-        refreshBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/refeshIcon32px.png"))); // NOI18N
-        refreshBtn.setText("Refresh");
-        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshBtnActionPerformed(evt);
-            }
-        });
+        movieNameTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        movieNameTextField.setForeground(new java.awt.Color(255, 255, 255));
+        movieNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        movieNameTextField.setOpaque(false);
 
+        nameText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        nameText.setForeground(new java.awt.Color(255, 255, 255));
         nameText.setText("Name");
 
+        durationText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        durationText.setForeground(new java.awt.Color(255, 255, 255));
         durationText.setText("Duration");
 
+        movieDurTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        movieDurTextField.setForeground(new java.awt.Color(255, 255, 255));
+        movieDurTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        movieDurTextField.setOpaque(false);
+
         addRBGroup.add(availableRB);
+        availableRB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        availableRB.setForeground(new java.awt.Color(255, 255, 255));
         availableRB.setText("Available");
+        availableRB.setOpaque(false);
 
         addRBGroup.add(notAvailableRB);
+        notAvailableRB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        notAvailableRB.setForeground(new java.awt.Color(255, 255, 255));
         notAvailableRB.setText("Not Available");
+        notAvailableRB.setOpaque(false);
 
+        statusText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        statusText.setForeground(new java.awt.Color(255, 255, 255));
         statusText.setText("Status");
 
+        saveBtn.setBackground(new java.awt.Color(210, 77, 87));
+        saveBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        saveBtn.setForeground(new java.awt.Color(255, 255, 255));
         saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/saveIcon32px.png"))); // NOI18N
         saveBtn.setText("Save");
+        saveBtn.setBorder(null);
+        saveBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        saveBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        saveBtn.setOpaque(false);
+        saveBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveBtnActionPerformed(evt);
             }
         });
 
+        imageLbl.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+
+        chooseImgBtn.setBackground(new java.awt.Color(210, 77, 87));
+        chooseImgBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        chooseImgBtn.setForeground(new java.awt.Color(255, 255, 255));
         chooseImgBtn.setText("Choose Image ");
+        chooseImgBtn.setBorder(null);
+        chooseImgBtn.setOpaque(false);
         chooseImgBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 chooseImgBtnActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
-        addPanel.setLayout(addPanelLayout);
-        addPanelLayout.setHorizontalGroup(
-            addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, addPanelLayout.createSequentialGroup()
-                        .addComponent(nameText)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(movieNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(addPanelLayout.createSequentialGroup()
-                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(durationText)
-                            .addComponent(statusText))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(movieDurTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(addPanelLayout.createSequentialGroup()
-                                .addComponent(availableRB)
-                                .addGap(36, 36, 36)
-                                .addComponent(notAvailableRB))))
-                    .addGroup(addPanelLayout.createSequentialGroup()
-                        .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(chooseImgBtn)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(saveBtn)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        addPanelLayout.setVerticalGroup(
-            addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameText)
-                    .addComponent(movieNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(durationText)
-                    .addComponent(movieDurTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statusText)
-                    .addComponent(availableRB)
-                    .addComponent(notAvailableRB))
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addPanelLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(chooseImgBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(saveBtn)
-                        .addGap(19, 19, 19))
-                    .addGroup(addPanelLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(imageLbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-        );
-
         searchTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchTextField.setForeground(new java.awt.Color(255, 255, 255));
+        searchTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        searchTextField.setOpaque(false);
 
+        searchBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchBtn.setForeground(new java.awt.Color(255, 255, 255));
         searchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/searchIcon32px.png"))); // NOI18N
         searchBtn.setText("Search");
+        searchBtn.setBorder(null);
+        searchBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        searchBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        searchBtn.setOpaque(false);
+        searchBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchBtnActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(searchBtn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(addBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(modifyBtn)
-                        .addGap(14, 14, 14)
-                        .addComponent(deleteBtn)
-                        .addGap(18, 18, 18)
-                        .addComponent(refreshBtn))
-                    .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE))
+        movieFLbl.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        movieFLbl.setForeground(new java.awt.Color(255, 255, 255));
+        movieFLbl.setText("Movie Management");
+
+        exitBtn.setBackground(new java.awt.Color(240, 52, 52));
+        exitBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        exitBtn.setForeground(new java.awt.Color(255, 255, 255));
+        exitBtn.setText("Back");
+        exitBtn.setBorder(null);
+        exitBtn.setMaximumSize(new java.awt.Dimension(30, 15));
+        exitBtn.setMinimumSize(new java.awt.Dimension(30, 15));
+        exitBtn.setPreferredSize(new java.awt.Dimension(30, 15));
+        exitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtnActionPerformed(evt);
+            }
+        });
+
+        minuteLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        minuteLbl.setForeground(new java.awt.Color(255, 255, 255));
+        minuteLbl.setText("minutes");
+
+        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
+        kGradientPanel1.setLayout(kGradientPanel1Layout);
+        kGradientPanel1Layout.setHorizontalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, kGradientPanel1Layout.createSequentialGroup()
+                                            .addComponent(nameText)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(movieNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                            .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(durationText)
+                                                .addComponent(statusText))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                                            .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                                    .addComponent(availableRB)
+                                                    .addGap(36, 36, 36)
+                                                    .addComponent(notAvailableRB))
+                                                .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                                    .addComponent(movieDurTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(minuteLbl)))
+                                            .addGap(47, 47, 47)))
+                                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                        .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addComponent(chooseImgBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                                .addGap(42, 42, 42)
+                                                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(31, 31, 31))
+                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                .addComponent(movieFLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 650, Short.MAX_VALUE)
+                                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
+                        .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26))
+            .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                    .addGap(419, 419, 419)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 572, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(19, Short.MAX_VALUE)))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBtn))
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addBtn)
-                    .addComponent(modifyBtn)
-                    .addComponent(deleteBtn)
-                    .addComponent(refreshBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+        kGradientPanel1Layout.setVerticalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(movieFLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(searchTextField)
+                        .addGap(6, 6, 6)))
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameText)
+                    .addComponent(movieNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(durationText)
+                    .addComponent(movieDurTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minuteLbl))
+                .addGap(17, 17, 17)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(statusText)
+                    .addComponent(availableRB)
+                    .addComponent(notAvailableRB))
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(imageLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(chooseImgBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50))))
+            .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                    .addGap(39, 39, 39)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(17, Short.MAX_VALUE)))
         );
 
+        getContentPane().add(kGradientPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1010, 510));
+
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
 
@@ -303,7 +440,7 @@ public class MovieView extends javax.swing.JFrame {
 
         if (tableRowClicked == true) {
             int id = (int) movieTable.getValueAt(movieTable.getSelectedRow(), 0);
-            int res = movieC.Delete(id);
+            int res = movieC.delete(id);
             int check = JOptionPane.showConfirmDialog(jScrollPane1, "Are you sure delete this movie?", "Delete", JOptionPane.YES_NO_OPTION);
             if (check == JOptionPane.YES_OPTION) {
                 if (res > 0) {
@@ -312,7 +449,7 @@ public class MovieView extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to delete");
                 }
 
-                refreshBtnActionPerformed(evt);
+                refresh();
                 act = 0;
             }
         } else {
@@ -327,6 +464,7 @@ public class MovieView extends javax.swing.JFrame {
         movieDurTextField.setEditable(true);
         movieNameTextField.setText("");
         movieDurTextField.setText("");
+        imageLbl.setIcon(null);
 
         act = 1;  //tell save button to act add
     }//GEN-LAST:event_addBtnActionPerformed
@@ -347,18 +485,22 @@ public class MovieView extends javax.swing.JFrame {
             movie.setName(movieNameTextField.getText());
             movie.setDuration(Integer.parseInt(movieDurTextField.getText()));
             movie.setStatus(status);
-            movie.setImage(imageFile);
 
-            int res = movieC.Add(movie);
+            if (chooseImageClicked == true) {
+                movie.setImage(imageFile);
+            }
+
+            int res = movieC.add(movie);
             if (res > 0) {
                 JOptionPane.showMessageDialog(null, "Saved - add new info");
             } else {
                 JOptionPane.showMessageDialog(null, "Unable to save");
             }
-            refreshBtnActionPerformed(evt);
+            refresh();
             act = 0;
             movieNameTextField.setEditable(false);
             movieDurTextField.setEditable(false);
+            chooseImageClicked = false;
 
         } else if (act == 2) //save modify info
         {
@@ -379,20 +521,24 @@ public class MovieView extends javax.swing.JFrame {
             movie.setDuration(dur);
             movie.setStatus(status);
 
+            if (chooseImageClicked == true) {
+                movie.setImage(imageFile);
+            } else {
+                movie.setImage(movieC.select("movieId=" + movieTable.getValueAt(movieTable.getSelectedRow(), 0)).get(0).getImage());
+            }
 
-            movie.setImage(imageFile);
-
-            int res = movieC.Modify(movie);
+            int res = movieC.modify(movie);
             if (res > 0) {
                 JOptionPane.showMessageDialog(null, "Saved info changed");
             } else {
                 JOptionPane.showMessageDialog(null, "Unable to save");
             }
 
-            refreshBtnActionPerformed(evt);
+            refresh();
             act = 0;
             movieNameTextField.setEditable(false);
             movieDurTextField.setEditable(false);
+            chooseImageClicked = false;
         }
     }//GEN-LAST:event_saveBtnActionPerformed
 
@@ -410,7 +556,7 @@ public class MovieView extends javax.swing.JFrame {
 //        Object rowData[] = new Object[4];
 //        Object[][] movieData = movieC.SelectAll();
 //        int length = (int) movieData[0][0];
-        List<Movie> movieList = movieC.SelectAll();
+        List<Movie> movieList = movieC.selectAll();
         Object rowData[] = new Object[4];
 
         for (int i = 0; i < movieList.size(); i++) {
@@ -420,6 +566,7 @@ public class MovieView extends javax.swing.JFrame {
             rowData[3] = movieList.get(i).getStatus();
             model.addRow(rowData);
         }
+        imageLbl.setIcon(null);
 
         movieTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -442,69 +589,6 @@ public class MovieView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formComponentShown
 
-    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        // TODO add your handling code here:
-
-//       if (!event.getValueIsAdjusting()){
-//                movieTable.getSelectionModel().clearSelection();
-        movieTable.clearSelection();
-
-        DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
-
-        model.setRowCount(0);   //clear data table
-
-//        if (model.getRowCount() > 0) {   
-//            for (int i = model.getRowCount() - 1; i > -1; i--) {        
-//                model.removeRow(i);   
-//            }
-//        }
-//        List <Movie> movieList = movieC.SelectAll();        
-//        Object rowData[] = new Object[4];
-//        Object[][] movieData = movieC.SelectAll();
-//        int length = (int) movieData[0][0];
-//        
-//        
-//        for (int i=0; i<length-1; i++){
-//            rowData[0] = movieData[i+1][0];   //id
-//            rowData[1] = movieData[i+1][1];   //name
-//            rowData[2] = movieData[i+1][2];   //dur
-//            rowData[3] = movieData[i+1][3];   //status
-//            model.addRow(rowData);
-//        }
-        List<Movie> movieList = movieC.SelectAll();
-        Object rowData[] = new Object[4];
-
-        for (int i = 0; i < movieList.size(); i++) {
-            rowData[0] = movieList.get(i).getId();
-            rowData[1] = movieList.get(i).getName();
-            rowData[2] = movieList.get(i).getDuration();
-            rowData[3] = movieList.get(i).getStatus();
-            model.addRow(rowData);
-        }
-
-        movieNameTextField.setEditable(false);
-        movieDurTextField.setEditable(false);
-        tableRowClicked = false;
-
-        movieTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent event) {
-
-                movieNameTextField.setEditable(false);
-                movieDurTextField.setEditable(false);
-
-                Image img = null;
-                img = convertByteToImage(movieC.select("movieId=" + movieTable.getValueAt(movieTable.getSelectedRow(), 0)).get(0).getImage());
-                if (img != null) {
-                    ImageIcon imageIcon = new ImageIcon(img.getScaledInstance(imageLbl.getWidth(), imageLbl.getHeight(), Image.SCALE_SMOOTH));
-                    imageLbl.setIcon(imageIcon);
-                } else {
-                    imageLbl.setIcon(null);
-                }
-            }
-        });
-    }//GEN-LAST:event_refreshBtnActionPerformed
-
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
         movieTable.clearSelection();
@@ -512,6 +596,7 @@ public class MovieView extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
 
         model.setRowCount(0);   //clear data table
+
         List<Movie> movieList = movieC.select("movieName like '%" + searchTextField.getText() + "%'");
         Object rowData[] = new Object[4];
 
@@ -543,6 +628,7 @@ public class MovieView extends javax.swing.JFrame {
 
     private void chooseImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chooseImgBtnActionPerformed
         // TODO add your handling code here:
+        chooseImageClicked = true;
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         FileNameExtensionFilter filter = new FileNameExtensionFilter("*.IMAGE", "jpg", "gif", "png");
@@ -567,6 +653,67 @@ public class MovieView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_chooseImgBtnActionPerformed
 
+
+    private void kGradientPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel1MousePressed
+        // TODO add your handling code here:
+        new Drag(kGradientPanel1).onPress(evt);
+
+    }//GEN-LAST:event_kGradientPanel1MousePressed
+
+    private void kGradientPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel1MouseDragged
+        // TODO add your handling code here:
+        new Drag(kGradientPanel1).moveWindow(evt);
+    }//GEN-LAST:event_kGradientPanel1MouseDragged
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_exitBtnActionPerformed
+
+    public void refresh() {
+        // TODO add your handling code here:
+
+        movieTable.clearSelection();
+
+        DefaultTableModel model = (DefaultTableModel) movieTable.getModel();
+
+        model.setRowCount(0);   //clear data table
+
+        //add info to table
+        List<Movie> movieList = movieC.selectAll();
+        Object rowData[] = new Object[4];
+
+        for (int i = 0; i < movieList.size(); i++) {
+            rowData[0] = movieList.get(i).getId();
+            rowData[1] = movieList.get(i).getName();
+            rowData[2] = movieList.get(i).getDuration();
+            rowData[3] = movieList.get(i).getStatus();
+            model.addRow(rowData);
+        }
+
+        movieNameTextField.setEditable(false);
+        movieDurTextField.setEditable(false);
+        tableRowClicked = false;
+
+        movieTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+
+                movieNameTextField.setEditable(false);
+                movieDurTextField.setEditable(false);
+
+                Image img = null;
+                img = convertByteToImage(movieC.select("movieId=" + movieTable.getValueAt(movieTable.getSelectedRow(), 0)).get(0).getImage());
+                if (img != null) {
+                    ImageIcon imageIcon = new ImageIcon(img.getScaledInstance(imageLbl.getWidth(), imageLbl.getHeight(), Image.SCALE_SMOOTH));
+                    imageLbl.setIcon(imageIcon);
+                } else {
+                    imageLbl.setIcon(null);
+                }
+            }
+        });
+    }
+
     public Image convertByteToImage(byte[] img) {
         BufferedImage image = null;
         if (img != null) {
@@ -581,8 +728,6 @@ public class MovieView extends javax.swing.JFrame {
         return image;
     }
 
-
-    
     public ImageIcon ResizeImage(String imgPath) {
         ImageIcon MyImage = new ImageIcon(imgPath);
         Image img = MyImage.getImage();
@@ -602,8 +747,9 @@ public class MovieView extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    System.out.println("Run");
                     break;
                 }
             }
@@ -622,7 +768,6 @@ public class MovieView extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MovieView().setVisible(true);
-
             }
         });
     }
@@ -634,15 +779,18 @@ public class MovieView extends javax.swing.JFrame {
     private javax.swing.JButton chooseImgBtn;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel durationText;
+    private javax.swing.JButton exitBtn;
     private javax.swing.JLabel imageLbl;
     private javax.swing.JScrollPane jScrollPane1;
+    private keeptoo.KGradientPanel kGradientPanel1;
+    private javax.swing.JLabel minuteLbl;
     private javax.swing.JButton modifyBtn;
     private javax.swing.JTextField movieDurTextField;
+    private javax.swing.JLabel movieFLbl;
     private javax.swing.JTextField movieNameTextField;
     private javax.swing.JTable movieTable;
     private javax.swing.JLabel nameText;
     private javax.swing.JRadioButton notAvailableRB;
-    private javax.swing.JButton refreshBtn;
     private javax.swing.JButton saveBtn;
     private javax.swing.JButton searchBtn;
     private javax.swing.JTextField searchTextField;

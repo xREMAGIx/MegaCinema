@@ -38,6 +38,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import  MCModels.Employee;
 import MCControllers.EmployeeController;
+import javax.swing.JPasswordField;
 import jdk.nashorn.internal.parser.TokenType;
 
 // permission
@@ -142,9 +143,7 @@ public class EmployeeMCView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
                             // Phan quyen cho admin va manager
-
 				if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) {     //access != 1
-
 					EmployeeDialog playDialog = new EmployeeDialog(1);
 					playDialog.toFront();
 					playDialog.setModal(true);
@@ -165,9 +164,7 @@ public class EmployeeMCView extends JPanel {
                                     @Override
 		public void actionPerformed(ActionEvent e) 
                              {
-
                                     if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) 
-
                                     {
 			EmployeeDialog playDialog = new EmployeeDialog(2);
 			playDialog.toFront();
@@ -191,7 +188,6 @@ public class EmployeeMCView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
                             // Phan quyen edit nhan vien cho admin va manager
 				if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) {        //access != 1
-
 					EmployeeDialog playDialog = new EmployeeDialog(3);
 					playDialog.toFront();
 					playDialog.setModal(true);
@@ -212,7 +208,6 @@ public class EmployeeMCView extends JPanel {
 			public void actionPerformed(ActionEvent e) {
                             // Phan quyen xoa nhan vien cho admin va manager
 				if (new EmployeeController().Fetch("id=" + empId).get(0).getAccess() != 1) {    //access != 1 : nhan vien khong thuc hien dc thao tac nay
-
 					EmployeeDialog playDialog = new EmployeeDialog(4);
 					playDialog.toFront();
 					playDialog.setModal(true);
@@ -246,9 +241,7 @@ public class EmployeeMCView extends JPanel {
 
 	public static void showPanel() {
 		JFrame frame = new JFrame("Employee Management");
-
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
 		frame.add(new EmployeeMCView(1));
 		frame.pack();
 		frame.setVisible(true);
@@ -264,7 +257,8 @@ public class EmployeeMCView extends JPanel {
 		private JPanel pan = new JPanel();
 		private JComboBox<String> cbxAccess;
 		private JLabel lblAccess, lblName, lblNo, lblPassWord, lblAddr, lblTel, lblEmail;
-		private JTextField txtName, txtNo, txtPassWord, txtAddr, txtTel, txtEmail;
+		private JTextField txtName, txtNo, txtAddr, txtTel, txtEmail; //txtPassWord,
+                private JPasswordField txtPassWord;
 		private JButton btnYes, btnNot;
 
 		EmployeeDialog(final int flag) 
@@ -315,7 +309,7 @@ public class EmployeeMCView extends JPanel {
 			lblPassWord.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblPassWord.setBounds(80, 135, 100, 30);
 			pan.add(lblPassWord);
-			txtPassWord = new JTextField();
+			txtPassWord = new JPasswordField();
 			txtPassWord.setBounds(200, 135, 250, 30);
 			pan.add(txtPassWord);
 
@@ -489,7 +483,6 @@ public class EmployeeMCView extends JPanel {
 			if (txtEmail.getText().length() > 0) {
 				emp.setEmail(txtEmail.getText());
 				sql += " and email='" + txtEmail.getText() + "'";
-
 			}
 			rst = new EmployeeController().Fetch(sql);
 		}

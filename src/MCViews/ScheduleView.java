@@ -29,6 +29,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import keeptoo.Drag;
 
 /**
  *
@@ -44,7 +45,7 @@ public class ScheduleView extends javax.swing.JFrame {
 
     private ArrayListComboBoxModel modelTheater;
     private List<String> movieList = new ArrayList<>();
-    private int[] movieIdList = new int[(new MovieController().SelectAll()).size()];
+    private int[] movieIdList = new int[(new MovieController().selectAll()).size()];
     private ArrayListComboBoxModel modelMovie;
 
     int act = 0;
@@ -76,7 +77,7 @@ public class ScheduleView extends javax.swing.JFrame {
     public void loadMovie() {
         MovieController movieC = new MovieController();
         List<Movie> temp = null;
-        temp = movieC.SelectAll();
+        temp = movieC.selectAll();
         for (int i = 0; i < temp.size(); i++) {
             movieList.add(temp.get(i).getName());
             movieIdList[i] = temp.get(i).getId();
@@ -94,14 +95,12 @@ public class ScheduleView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jSpinner1 = new javax.swing.JSpinner();
+        kGradientPanel1 = new keeptoo.KGradientPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         scheduleTable = new javax.swing.JTable();
         addBtn = new javax.swing.JButton();
         modifyBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
-        refreshBtn = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
         theaterCB = new javax.swing.JComboBox<>();
         movieCB = new javax.swing.JComboBox<>();
         theaterLabel = new javax.swing.JLabel();
@@ -111,11 +110,29 @@ public class ScheduleView extends javax.swing.JFrame {
         scheduleDateTimePicker = new com.github.lgooddatepicker.components.DateTimePicker();
         searchTextField = new javax.swing.JTextField();
         searchBtn = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        exitBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Schedule Management");
+        setUndecorated(true);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
+            }
+        });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        kGradientPanel1.setkEndColor(new java.awt.Color(219, 10, 91));
+        kGradientPanel1.setkStartColor(new java.awt.Color(34, 49, 63));
+        kGradientPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                kGradientPanel1MouseDragged(evt);
+            }
+        });
+        kGradientPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                kGradientPanel1MousePressed(evt);
             }
         });
 
@@ -142,13 +159,23 @@ public class ScheduleView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        scheduleTable.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        scheduleTable.setGridColor(new java.awt.Color(255, 255, 255));
+        scheduleTable.setSelectionBackground(new java.awt.Color(226, 106, 106));
         jScrollPane1.setViewportView(scheduleTable);
         if (scheduleTable.getColumnModel().getColumnCount() > 0) {
-            scheduleTable.getColumnModel().getColumn(0).setPreferredWidth(5);
+            scheduleTable.getColumnModel().getColumn(0).setPreferredWidth(3);
         }
 
         addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/addIcon32px.png"))); // NOI18N
         addBtn.setText("Add");
+        addBtn.setBorder(null);
+        addBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        addBtn.setForeground(new java.awt.Color(255, 255, 255));
+        addBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        addBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        addBtn.setOpaque(false);
+        addBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBtnActionPerformed(evt);
@@ -157,6 +184,13 @@ public class ScheduleView extends javax.swing.JFrame {
 
         modifyBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/modifyIcon32px.png"))); // NOI18N
         modifyBtn.setText("Modify");
+        modifyBtn.setBorder(null);
+        modifyBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        modifyBtn.setForeground(new java.awt.Color(255, 255, 255));
+        modifyBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        modifyBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        modifyBtn.setOpaque(false);
+        modifyBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         modifyBtn.setToolTipText("");
         modifyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -166,139 +200,176 @@ public class ScheduleView extends javax.swing.JFrame {
 
         deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/deleteIcon32px.png"))); // NOI18N
         deleteBtn.setText("Delete");
+        deleteBtn.setBorder(null);
+        deleteBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
+        deleteBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        deleteBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        deleteBtn.setOpaque(false);
+        deleteBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteBtnActionPerformed(evt);
             }
         });
 
-        refreshBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/refeshIcon32px.png"))); // NOI18N
-        refreshBtn.setText("Refresh");
-        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshBtnActionPerformed(evt);
-            }
-        });
-
         theaterCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        theaterCB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         movieCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        movieCB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         theaterLabel.setText("Theater");
+        theaterLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        theaterLabel.setForeground(new java.awt.Color(255, 255, 255));
 
         movieLabel.setText("Movie");
+        movieLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        movieLabel.setForeground(new java.awt.Color(255, 255, 255));
 
         datetimeLabel.setText("Date & Time");
+        datetimeLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        datetimeLabel.setForeground(new java.awt.Color(255, 255, 255));
 
         saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/saveIcon32px.png"))); // NOI18N
         saveBtn.setText("Save");
+        saveBtn.setBorder(null);
+        saveBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        saveBtn.setForeground(new java.awt.Color(255, 255, 255));
+        saveBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        saveBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        saveBtn.setOpaque(false);
+        saveBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveBtnActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(theaterLabel)
-                            .addComponent(movieLabel)
-                            .addComponent(datetimeLabel))
-                        .addGap(42, 42, 42)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(theaterCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(movieCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(scheduleDateTimePicker, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(155, 155, 155)
-                        .addComponent(saveBtn)))
-                .addContainerGap(55, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(theaterCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(theaterLabel))
-                .addGap(38, 38, 38)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(movieCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(movieLabel))
-                .addGap(32, 32, 32)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(datetimeLabel)
-                    .addComponent(scheduleDateTimePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addComponent(saveBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        scheduleDateTimePicker.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
+        searchTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
         searchTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchTextField.setOpaque(false);
 
         searchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/searchIcon32px.png"))); // NOI18N
         searchBtn.setText("Search");
+        searchBtn.setBorder(null);
+        searchBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchBtn.setForeground(new java.awt.Color(255, 255, 255));
+        searchBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        searchBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        searchBtn.setOpaque(false);
+        searchBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchBtnActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        jLabel1.setText("Schedule Management");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+
+        exitBtn.setText("Back");
+        exitBtn.setBackground(new java.awt.Color(240, 52, 52));
+        exitBtn.setBorder(null);
+        exitBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        exitBtn.setForeground(new java.awt.Color(255, 255, 255));
+        exitBtn.setMaximumSize(new java.awt.Dimension(30, 15));
+        exitBtn.setMinimumSize(new java.awt.Dimension(30, 15));
+        exitBtn.setPreferredSize(new java.awt.Dimension(30, 15));
+        exitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
+        kGradientPanel1.setLayout(kGradientPanel1Layout);
+        kGradientPanel1Layout.setHorizontalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(addBtn)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(144, 144, 144)
+                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(modifyBtn)
+                        .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(refreshBtn)
-                        .addGap(27, 27, 27))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29)
-                                .addComponent(searchBtn))
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(theaterLabel)
+                            .addComponent(movieLabel)
+                            .addComponent(datetimeLabel))
+                        .addGap(42, 42, 42)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(theaterCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(movieCB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(scheduleDateTimePicker, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(13, 13, 13)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 589, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34))))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchBtn)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(addBtn)
-                            .addComponent(modifyBtn)
-                            .addComponent(deleteBtn)
-                            .addComponent(refreshBtn))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        kGradientPanel1Layout.setVerticalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 459, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                .addGap(60, 60, 60)
+                                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(47, 47, 47)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(theaterCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(theaterLabel))
+                        .addGap(38, 38, 38)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(movieCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(movieLabel))
+                        .addGap(32, 32, 32)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(datetimeLabel)
+                            .addComponent(scheduleDateTimePicker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47)
+                        .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(39, 39, 39)))
                 .addContainerGap())
         );
 
+        getContentPane().add(kGradientPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 510));
+
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
@@ -352,7 +423,7 @@ public class ScheduleView extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (tableClicked == true) {
-            int res = scheduleC.Delete((int) scheduleTable.getValueAt(scheduleTable.getSelectedRow(), 0));
+            int res = scheduleC.delete((int) scheduleTable.getValueAt(scheduleTable.getSelectedRow(), 0));
             int check = JOptionPane.showConfirmDialog(jScrollPane1, "Are you sure delete this movie?", "Delete", JOptionPane.YES_NO_OPTION);
             if (check == JOptionPane.YES_OPTION) {
                 if (res > 0) {
@@ -361,7 +432,7 @@ public class ScheduleView extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unable to delete");
                 }
 
-                refreshBtnActionPerformed(evt);
+                refresh();
                 act = 0;
 
             }
@@ -370,8 +441,7 @@ public class ScheduleView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-
+    private void refresh() {
         scheduleTable.clearSelection();
 
         DefaultTableModel model = (DefaultTableModel) scheduleTable.getModel();
@@ -380,7 +450,7 @@ public class ScheduleView extends javax.swing.JFrame {
 
         SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        List<Schedule> scheduleList = scheduleC.SelectAll();
+        List<Schedule> scheduleList = scheduleC.selectAll();
         Object rowData[] = new Object[5];
 
         for (int i = 0; i < scheduleList.size(); i++) {
@@ -419,7 +489,7 @@ public class ScheduleView extends javax.swing.JFrame {
                 tableClicked = true;
             }
         });
-    }//GEN-LAST:event_refreshBtnActionPerformed
+    }
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
         // TODO add your handling code here:
@@ -427,6 +497,9 @@ public class ScheduleView extends javax.swing.JFrame {
         {
 
             Schedule sched = new Schedule();
+            Date beginHotTime = new Date();
+            Date endHotTime = new Date();
+
             //modelTheater.setSelectedItem(theaterCB.getSelectedItem());
             sched.setTheaterId(theaterIdList[theaterCB.getSelectedIndex()]);
             System.out.println(sched.getTheaterId());
@@ -435,6 +508,9 @@ public class ScheduleView extends javax.swing.JFrame {
             System.out.println(sched.getMovieId());
 
             String datetime = "";
+            String beginHottimeS = "";
+            String endHottimeS = "";
+
             System.out.println(scheduleDateTimePicker.datePicker.getDateStringOrEmptyString());
             System.out.println(scheduleDateTimePicker.timePicker.getTimeStringOrEmptyString());
 
@@ -444,12 +520,30 @@ public class ScheduleView extends javax.swing.JFrame {
             datetime += scheduleDateTimePicker.datePicker.getDateStringOrEmptyString() + " ";
             datetime += scheduleDateTimePicker.timePicker.getTimeStringOrEmptyString() + ":00";
 
+            beginHottimeS += scheduleDateTimePicker.datePicker.getDateStringOrEmptyString() + " ";
+            beginHottimeS += "18:00:00";
+
+            endHottimeS += scheduleDateTimePicker.datePicker.getDateStringOrEmptyString() + " ";
+            endHottimeS += "22:00:00";
+
             System.out.println(datetime);
 
             SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             //SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy HH:mm");  
             try {
                 sched.setTime(pFormatter.parse(datetime));
+            } catch (ParseException ex) {
+                Logger.getLogger(ScheduleView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                beginHotTime = pFormatter.parse(beginHottimeS);
+            } catch (ParseException ex) {
+                Logger.getLogger(ScheduleView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            try {
+                endHotTime = pFormatter.parse(endHottimeS);
             } catch (ParseException ex) {
                 Logger.getLogger(ScheduleView.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -470,7 +564,7 @@ public class ScheduleView extends javax.swing.JFrame {
                     dateTimeCheck = true;
 
                     //get list schedule of choosing theater
-                    List<Schedule> checkSchedList = scheduleC.Select("theaterId=" + sched.getTheaterId());
+                    List<Schedule> checkSchedList = scheduleC.select("theaterId=" + sched.getTheaterId());
 
                     boolean timeCollide = false;
                     int schedCollideId = 0;
@@ -513,28 +607,37 @@ public class ScheduleView extends javax.swing.JFrame {
                         }
 
                         //check if user choose beginTime collide with another schedule time
-                        if (sched.getTime().after(checkSchedList.get(i).getTime()) && sched.getTime().before(afterAddingDuration)) {
+                        if ((sched.getTime().after(checkSchedList.get(i).getTime()) || sched.getTime().equals(checkSchedList.get(i).getTime()))
+                                && (sched.getTime().before(afterAddingDuration) || sched.getTime().equals(afterAddingDuration))) {
 
                             timeCollide = true;
                             schedCollideId = checkSchedList.get(i).getId();
+                            break;
                         }
 
                         //check if user endTime collide with another schedule time
-                        if (schedAfterAddingDuration.after(checkSchedList.get(i).getTime()) && schedAfterAddingDuration.before(afterAddingDuration)) {
+                        if ((schedAfterAddingDuration.after(checkSchedList.get(i).getTime()) || schedAfterAddingDuration.equals(checkSchedList.get(i).getTime()))
+                                && (schedAfterAddingDuration.before(afterAddingDuration) || schedAfterAddingDuration.equals(afterAddingDuration))) {
 
                             timeCollide = true;
                             schedCollideId = checkSchedList.get(i).getId();
+                            break;
                         }
                     }
                     if (timeCollide == false) {
                         //dateTimeCheck = true;
-                        int res = scheduleC.Add(sched);
+                        if (sched.getTime().compareTo(beginHotTime) >= 0 && sched.getTime().compareTo(endHotTime) <= 0) {
+                            sched.setPrice(100);
+                        } else {
+                            sched.setPrice(50);
+                        }
+                        int res = scheduleC.add(sched);
                         if (res > 0) {
                             JOptionPane.showMessageDialog(null, "Saved - add new info");
                         } else {
                             JOptionPane.showMessageDialog(null, "Unable to save");
                         }
-                        refreshBtnActionPerformed(evt);
+                        refresh();
                         act = 0;
                         theaterCB.setEnabled(false);
                         movieCB.setEnabled(false);
@@ -602,7 +705,7 @@ public class ScheduleView extends javax.swing.JFrame {
                     dateTimeCheck = true;
 
                     //get list schedule of choosing theater
-                    List<Schedule> checkSchedList = scheduleC.Select("theaterId=" + sched.getTheaterId());
+                    List<Schedule> checkSchedList = scheduleC.select("theaterId=" + sched.getTheaterId());
 
                     boolean timeCollide = false;
                     int schedCollideId = 0;
@@ -660,13 +763,13 @@ public class ScheduleView extends javax.swing.JFrame {
                     }
                     if (timeCollide == false) {
                         //dateTimeCheck = true;
-                        int res = scheduleC.Modify(sched);
+                        int res = scheduleC.modify(sched);
                         if (res > 0) {
                             JOptionPane.showMessageDialog(null, "Saved - add new info");
                         } else {
                             JOptionPane.showMessageDialog(null, "Unable to save");
                         }
-                        refreshBtnActionPerformed(evt);
+                        refresh();
                         act = 0;
                         theaterCB.setEnabled(false);
                         movieCB.setEnabled(false);
@@ -685,9 +788,7 @@ public class ScheduleView extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-
-        refreshBtnActionPerformed(null);
-
+        refresh();
     }//GEN-LAST:event_formComponentShown
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
@@ -706,7 +807,7 @@ public class ScheduleView extends javax.swing.JFrame {
         List<Movie> movieList = movieC.select("movieName like '%" + searchTextField.getText() + "%'");
         List<Schedule> scheduleList = new LinkedList<Schedule>();
         for (int i = 0; i < movieList.size(); i++) {
-            scheduleList.addAll(scheduleC.Select("movieId=" + movieList.get(i).getId()));
+            scheduleList.addAll(scheduleC.select("movieId=" + movieList.get(i).getId()));
         }
 
         Object rowData[] = new Object[5];
@@ -742,6 +843,23 @@ public class ScheduleView extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_searchBtnActionPerformed
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void kGradientPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel1MouseDragged
+        // TODO add your handling code here:
+        new Drag(kGradientPanel1).moveWindow(evt);
+
+    }//GEN-LAST:event_kGradientPanel1MouseDragged
+
+    private void kGradientPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel1MousePressed
+        // TODO add your handling code here:
+        new Drag(kGradientPanel1).onPress(evt);
+
+    }//GEN-LAST:event_kGradientPanel1MousePressed
 
     /**
      * @param args the command line arguments
@@ -782,13 +900,13 @@ public class ScheduleView extends javax.swing.JFrame {
     private javax.swing.JButton addBtn;
     private javax.swing.JLabel datetimeLabel;
     private javax.swing.JButton deleteBtn;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton exitBtn;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner jSpinner1;
+    private keeptoo.KGradientPanel kGradientPanel1;
     private javax.swing.JButton modifyBtn;
     private javax.swing.JComboBox<String> movieCB;
     private javax.swing.JLabel movieLabel;
-    private javax.swing.JButton refreshBtn;
     private javax.swing.JButton saveBtn;
     private com.github.lgooddatepicker.components.DateTimePicker scheduleDateTimePicker;
     private javax.swing.JTable scheduleTable;

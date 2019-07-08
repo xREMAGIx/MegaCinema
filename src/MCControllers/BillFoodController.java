@@ -15,40 +15,45 @@ import java.util.List;
  * @author USER
  */
 public class BillFoodController {
+
     private final BillFood billfoodM = new BillFood();
-    
-    public int insertBillFood(int id, int cinemaId, Date time, int total)
-    {
+
+    public int insertBillFood(int id, int empId, int cinemaId, Date time, int total) {
         BillFood billfood = new BillFood();
         billfood.setId(id);
+        billfood.setEmpId(empId);
         billfood.setCinemaId(cinemaId);
         billfood.setTime(time);
         billfood.setTotal(total);
-        
+
         return billfoodM.Insert(billfood);
     }
-    
-    public int updateBillFood(int id, int cinemaId, Date time, int total)
-    {
+
+    public int updateBillFood(int id, int empId, int cinemaId, Date time, int total) {
         BillFood billfood = new BillFood();
         billfood.setId(id);
+        billfood.setEmpId(empId);
         billfood.setCinemaId(cinemaId);
         billfood.setTime(time);
         billfood.setTotal(total);
-        
-        return billfoodM.Update(billfood); 
+
+        return billfoodM.Update(billfood);
     }
-    
-    public int deleteBillFood (int id){
+
+    public int deleteBillFood(int id) {
         return billfoodM.Delete(id);
-        
+
     }
-    
-    public List <BillFood> loadBillFoods(){
+
+    public List<BillFood> loadBillFoods() {
         return billfoodM.Select("");
     }
-    
-      public int getNextID(){
+
+    public List<BillFood> Select(String condt) {
+        return billfoodM.Select(condt);
+    }
+
+    public int getNextID() {
         return billfoodM.getNextID();
     }
 }

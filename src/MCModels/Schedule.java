@@ -77,7 +77,7 @@ public class Schedule {
     SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     //insert new schedule of a movie
-    public int Insert(Schedule schedule) {
+    public int insert(Schedule schedule) {
         try {
             String sqlstr = "insert into schedule( theaterId, movieId, schedTime, schedTicketPrice) values( "
                     + schedule.getTheaterId() + ", " + schedule.getMovieId() + ", '" + pFormatter.format(schedule.getTime()) + "', "
@@ -99,7 +99,7 @@ public class Schedule {
     }
 
     //update, modify schedule of a movie    
-    public int Update(Schedule sched) {
+    public int update(Schedule sched) {
         int rtn = 0;
         try {
             String sqlstr = "update schedule set theaterId =" + sched.getTheaterId() + ", movieId = "
@@ -119,7 +119,7 @@ public class Schedule {
     }
 
     //delete a schedule time of a movie
-    public int Delete(int id) {
+    public int delete(int id) {
         int rtn = 0;
 
         try {
@@ -140,7 +140,7 @@ public class Schedule {
     }
 
     //get shedule time from database
-    public List<Schedule> Select(String condt) {
+    public List<Schedule> select(String condt) {
         List<Schedule> stuList = null;
         stuList = new LinkedList<Schedule>();
         try {

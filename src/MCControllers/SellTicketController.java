@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -22,6 +23,14 @@ import java.util.List;
 public class SellTicketController {
 
     private List<Ticket> ticketList;
+
+    public List<Ticket> getTicketList() {
+        return ticketList;
+    }
+
+    public void setTicketList(List<Ticket> ticketList) {
+        this.ticketList = ticketList;
+    }
 
     SimpleDateFormat pFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -51,7 +60,18 @@ public class SellTicketController {
     }
 
     public void removeTicket(Ticket ticket) {
-        ticketList.remove(ticket);
+//        if (ticketList.remove(ticket) == false) {
+//            System.out.println("Shit");
+//        }
+
+        Iterator<Ticket> itr = ticketList.iterator();
+        while (itr.hasNext())
+        {
+            int num = itr.next().getId();
+            if(num == ticket.getId())
+                itr.remove();
+        }
+        
         TicketController ticketC = new TicketController();
         ticketC.unlockTicket(ticket.getId());
         ticket.setCurrentLockedTime(null);
@@ -63,6 +83,7 @@ public class SellTicketController {
             TicketController ticketC = new TicketController();
             ticketC.unlockTicket(item.getId());
             item.setCurrentLockedTime(null);
+            ticketC.delete(item.getId());
         }
         ticketList.removeAll(ticketList);
     }
@@ -74,14 +95,14 @@ public class SellTicketController {
         for (Ticket t : ticketList) {
             info += "Movie：" + t.getMovieName() + "\n";
             info += "Time：" + pFormatter.format(t.getSchedule().getTime()) + "\n";
-            info += "Seat：Row " + t.getSeat().getRow() + " Column " + t.getSeat().getColumn() + "\n";
+            info += "Seat: " + Character.toString(t.getSeat().getRow() + 64) + t.getSeat().getColumn() + "\n";
             info += "Price：" + t.getSchedule().getPrice() + " dollar\n\n";
             i++;
             price += t.getSchedule().getPrice();
         }
         if (ticketList.size() > 0) {
             info += "=================\n";
-            info += "Total " + i + "Ticket(s)  " + price + "dollar\n";
+            info += "Total " + i + " Ticket(s)  " + price + "dollar\n";
         }
         return info;
     }
@@ -104,7 +125,7 @@ public class SellTicketController {
 
     public int doSale(Sale sale) {
         if (new SaleController().doSale(ticketList, sale)) {
-            int totalPrice = (int) sale.getPayment();
+            int totalPrice = (int) sale.getPayment() - (int) sale.getChange();
             makeNewSale();
             return totalPrice;
         }

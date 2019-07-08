@@ -54,6 +54,11 @@ public class StorageController {
     public List <Storage> loadProducts(){
         return storageM.SelectProduct("");
     }
+    
+    public List <Storage> Select(String condt)
+    {
+        return storageM.Select(condt);
+    }
 //    public int getNextID(){
 //        return storageM.getNextID();
 //    }
