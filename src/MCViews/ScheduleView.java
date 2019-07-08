@@ -71,6 +71,7 @@ public class ScheduleView extends javax.swing.JFrame {
         }
         modelTheater = new ArrayListComboBoxModel((ArrayList<String>) theaterList);
         theaterCB.setModel(modelTheater);
+
     }
 
     public void loadMovie() {

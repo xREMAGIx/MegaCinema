@@ -5,11 +5,18 @@
  */
 package MCViews;
 
+import MCControllers.CinemaController;
 import MCControllers.StatusController;
 import MCModels.ArrayListComboBoxModel;
+import MCModels.Cinema;
 import MCModels.Status;
+
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -21,14 +28,14 @@ public class CinemaMCView extends javax.swing.JFrame {
     /**
      * Creates new form CinemaMCView
      */
+    CinemaController cc = new CinemaController();
     private List<String> statusList = new ArrayList<>();
     private ArrayListComboBoxModel modelStatus;
     
     public CinemaMCView() {
         initComponents();
         loadStatus();
-        modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
-	cbStatus.setModel(modelStatus);
+        
     }
     
     public void loadStatus(){
@@ -36,12 +43,16 @@ public class CinemaMCView extends javax.swing.JFrame {
       List<Status> temp = null;
       temp = statusC.select();
       
-//      for (int i=0; i<temp.size();i++)
-//      {
-//          statusList.add(temp.get(i).getName());
-//      }
-    statusList.add("avaiable");
-    statusList.add("unavaiable");
+      for (int i=0; i<temp.size();i++)
+      {
+          statusList.add(temp.get(i).getName());
+      }
+//    statusList.add("avaiable");
+//    statusList.add("unavaiable");
+      modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
+//        modelStatus.setSelectedItem(modelStatus.getElementAt(0));
+	cbStatus.setModel(modelStatus);
+        cbStatusAdd.setModel(modelStatus);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,21 +64,29 @@ public class CinemaMCView extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tbCinema = new javax.swing.JTable();
         txtID = new javax.swing.JTextField();
         txtName = new javax.swing.JTextField();
         txtLocation = new javax.swing.JTextField();
         cbStatus = new javax.swing.JComboBox();
+        btUpdate = new javax.swing.JButton();
+        txtIDAdd = new javax.swing.JTextField();
+        txtNameAdd = new javax.swing.JTextField();
+        txtLocationAdd = new javax.swing.JTextField();
+        cbStatusAdd = new javax.swing.JComboBox();
         btAdd = new javax.swing.JButton();
+        btRefresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tbCinema.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "ID", "Name", "Location", "Status"
@@ -81,7 +100,12 @@ public class CinemaMCView extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        tbCinema.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                tbCinemaComponentShown(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbCinema);
 
         txtID.setEditable(false);
         txtID.setText("ID");
@@ -90,17 +114,43 @@ public class CinemaMCView extends javax.swing.JFrame {
 
         txtLocation.setText("Location");
 
-        cbStatus.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbStatus.addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 cbStatusComponentShown(evt);
             }
         });
 
-        btAdd.setText("ADD");
+        btUpdate.setText("UPDATE");
+        btUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btUpdateActionPerformed(evt);
+            }
+        });
+
+        txtIDAdd.setEditable(false);
+        txtIDAdd.setText("ID");
+
+        txtNameAdd.setText("Name");
+
+        txtLocationAdd.setText("Location");
+
+        cbStatusAdd.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                cbStatusAddComponentShown(evt);
+            }
+        });
+
+        btAdd.setText("Save");
         btAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btAddActionPerformed(evt);
+            }
+        });
+
+        btRefresh.setText("Refresh");
+        btRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRefreshActionPerformed(evt);
             }
         });
 
@@ -121,26 +171,52 @@ public class CinemaMCView extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(102, 102, 102)
-                                .addComponent(btAdd))
+                                .addComponent(btUpdate)
+                                .addGap(70, 70, 70)
+                                .addComponent(btRefresh))
                             .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNameAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtIDAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtLocationAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbStatusAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(164, 164, 164))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btAdd)
+                        .addGap(153, 153, 153))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
-                .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(txtID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txtIDAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNameAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtLocationAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbStatusAdd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtLocation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btAdd)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btUpdate)
+                            .addComponent(btAdd)
+                            .addComponent(btRefresh))
                         .addGap(2, 2, 2)))
                 .addComponent(cbStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7))
@@ -154,9 +230,95 @@ public class CinemaMCView extends javax.swing.JFrame {
        
     }//GEN-LAST:event_cbStatusComponentShown
 
+    private void btUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btUpdateActionPerformed
+        // TODO add your handling code here:
+        Cinema temp = new Cinema(Integer.parseInt(txtID.getText()),txtName.getText(),txtLocation.getText(),cbStatus.getSelectedIndex()+1); 
+        int res = cc.Update(temp);
+         if(res>0)
+        {
+            JOptionPane.showMessageDialog(null, "Saved");
+            //new NewJFrame().setVisible(true);
+            //this.dispose();
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null,"Unable to save");
+        }
+    }//GEN-LAST:event_btUpdateActionPerformed
+
+    private void tbCinemaComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_tbCinemaComponentShown
+        // TODO add your handling code here:
+       
+        
+    }//GEN-LAST:event_tbCinemaComponentShown
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tbCinema.getModel();
+        List <Cinema> cinemaList = cc.Select("");
+        Object rowData[] = new Object[4];
+        
+        for (int i=0; i<cinemaList.size(); i++){
+            rowData[0] = cinemaList.get(i).getId();    
+            rowData[1] = cinemaList.get(i).getName();
+            rowData[2] = cinemaList.get(i).getLocation();
+            rowData[3] = statusList.get(cinemaList.get(i).getStatus()-1);
+            model.addRow(rowData);
+        }
+        tbCinema.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+        public void valueChanged(ListSelectionEvent event) {
+            // do some actions here, for example
+            // print first column value from selected row
+            txtID.setText(tbCinema.getValueAt(tbCinema.getSelectedRow(), 0).toString());
+            txtName.setText(tbCinema.getValueAt(tbCinema.getSelectedRow(), 1).toString());
+            txtLocation.setText(tbCinema.getValueAt(tbCinema.getSelectedRow(), 2).toString());
+            modelStatus = new ArrayListComboBoxModel((ArrayList<String>) statusList);
+           
+            modelStatus.setSelectedItem(tbCinema.getValueAt(tbCinema.getSelectedRow(), 3).toString());
+            
+            cbStatus.setModel(modelStatus);
+           
+        }
+    });
+        
+        txtIDAdd.setText(Integer.toString(cc.getNextID()));
+    }//GEN-LAST:event_formComponentShown
+
+    private void cbStatusAddComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_cbStatusAddComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbStatusAddComponentShown
+
     private void btAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddActionPerformed
         // TODO add your handling code here:
+        Cinema temp = new Cinema(Integer.parseInt(txtIDAdd.getText()),txtNameAdd.getText(), txtLocationAdd.getText(), cbStatusAdd.getSelectedIndex()+1);
+        cc.Insert(temp);
+        txtIDAdd.setText(Integer.toString(cc.getNextID()));
+        btRefreshActionPerformed(evt);
     }//GEN-LAST:event_btAddActionPerformed
+
+    private void btRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRefreshActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) tbCinema.getModel();
+        
+        if (model.getRowCount() > 0) {   
+            for (int i = model.getRowCount() - 1; i > -1; i--) {        
+                model.removeRow(i);   
+            }
+        }
+        
+        List <Cinema> cinemaList = cc.Select("");
+        Object rowData[] = new Object[4];
+        
+        for (int i=0; i<cinemaList.size(); i++){
+            rowData[0] = cinemaList.get(i).getId();    
+            rowData[1] = cinemaList.get(i).getName();
+            rowData[2] = cinemaList.get(i).getLocation();
+            rowData[3] = statusList.get(cinemaList.get(i).getStatus()-1);
+            model.addRow(rowData);
+        }
+        
+        
+    }//GEN-LAST:event_btRefreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,11 +357,17 @@ public class CinemaMCView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btAdd;
+    private javax.swing.JButton btRefresh;
+    private javax.swing.JButton btUpdate;
     private javax.swing.JComboBox cbStatus;
+    private javax.swing.JComboBox cbStatusAdd;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tbCinema;
     private javax.swing.JTextField txtID;
+    private javax.swing.JTextField txtIDAdd;
     private javax.swing.JTextField txtLocation;
+    private javax.swing.JTextField txtLocationAdd;
     private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtNameAdd;
     // End of variables declaration//GEN-END:variables
 }

@@ -65,6 +65,7 @@ public class mainForm extends javax.swing.JFrame {
         exitBtn = new javax.swing.JButton();
         minimizeBtn = new javax.swing.JButton();
 
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mega Cinema");
         setBackground(new java.awt.Color(252, 214, 112));

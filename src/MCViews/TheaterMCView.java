@@ -5,9 +5,14 @@
  */
 package MCViews;
 
+import MCControllers.CinemaController;
 import MCControllers.MovieController;
+import MCControllers.StatusController;
 import MCControllers.TheaterController;
+import MCModels.ArrayListComboBoxModel;
+import MCModels.Cinema;
 import MCModels.Movie;
+import MCModels.Status;
 import MCModels.Theater;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +26,7 @@ import keeptoo.Drag;
  *
  * @author USER
  */
-public class TheaterMCView extends javax.swing.JFrame {
+public final class TheaterMCView extends javax.swing.JFrame {
 
     /**
      * Creates new form TheaterMCView
@@ -343,6 +348,7 @@ public class TheaterMCView extends javax.swing.JFrame {
                 .addComponent(jScrollPane1)
                 .addContainerGap())
         );
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
