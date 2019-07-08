@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import keeptoo.Drag;
 
 /**
  *
@@ -43,13 +44,12 @@ public class TheaterMCView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        kGradientPanel1 = new keeptoo.KGradientPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         theaterTable = new javax.swing.JTable();
         addBtn = new javax.swing.JButton();
         modifyBtn = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
-        refreshBtn = new javax.swing.JButton();
-        javax.swing.JPanel addPanel = new javax.swing.JPanel();
         theaterNameTextField = new javax.swing.JTextField();
         nameText = new javax.swing.JLabel();
         rowText = new javax.swing.JLabel();
@@ -62,12 +62,29 @@ public class TheaterMCView extends javax.swing.JFrame {
         theaterColTextField = new javax.swing.JTextField();
         searchTextField = new javax.swing.JTextField();
         searchBtn = new javax.swing.JButton();
+        exitBtn = new javax.swing.JButton();
+        theaterFLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Theater Management");
+        setUndecorated(true);
+        setResizable(false);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
+            }
+        });
+
+        kGradientPanel1.setkEndColor(new java.awt.Color(210, 82, 127));
+        kGradientPanel1.setkStartColor(new java.awt.Color(46, 49, 49));
+        kGradientPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                kGradientPanel1MouseDragged(evt);
+            }
+        });
+        kGradientPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                kGradientPanel1MousePressed(evt);
             }
         });
 
@@ -80,186 +97,266 @@ public class TheaterMCView extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        theaterTable.setColumnSelectionAllowed(true);
         theaterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         theaterTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(theaterTable);
-        theaterTable.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (theaterTable.getColumnModel().getColumnCount() > 0) {
+            theaterTable.getColumnModel().getColumn(0).setPreferredWidth(3);
+            theaterTable.getColumnModel().getColumn(2).setPreferredWidth(5);
+            theaterTable.getColumnModel().getColumn(3).setPreferredWidth(5);
+            theaterTable.getColumnModel().getColumn(4).setPreferredWidth(3);
+        }
 
+        addBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        addBtn.setForeground(new java.awt.Color(255, 255, 255));
         addBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/addIcon32px.png"))); // NOI18N
         addBtn.setText("Add");
+        addBtn.setBorder(null);
+        addBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        addBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        addBtn.setOpaque(false);
+        addBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         addBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addBtnActionPerformed(evt);
             }
         });
 
+        modifyBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        modifyBtn.setForeground(new java.awt.Color(255, 255, 255));
         modifyBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/modifyIcon32px.png"))); // NOI18N
         modifyBtn.setText("Modify");
         modifyBtn.setToolTipText("");
+        modifyBtn.setBorder(null);
+        modifyBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        modifyBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        modifyBtn.setOpaque(false);
+        modifyBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         modifyBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 modifyBtnActionPerformed(evt);
             }
         });
 
+        deleteBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        deleteBtn.setForeground(new java.awt.Color(255, 255, 255));
         deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/deleteIcon32px.png"))); // NOI18N
         deleteBtn.setText("Delete");
+        deleteBtn.setBorder(null);
+        deleteBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        deleteBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        deleteBtn.setOpaque(false);
+        deleteBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         deleteBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteBtnActionPerformed(evt);
             }
         });
 
-        refreshBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/refeshIcon32px.png"))); // NOI18N
-        refreshBtn.setText("Refresh");
-        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshBtnActionPerformed(evt);
-            }
-        });
+        theaterNameTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        theaterNameTextField.setForeground(new java.awt.Color(255, 255, 255));
+        theaterNameTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        theaterNameTextField.setOpaque(false);
 
+        nameText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        nameText.setForeground(new java.awt.Color(255, 255, 255));
         nameText.setText("Name");
 
+        rowText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rowText.setForeground(new java.awt.Color(255, 255, 255));
         rowText.setText("Seat Rows");
 
+        theaterRowTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        theaterRowTextField.setForeground(new java.awt.Color(255, 255, 255));
+        theaterRowTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        theaterRowTextField.setOpaque(false);
+
+        availableRB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        availableRB.setForeground(new java.awt.Color(255, 255, 255));
         availableRB.setText("Available");
+        availableRB.setOpaque(false);
 
+        notAvailableRB.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        notAvailableRB.setForeground(new java.awt.Color(255, 255, 255));
         notAvailableRB.setText("Not Available");
+        notAvailableRB.setOpaque(false);
 
+        statusText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        statusText.setForeground(new java.awt.Color(255, 255, 255));
         statusText.setText("Status");
 
+        saveBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        saveBtn.setForeground(new java.awt.Color(255, 255, 255));
         saveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/saveIcon32px.png"))); // NOI18N
         saveBtn.setText("Save");
+        saveBtn.setBorder(null);
+        saveBtn.setDoubleBuffered(true);
+        saveBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        saveBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        saveBtn.setOpaque(false);
+        saveBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         saveBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveBtnActionPerformed(evt);
             }
         });
 
+        colText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        colText.setForeground(new java.awt.Color(255, 255, 255));
         colText.setText("Seat Columns");
 
-        javax.swing.GroupLayout addPanelLayout = new javax.swing.GroupLayout(addPanel);
-        addPanel.setLayout(addPanelLayout);
-        addPanelLayout.setHorizontalGroup(
-            addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addPanelLayout.createSequentialGroup()
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(addPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, addPanelLayout.createSequentialGroup()
-                                .addComponent(nameText)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(theaterNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(addPanelLayout.createSequentialGroup()
-                                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(rowText)
-                                    .addComponent(statusText))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(theaterRowTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(addPanelLayout.createSequentialGroup()
-                                        .addComponent(availableRB)
-                                        .addGap(36, 36, 36)
-                                        .addComponent(notAvailableRB))))))
-                    .addGroup(addPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(colText)
-                        .addGap(18, 18, 18)
-                        .addComponent(theaterColTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(addPanelLayout.createSequentialGroup()
-                        .addGap(139, 139, 139)
-                        .addComponent(saveBtn)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        addPanelLayout.setVerticalGroup(
-            addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addPanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameText)
-                    .addComponent(theaterNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rowText)
-                    .addComponent(theaterRowTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(colText)
-                    .addComponent(theaterColTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(addPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(statusText)
-                    .addComponent(availableRB)
-                    .addComponent(notAvailableRB))
-                .addGap(32, 32, 32)
-                .addComponent(saveBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        theaterColTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        theaterColTextField.setForeground(new java.awt.Color(255, 255, 255));
+        theaterColTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        theaterColTextField.setOpaque(false);
 
         searchTextField.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchTextField.setForeground(new java.awt.Color(255, 255, 255));
+        searchTextField.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        searchTextField.setOpaque(false);
 
+        searchBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        searchBtn.setForeground(new java.awt.Color(255, 255, 255));
         searchBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/searchIcon32px.png"))); // NOI18N
         searchBtn.setText("Search");
+        searchBtn.setBorder(null);
+        searchBtn.setMaximumSize(new java.awt.Dimension(115, 45));
+        searchBtn.setMinimumSize(new java.awt.Dimension(115, 45));
+        searchBtn.setOpaque(false);
+        searchBtn.setPreferredSize(new java.awt.Dimension(115, 45));
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchBtnActionPerformed(evt);
             }
         });
 
+        exitBtn.setBackground(new java.awt.Color(240, 52, 52));
+        exitBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        exitBtn.setForeground(new java.awt.Color(255, 255, 255));
+        exitBtn.setText("Back");
+        exitBtn.setBorder(null);
+        exitBtn.setMaximumSize(new java.awt.Dimension(30, 15));
+        exitBtn.setMinimumSize(new java.awt.Dimension(30, 15));
+        exitBtn.setPreferredSize(new java.awt.Dimension(30, 15));
+        exitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtnActionPerformed(evt);
+            }
+        });
+
+        theaterFLbl.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        theaterFLbl.setForeground(new java.awt.Color(255, 255, 255));
+        theaterFLbl.setText("Theater Management");
+
+        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
+        kGradientPanel1.setLayout(kGradientPanel1Layout);
+        kGradientPanel1Layout.setHorizontalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(rowText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(statusText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(nameText, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(colText, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(theaterRowTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(theaterNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(theaterColTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                        .addComponent(availableRB)
+                                        .addGap(27, 27, 27)
+                                        .addComponent(notAvailableRB))))
+                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                .addGap(50, 50, 50)
+                                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(theaterFLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 561, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36))
+        );
+        kGradientPanel1Layout.setVerticalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(theaterFLbl)
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(modifyBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(66, 66, 66)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameText)
+                    .addComponent(theaterNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rowText)
+                    .addComponent(theaterRowTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(colText)
+                    .addComponent(theaterColTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(statusText)
+                    .addComponent(availableRB)
+                    .addComponent(notAvailableRB))
+                .addGap(47, 47, 47)
+                .addComponent(saveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
-                        .addComponent(searchBtn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(addBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(modifyBtn)
-                        .addGap(14, 14, 14)
-                        .addComponent(deleteBtn)
-                        .addGap(18, 18, 18)
-                        .addComponent(refreshBtn))
-                    .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE))
+            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBtn))
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addBtn)
-                    .addComponent(modifyBtn)
-                    .addComponent(deleteBtn)
-                    .addComponent(refreshBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(kGradientPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
@@ -289,7 +386,7 @@ public class TheaterMCView extends javax.swing.JFrame {
 
             act = 2;  //tell save button to save info modify
         } else {
-            JOptionPane.showMessageDialog(null, "Please select a movie");
+            JOptionPane.showMessageDialog(null, "Please select a theater");
         }
     }//GEN-LAST:event_modifyBtnActionPerformed
 
@@ -298,16 +395,17 @@ public class TheaterMCView extends javax.swing.JFrame {
 
         if (tableRowClicked == true) {
             int id = (int) theaterTable.getValueAt(theaterTable.getSelectedRow(), 0);
-            int res = theaterC.delete(id);
+
             int check = JOptionPane.showConfirmDialog(jScrollPane1, "Are you sure delete this theater?", "Delete", JOptionPane.YES_NO_OPTION);
             if (check == JOptionPane.YES_OPTION) {
+                int res = theaterC.delete(id);
                 if (res > 0) {
                     JOptionPane.showMessageDialog(null, "Deleted successfully");
                 } else if (res == 0) {
                     JOptionPane.showMessageDialog(null, "Unable to delete");
                 }
 
-                refreshBtnActionPerformed(evt);
+                refresh();
                 act = 0;
             }
         } else {
@@ -315,8 +413,7 @@ public class TheaterMCView extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        // TODO add your handling code here:
+    private void refresh() {
 
         theaterTable.clearSelection();
 
@@ -345,92 +442,14 @@ public class TheaterMCView extends javax.swing.JFrame {
         theaterTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent event) {
-
+                tableRowClicked = true;
                 theaterNameTextField.setEditable(false);
                 theaterRowTextField.setEditable(false);
                 theaterColTextField.setEditable(false);
 
             }
         });
-    }//GEN-LAST:event_refreshBtnActionPerformed
-
-    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        // TODO add your handling code here:
-        if (act == 1) //save add info
-        {
-            int status;
-            if (availableRB.isSelected() == true) {
-                status = 0;
-            } else {
-                status = 1;
-            }
-
-            Theater theater = new Theater();
-
-//            movie.setName(movieNameTextField.getText());
-//            movie.setDuration(Integer.parseInt(movieDurTextField.getText()));
-//            movie.setStatus(status);
-            theater.setName(theaterNameTextField.getText());
-            theater.setRowCount(Integer.parseInt(theaterRowTextField.getText()));
-            theater.setColCount(Integer.parseInt(theaterRowTextField.getText()));
-            theater.setStatus(status);
-
-            int res = theaterC.add(theater);
-            if (res > 0) {
-                JOptionPane.showMessageDialog(null, "Saved - add new info");
-            } else {
-                JOptionPane.showMessageDialog(null, "Unable to save");
-            }
-            refreshBtnActionPerformed(evt);
-            act = 0;
-            theaterNameTextField.setEditable(false);
-            theaterRowTextField.setEditable(false);
-            theaterColTextField.setEditable(false);
-
-        } else if (act == 2) //save modify info
-        {
-            int id = (int) theaterTable.getValueAt(theaterTable.getSelectedRow(), 0);
-            System.out.println("id: " + id);
-            String name = theaterNameTextField.getText();
-            //int dur = Integer.parseInt(movieDurTextField.getText());
-            int row = Integer.parseInt(theaterRowTextField.getText());
-            int col = Integer.parseInt(theaterColTextField.getText());
-
-            int status;
-            if (availableRB.isSelected() == true) {
-                status = 0;
-            } else {
-                status = 1;
-            }
-
-//            Movie movie = new Movie();
-//            movie.setId(id);
-//            movie.setName(name);
-//            movie.setDuration(dur);
-//            movie.setStatus(status);
-//            movie.setImage(imageFile);
-            Theater theater = new Theater();
-
-            theater.setName(theaterNameTextField.getText());
-            theater.setRowCount(Integer.parseInt(theaterRowTextField.getText()));
-            theater.setColCount(Integer.parseInt(theaterRowTextField.getText()));
-            theater.setStatus(status);
-
-            int res = theaterC.modify(theater);
-            if (res > 0) {
-                JOptionPane.showMessageDialog(null, "Saved info changed");
-            } else {
-                JOptionPane.showMessageDialog(null, "Unable to save");
-            }
-
-            refreshBtnActionPerformed(evt);
-            act = 0;
-            theaterNameTextField.setEditable(false);
-            theaterRowTextField.setEditable(false);
-            theaterColTextField.setEditable(false);
-
-        }
-    }//GEN-LAST:event_saveBtnActionPerformed
+    }
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
@@ -454,6 +473,7 @@ public class TheaterMCView extends javax.swing.JFrame {
         theaterTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent event) {
+                tableRowClicked = true;
                 theaterNameTextField.setEditable(false);
                 theaterRowTextField.setEditable(false);
                 theaterColTextField.setEditable(false);
@@ -464,8 +484,104 @@ public class TheaterMCView extends javax.swing.JFrame {
 
     private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
         // TODO add your handling code here:
-        refreshBtnActionPerformed(null);
+        refresh();
     }//GEN-LAST:event_formComponentShown
+
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
+        // TODO add your handling code here:
+        if (act == 1) //save add info
+        {
+            int status;
+            if (availableRB.isSelected() == true) {
+                status = 0;
+            } else {
+                status = 1;
+            }
+
+            Theater theater = new Theater();
+
+            theater.setName(theaterNameTextField.getText());
+
+            boolean checkNum = true;
+
+            //check if input for row and column are number or not
+            try {
+                theater.setRowCount(Integer.parseInt(theaterRowTextField.getText()));
+                theater.setColCount(Integer.parseInt(theaterColTextField.getText()));
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Please input number for row and column, not char!");
+                checkNum = false;
+            }
+
+            if (checkNum == true) {
+                theater.setStatus(status);
+
+                int res = theaterC.add(theater);
+                if (res > 0) {
+                    JOptionPane.showMessageDialog(null, "Saved - add new info");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Unable to save");
+                }
+                refresh();
+                act = 0;
+                theaterNameTextField.setEditable(false);
+                theaterRowTextField.setEditable(false);
+                theaterColTextField.setEditable(false);
+            }
+        } else if (act == 2) //save modify info
+        {
+            int id = (int) theaterTable.getValueAt(theaterTable.getSelectedRow(), 0);
+            System.out.println("id: " + id);
+            String name = theaterNameTextField.getText();
+            //int dur = Integer.parseInt(movieDurTextField.getText());
+            int row = Integer.parseInt(theaterRowTextField.getText());
+            int col = Integer.parseInt(theaterColTextField.getText());
+
+            int status;
+            if (availableRB.isSelected() == true) {
+                status = 0;
+            } else {
+                status = 1;
+            }
+
+            Theater theater = new Theater();
+
+            theater.setName(theaterNameTextField.getText());
+            theater.setRowCount(Integer.parseInt(theaterRowTextField.getText()));
+            theater.setColCount(Integer.parseInt(theaterColTextField.getText()));
+            theater.setStatus(status);
+
+            int res = theaterC.modify(theater);
+            if (res > 0) {
+                JOptionPane.showMessageDialog(null, "Saved info changed");
+            } else {
+                JOptionPane.showMessageDialog(null, "Unable to save");
+            }
+
+            refresh();
+            act = 0;
+            theaterNameTextField.setEditable(false);
+            theaterRowTextField.setEditable(false);
+            theaterColTextField.setEditable(false);
+
+        }
+    }//GEN-LAST:event_saveBtnActionPerformed
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void kGradientPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel1MouseDragged
+        // TODO add your handling code here:
+        new Drag(kGradientPanel1).moveWindow(evt);
+    }//GEN-LAST:event_kGradientPanel1MouseDragged
+
+    private void kGradientPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel1MousePressed
+        // TODO add your handling code here:
+        new Drag(kGradientPanel1).onPress(evt);
+    }//GEN-LAST:event_kGradientPanel1MousePressed
 
     /**
      * @param args the command line arguments
@@ -508,17 +624,19 @@ public class TheaterMCView extends javax.swing.JFrame {
     private javax.swing.JRadioButton availableRB;
     private javax.swing.JLabel colText;
     private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton exitBtn;
     private javax.swing.JScrollPane jScrollPane1;
+    private keeptoo.KGradientPanel kGradientPanel1;
     private javax.swing.JButton modifyBtn;
     private javax.swing.JLabel nameText;
     private javax.swing.JRadioButton notAvailableRB;
-    private javax.swing.JButton refreshBtn;
     private javax.swing.JLabel rowText;
     private javax.swing.JButton saveBtn;
     private javax.swing.JButton searchBtn;
     private javax.swing.JTextField searchTextField;
     private javax.swing.JLabel statusText;
     private javax.swing.JTextField theaterColTextField;
+    private javax.swing.JLabel theaterFLbl;
     private javax.swing.JTextField theaterNameTextField;
     private javax.swing.JTextField theaterRowTextField;
     private javax.swing.JTable theaterTable;

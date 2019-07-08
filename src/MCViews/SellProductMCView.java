@@ -27,7 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import keeptoo.Drag;
 
 /**
  *
@@ -107,6 +109,7 @@ public class SellProductMCView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        kGradientPanel1 = new keeptoo.KGradientPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbPurchase = new javax.swing.JTable();
         cbProduct = new javax.swing.JComboBox();
@@ -123,12 +126,28 @@ public class SellProductMCView extends javax.swing.JFrame {
         quantityLbl = new javax.swing.JLabel();
         dateTimeLbl = new javax.swing.JLabel();
         cinemaLbl = new javax.swing.JLabel();
+        sellProduct = new javax.swing.JLabel();
+        exitBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Product Sale");
+        setUndecorated(true);
         addComponentListener(new java.awt.event.ComponentAdapter() {
             public void componentShown(java.awt.event.ComponentEvent evt) {
                 formComponentShown(evt);
+            }
+        });
+
+        kGradientPanel1.setkEndColor(new java.awt.Color(0, 181, 204));
+        kGradientPanel1.setkStartColor(new java.awt.Color(34, 49, 63));
+        kGradientPanel1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                kGradientPanel1MouseDragged(evt);
+            }
+        });
+        kGradientPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                kGradientPanel1MousePressed(evt);
             }
         });
 
@@ -151,8 +170,23 @@ public class SellProductMCView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbPurchase);
 
         cbProduct.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbProduct.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        txtPrice.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtPrice.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtPrice.setForeground(new java.awt.Color(255, 255, 255));
+        txtPrice.setOpaque(false);
+
+        txtQuantity.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        txtQuantity.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(255, 255, 255)));
+        txtQuantity.setForeground(new java.awt.Color(255, 255, 255));
+        txtQuantity.setOpaque(false);
 
         cbCinema.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbCinema.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        dtTime.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        dtTime.setForeground(new java.awt.Color(255, 255, 255));
 
         txtTotal.setEditable(false);
         txtTotal.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -160,6 +194,10 @@ public class SellProductMCView extends javax.swing.JFrame {
 
         btAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/addIcon32px.png"))); // NOI18N
         btAdd.setText("Add");
+        btAdd.setBorder(null);
+        btAdd.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btAdd.setOpaque(false);
         btAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btAddActionPerformed(evt);
@@ -168,6 +206,10 @@ public class SellProductMCView extends javax.swing.JFrame {
 
         btCheckout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/okIcon32px.png"))); // NOI18N
         btCheckout.setText("Checkout");
+        btCheckout.setBorder(null);
+        btCheckout.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btCheckout.setForeground(new java.awt.Color(255, 255, 255));
+        btCheckout.setOpaque(false);
         btCheckout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btCheckoutActionPerformed(evt);
@@ -178,94 +220,151 @@ public class SellProductMCView extends javax.swing.JFrame {
         totalLbl.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         productLbl.setText("Product: ");
+        productLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        productLbl.setForeground(new java.awt.Color(255, 255, 255));
 
         priceLbl.setText("Price: ");
+        priceLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        priceLbl.setForeground(new java.awt.Color(255, 255, 255));
 
         quantityLbl.setText("Quantity:");
+        quantityLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        quantityLbl.setForeground(new java.awt.Color(255, 255, 255));
 
         dateTimeLbl.setText("Date & Time:");
+        dateTimeLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        dateTimeLbl.setForeground(new java.awt.Color(255, 255, 255));
 
         cinemaLbl.setText("Cinema:");
+        cinemaLbl.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cinemaLbl.setForeground(new java.awt.Color(255, 255, 255));
+
+        sellProduct.setText("Sell Product");
+        sellProduct.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        sellProduct.setForeground(new java.awt.Color(255, 255, 255));
+
+        exitBtn.setBackground(new java.awt.Color(240, 52, 52));
+        exitBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        exitBtn.setForeground(new java.awt.Color(255, 255, 255));
+        exitBtn.setText("Back");
+        exitBtn.setBorder(null);
+        exitBtn.setMaximumSize(new java.awt.Dimension(30, 15));
+        exitBtn.setMinimumSize(new java.awt.Dimension(30, 15));
+        exitBtn.setPreferredSize(new java.awt.Dimension(30, 15));
+        exitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
+        kGradientPanel1.setLayout(kGradientPanel1Layout);
+        kGradientPanel1Layout.setHorizontalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btCheckout, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(183, 183, 183))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                .addGap(110, 110, 110)
+                                .addComponent(btAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dateTimeLbl)
+                                    .addComponent(cinemaLbl))
+                                .addGap(18, 18, 18)
+                                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dtTime, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(productLbl)
+                                    .addComponent(priceLbl)
+                                    .addComponent(quantityLbl))
+                                .addGap(41, 41, 41)
+                                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtQuantity, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                                        .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.TRAILING))
+                                    .addComponent(cbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(sellProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                                .addComponent(totalLbl)
+                                .addGap(49, 49, 49)
+                                .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(77, 77, 77))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39))
+        );
+        kGradientPanel1Layout.setVerticalGroup(
+            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(sellProduct)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbCinema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cinemaLbl))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(dtTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dateTimeLbl))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(productLbl))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(priceLbl))
+                .addGap(18, 18, 18)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(quantityLbl))
+                .addGap(145, 145, 145))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
+                .addComponent(exitBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(btAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(totalLbl))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addComponent(btCheckout)
+                .addGap(24, 24, 24))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(productLbl)
-                                    .addComponent(priceLbl)
-                                    .addComponent(quantityLbl))
-                                .addGap(55, 55, 55)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtQuantity)
-                                    .addComponent(txtPrice, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(cbProduct, javax.swing.GroupLayout.Alignment.TRAILING, 0, 121, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(totalLbl)
-                                    .addComponent(dateTimeLbl)
-                                    .addComponent(cinemaLbl))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dtTime, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cbCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(btAdd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btCheckout)
-                        .addGap(138, 138, 138))))
+            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1000, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(productLbl))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtPrice, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(priceLbl))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(quantityLbl))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 29, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btAdd)
-                            .addComponent(btCheckout))
-                        .addGap(33, 33, 33))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cbCinema, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cinemaLbl))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(dtTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(dateTimeLbl))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(totalLbl))
-                        .addGap(94, 94, 94))))
+            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAddActionPerformed
@@ -273,7 +372,7 @@ public class SellProductMCView extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tbPurchase.getModel();
         FoodDetail temp = new FoodDetail();
         //temp.setId(fc.getNextID());
-        temp.setBillId(bill.getId());
+        //temp.setBillId(bill.getId());
         temp.setPrice(Integer.parseInt(txtPrice.getText()));
         temp.setQuantity(Integer.parseInt(txtQuantity.getText()));
         temp.setProductId(cbProduct.getSelectedIndex() + 1);
@@ -344,13 +443,13 @@ public class SellProductMCView extends javax.swing.JFrame {
 
         bill.setId(bc.insertBillFood(bill.getId(), empIdS, cbCinema.getSelectedIndex() + 1, bill.getTime(), Integer.parseInt(txtTotal.getText())));
 
-        
-        
         for (int i = 0; i < purchaseList.size(); i++) {
             purchaseList.get(i).setBillId(bill.getId());
             sc.AddQuantity(cbProduct.getSelectedIndex() + 1, cbCinema.getSelectedIndex() + 1, -purchaseList.get(i).getQuantity());
             fc.Insert(purchaseList.get(i));
         }
+
+        JOptionPane.showMessageDialog(null, "Saved Info");
 
         if (rc.getCurDayID(report.getReportDay()) != -1) {
             rc.updateSellReport(rc.getCurDayID(report.getReportDay()), report.getProductTotal(), 0);
@@ -358,7 +457,23 @@ public class SellProductMCView extends javax.swing.JFrame {
             rc.insertSellReport(report.getId(), report.getCinemaId(), report.getReportDay(), report.getProductTotal(), 0);
         }
 
+        this.dispose();
     }//GEN-LAST:event_btCheckoutActionPerformed
+
+    private void kGradientPanel1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel1MouseDragged
+        // TODO add your handling code here:
+        new Drag(kGradientPanel1).moveWindow(evt);
+    }//GEN-LAST:event_kGradientPanel1MouseDragged
+
+    private void kGradientPanel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel1MousePressed
+        // TODO add your handling code here:
+        new Drag(kGradientPanel1).onPress(evt);
+    }//GEN-LAST:event_kGradientPanel1MousePressed
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_exitBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -404,10 +519,13 @@ public class SellProductMCView extends javax.swing.JFrame {
     private javax.swing.JLabel cinemaLbl;
     private javax.swing.JLabel dateTimeLbl;
     private com.github.lgooddatepicker.components.DateTimePicker dtTime;
+    private javax.swing.JButton exitBtn;
     private javax.swing.JScrollPane jScrollPane1;
+    private keeptoo.KGradientPanel kGradientPanel1;
     private javax.swing.JLabel priceLbl;
     private javax.swing.JLabel productLbl;
     private javax.swing.JLabel quantityLbl;
+    private javax.swing.JLabel sellProduct;
     private javax.swing.JTable tbPurchase;
     private javax.swing.JLabel totalLbl;
     private javax.swing.JTextField txtPrice;

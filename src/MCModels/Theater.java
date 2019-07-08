@@ -343,9 +343,10 @@ public class Theater {
                     Seat tempSeat = new Seat();
 
                     seat.setTheaterId(theater.getId());
+                    System.out.println(seat.getTheaterId());
                     seat.setRow(i);
                     seat.setColumn(j);
-                    int seatId = (tempSeat.select("theaterId =" + seat.getId() + ", seatRow= " + seat.getRow() + ", seatCol=" + seat.getColumn())).get(0).getId();
+                    int seatId = (tempSeat.select("theaterId=" + seat.getTheaterId() + ",seatRow=" + seat.getRow() + ",seatCol=" + seat.getColumn())).get(0).getId();
 
                     tempSeat.delete(seatId);
                 }

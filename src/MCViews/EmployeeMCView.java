@@ -38,6 +38,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import  MCModels.Employee;
 import MCControllers.EmployeeController;
+import javax.swing.JPasswordField;
 import jdk.nashorn.internal.parser.TokenType;
 
 // permission
@@ -256,7 +257,8 @@ public class EmployeeMCView extends JPanel {
 		private JPanel pan = new JPanel();
 		private JComboBox<String> cbxAccess;
 		private JLabel lblAccess, lblName, lblNo, lblPassWord, lblAddr, lblTel, lblEmail;
-		private JTextField txtName, txtNo, txtPassWord, txtAddr, txtTel, txtEmail;
+		private JTextField txtName, txtNo, txtAddr, txtTel, txtEmail; //txtPassWord,
+                private JPasswordField txtPassWord;
 		private JButton btnYes, btnNot;
 
 		EmployeeDialog(final int flag) 
@@ -307,7 +309,7 @@ public class EmployeeMCView extends JPanel {
 			lblPassWord.setFont(new Font("NewellsHand", Font.PLAIN, 16));
 			lblPassWord.setBounds(80, 135, 100, 30);
 			pan.add(lblPassWord);
-			txtPassWord = new JTextField();
+			txtPassWord = new JPasswordField();
 			txtPassWord.setBounds(200, 135, 250, 30);
 			pan.add(txtPassWord);
 

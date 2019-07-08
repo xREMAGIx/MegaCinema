@@ -6,6 +6,8 @@
 package MCViews;
 
 import MCControllers.EmployeeController;
+import java.awt.Frame;
+import keeptoo.Drag;
 
 /**
  *
@@ -28,7 +30,7 @@ public class mainForm extends javax.swing.JFrame {
      */
     public mainForm(int empId) {
         initComponents();
-        empIdM = empId;        
+        empIdM = empId;
         if (new EmployeeController().Fetch("id= " + empIdM).get(0).getAccess() == 1) {
             scheduleBtn.setEnabled(false);
             theaterBtn.setEnabled(false);
@@ -49,7 +51,7 @@ public class mainForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        kGradientPanel1 = new keeptoo.KGradientPanel();
+        kGradientPanel2 = new keeptoo.KGradientPanel();
         scheduleBtn = new javax.swing.JButton();
         movieBtn = new javax.swing.JButton();
         theaterBtn = new javax.swing.JButton();
@@ -59,18 +61,33 @@ public class mainForm extends javax.swing.JFrame {
         employeeBtn = new javax.swing.JButton();
         reportBtn = new javax.swing.JButton();
         sellProductBtn = new javax.swing.JButton();
+        formLbl = new javax.swing.JLabel();
+        exitBtn = new javax.swing.JButton();
+        minimizeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mega Cinema");
         setBackground(new java.awt.Color(252, 214, 112));
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(620, 400));
         setMinimumSize(new java.awt.Dimension(620, 400));
+        setUndecorated(true);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        kGradientPanel1.setkEndColor(new java.awt.Color(252, 214, 112));
-        kGradientPanel1.setkStartColor(new java.awt.Color(241, 90, 34));
-        kGradientPanel1.setMaximumSize(new java.awt.Dimension(620, 400));
-        kGradientPanel1.setMinimumSize(new java.awt.Dimension(620, 400));
-        kGradientPanel1.setPreferredSize(new java.awt.Dimension(620, 400));
+        kGradientPanel2.setkEndColor(new java.awt.Color(44, 130, 201));
+        kGradientPanel2.setkStartColor(new java.awt.Color(242, 38, 19));
+        kGradientPanel2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                kGradientPanel2MouseDragged(evt);
+            }
+        });
+        kGradientPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                kGradientPanel2MousePressed(evt);
+            }
+        });
+        kGradientPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         scheduleBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/scheduleIcon64px.png"))); // NOI18N
         scheduleBtn.setText("Schedule");
@@ -81,6 +98,7 @@ public class mainForm extends javax.swing.JFrame {
                 scheduleBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(scheduleBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, -1, -1));
 
         movieBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/movieIcon64px.png"))); // NOI18N
         movieBtn.setText("Movie");
@@ -91,6 +109,7 @@ public class mainForm extends javax.swing.JFrame {
                 movieBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(movieBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, -1, -1));
 
         theaterBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/theaterIcon64px.png"))); // NOI18N
         theaterBtn.setText("Theater");
@@ -101,6 +120,7 @@ public class mainForm extends javax.swing.JFrame {
                 theaterBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(theaterBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 100, -1, -1));
 
         saleBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/transactionIcon64px.png"))); // NOI18N
         saleBtn.setText("Transaction");
@@ -111,6 +131,7 @@ public class mainForm extends javax.swing.JFrame {
                 saleBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(saleBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 100, 97, -1));
 
         seatBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/seatIcon64px.png"))); // NOI18N
         seatBtn.setText("Ticket Sale");
@@ -121,6 +142,7 @@ public class mainForm extends javax.swing.JFrame {
                 seatBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(seatBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 250, -1, -1));
 
         storageBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/storageIcon64px.png"))); // NOI18N
         storageBtn.setText("Storage");
@@ -131,6 +153,7 @@ public class mainForm extends javax.swing.JFrame {
                 storageBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(storageBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 390, -1, -1));
 
         employeeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/employeeIcon64px.png"))); // NOI18N
         employeeBtn.setText("Employee");
@@ -141,6 +164,7 @@ public class mainForm extends javax.swing.JFrame {
                 employeeBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(employeeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 390, -1, -1));
 
         reportBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/reportIcon64px.png"))); // NOI18N
         reportBtn.setText("Report");
@@ -151,6 +175,7 @@ public class mainForm extends javax.swing.JFrame {
                 reportBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(reportBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 390, -1, -1));
 
         sellProductBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MCImage/sellProductIcon64px.png"))); // NOI18N
         sellProductBtn.setText("Product Sale");
@@ -161,129 +186,107 @@ public class mainForm extends javax.swing.JFrame {
                 sellProductBtnActionPerformed(evt);
             }
         });
+        kGradientPanel2.add(sellProductBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, -1, -1));
 
-        javax.swing.GroupLayout kGradientPanel1Layout = new javax.swing.GroupLayout(kGradientPanel1);
-        kGradientPanel1.setLayout(kGradientPanel1Layout);
-        kGradientPanel1Layout.setHorizontalGroup(
-            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addGap(182, 182, 182)
-                        .addComponent(sellProductBtn))
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(scheduleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(movieBtn)))
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(seatBtn)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addGap(67, 67, 67)
-                        .addComponent(theaterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                        .addComponent(storageBtn)
-                        .addGap(25, 25, 25))))
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(saleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75)
-                .addComponent(employeeBtn)
-                .addGap(66, 66, 66)
-                .addComponent(reportBtn)
-                .addGap(89, 89, 89))
-        );
-        kGradientPanel1Layout.setVerticalGroup(
-            kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(scheduleBtn)
-                                    .addComponent(movieBtn))
-                                .addGap(50, 50, 50))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, kGradientPanel1Layout.createSequentialGroup()
-                                .addComponent(theaterBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sellProductBtn)
-                            .addComponent(seatBtn)))
-                    .addComponent(storageBtn))
-                .addGap(48, 48, 48)
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(saleBtn)
-                    .addComponent(reportBtn)
-                    .addComponent(employeeBtn))
-                .addGap(18, 18, 18))
-        );
+        formLbl.setFont(new java.awt.Font("Tahoma", 3, 36)); // NOI18N
+        formLbl.setForeground(new java.awt.Color(255, 255, 255));
+        formLbl.setText("MEGA CINEMA");
+        kGradientPanel2.add(formLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        exitBtn.setBackground(new java.awt.Color(240, 52, 52));
+        exitBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        exitBtn.setForeground(new java.awt.Color(255, 255, 255));
+        exitBtn.setBorder(null);
+        exitBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitBtnActionPerformed(evt);
+            }
+        });
+        kGradientPanel2.add(exitBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 10, 20, 20));
+
+        minimizeBtn.setBackground(new java.awt.Color(51, 153, 0));
+        minimizeBtn.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        minimizeBtn.setForeground(new java.awt.Color(255, 255, 255));
+        minimizeBtn.setBorder(null);
+        minimizeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                minimizeBtnActionPerformed(evt);
+            }
+        });
+        kGradientPanel2.add(minimizeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 10, 20, 20));
+
+        getContentPane().add(kGradientPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 500));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void scheduleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleBtnActionPerformed
-        // TODO add your handling code here:
-
-        new ScheduleView().setVisible(true);
-
-    }//GEN-LAST:event_scheduleBtnActionPerformed
-
-    private void theaterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_theaterBtnActionPerformed
-        // TODO add your handling code here:
-        new TheaterMCView().setVisible(true);
-    }//GEN-LAST:event_theaterBtnActionPerformed
-
-    private void saleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleBtnActionPerformed
-        // TODO add your handling code here:
-        new TransactionHistoryView().setVisible(true);
-    }//GEN-LAST:event_saleBtnActionPerformed
-
-    private void seatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatBtnActionPerformed
-        // TODO add your handling code here:
-        SeatView.main(null);
-
-    }//GEN-LAST:event_seatBtnActionPerformed
-
-    private void storageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storageBtnActionPerformed
-        // TODO add your handling code here:
-        new StorageMCView().setVisible(true);
-    }//GEN-LAST:event_storageBtnActionPerformed
-
-    private void employeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeBtnActionPerformed
-        // TODO add your handling code here:
-        EmployeeMCView.main(null);
-    }//GEN-LAST:event_employeeBtnActionPerformed
-
-    private void reportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportBtnActionPerformed
-        // TODO add your handling code here:
-        new ReportMCView().setVisible(true);
-    }//GEN-LAST:event_reportBtnActionPerformed
 
     private void sellProductBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sellProductBtnActionPerformed
         // TODO add your handling code here:
         new SellProductMCView().setVisible(true);
     }//GEN-LAST:event_sellProductBtnActionPerformed
 
-    private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        // TODO add your handling code here:    
+    private void reportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportBtnActionPerformed
+        // TODO add your handling code here:
+        new ReportMCView().setVisible(true);
+    }//GEN-LAST:event_reportBtnActionPerformed
+
+    private void employeeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeBtnActionPerformed
+        // TODO add your handling code here:
+        EmployeeMCView.main(null);
+    }//GEN-LAST:event_employeeBtnActionPerformed
+
+    private void storageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_storageBtnActionPerformed
+        // TODO add your handling code here:
+        new StorageMCView().setVisible(true);
+    }//GEN-LAST:event_storageBtnActionPerformed
+
+    private void seatBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seatBtnActionPerformed
+        // TODO add your handling code here:
+        SeatView.main(null);
+    }//GEN-LAST:event_seatBtnActionPerformed
+
+    private void saleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saleBtnActionPerformed
+        // TODO add your handling code here:
+        new TransactionHistoryView().setVisible(true);
+    }//GEN-LAST:event_saleBtnActionPerformed
+
+    private void theaterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_theaterBtnActionPerformed
+        // TODO add your handling code here:
+        new TheaterMCView().setVisible(true);
+    }//GEN-LAST:event_theaterBtnActionPerformed
+
+    private void movieBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_movieBtnActionPerformed
+        // TODO add your handling code here:
         new MovieView().setVisible(true);
-    }
+
+    }//GEN-LAST:event_movieBtnActionPerformed
+
+    private void scheduleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scheduleBtnActionPerformed
+        // TODO add your handling code here:
+
+        new ScheduleView().setVisible(true);
+    }//GEN-LAST:event_scheduleBtnActionPerformed
+
+    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitBtnActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_exitBtnActionPerformed
+
+    private void minimizeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_minimizeBtnActionPerformed
+        // TODO add your handling code here:
+        this.setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_minimizeBtnActionPerformed
+
+    private void kGradientPanel2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel2MouseDragged
+        // TODO add your handling code here:
+        new Drag(kGradientPanel2).moveWindow(evt);
+    }//GEN-LAST:event_kGradientPanel2MouseDragged
+
+    private void kGradientPanel2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_kGradientPanel2MousePressed
+        // TODO add your handling code here:
+        new Drag(kGradientPanel2).onPress(evt);
+    }//GEN-LAST:event_kGradientPanel2MousePressed
 
     /**
      * @param args the command line arguments
@@ -322,7 +325,10 @@ public class mainForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton employeeBtn;
-    private keeptoo.KGradientPanel kGradientPanel1;
+    private javax.swing.JButton exitBtn;
+    private javax.swing.JLabel formLbl;
+    private keeptoo.KGradientPanel kGradientPanel2;
+    private javax.swing.JButton minimizeBtn;
     private javax.swing.JButton movieBtn;
     private javax.swing.JButton reportBtn;
     private javax.swing.JButton saleBtn;
